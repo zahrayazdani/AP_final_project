@@ -36,5 +36,7 @@ struct FilmInfo
 #define MINYEAR "min_year"
 #define MAXYEAR "max_year"
 #define PRICE "price"
+#define QUESTION_MARK "?"
+#define SPACE ' '
 
 #endif

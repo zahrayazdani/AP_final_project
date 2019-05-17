@@ -18,9 +18,10 @@ Manager::Manager()
 
 void Manager::run()
 {
-	while (true)
+	string input;
+	while (getline(cin, input))
 	{
-		// get_command;
+		curr_command = command_handler->parse_command(input);
 		// control_command;
 		// do_command;
 		// print;

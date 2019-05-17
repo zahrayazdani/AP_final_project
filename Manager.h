@@ -2,6 +2,7 @@
 #define MANAGER_H
 
 #include <vector>
+#include <string>
 
 class CommandHandler;
 class User;
@@ -18,6 +19,7 @@ private:
 	int signup_id;
 	int film_id;
 	User* active_user;
+	std::vector<std::string> curr_command;
 public:
 	Manager();
 	void run();
