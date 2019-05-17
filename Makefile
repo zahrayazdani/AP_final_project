@@ -8,10 +8,10 @@ a.out: main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher
 main.o: main.cpp Manager.h
 	$(CC) -c main.cpp
 
-Manager.o: Manager.cpp Manager.h CommandHandler.h define.h Data.h Exceptions.h Printer.h CommandParser.h
+Manager.o: Manager.cpp Manager.h CommandHandler.h Exceptions.h CommandParser.h
 	$(CC) -c Manager.cpp
 
-CommandHandler.o: CommandHandler.cpp CommandHandler.h Controller.h Data.h 
+CommandHandler.o: CommandHandler.cpp CommandHandler.h Controller.h Data.h define.h Printer.h User.h
 	$(CC) -c CommandHandler.cpp
 
 User.o: User.cpp User.h Publisher.h Film.h Comment.h Notification.h
