@@ -2,8 +2,8 @@ CC := g++ -std=c++11
 
 all: a.out
 
-a.out: main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher.o User.o
-	$(CC) -o a.out main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher.o User.o
+a.out: main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher.o User.o Controller.o Data.o Notification.o
+	$(CC) -o a.out main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher.o User.o Data.o Notification.o
 
 main.o: main.cpp Manager.h
 	$(CC) -c main.cpp
@@ -28,6 +28,15 @@ Comment.o: Comment.cpp Comment.h
 
 Exceptions.o: Exceptions.cpp Exceptions.h define.h
 	$(CC) -c Exceptions.cpp
+
+Controller.o: Controller.cpp Controller.h
+	$(CC) -c Controller.cpp
+
+Data.o: Data.cpp Data.h
+	$(CC) -c Data.cpp
+
+Notification.o: Notification.cpp Notification.h
+	$(CC) -c Notification.cpp
 
 .PHONY: clean
 clean:
