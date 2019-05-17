@@ -7,6 +7,7 @@
 class Publisher;
 class Film;
 class Comment;
+class Notification;
 
 class User
 {
@@ -19,8 +20,8 @@ protected:
 	std::vector<Publisher*> following;
 	std::vector<Film*> bought_films;
 	int money;
-	std::vector<Comment*> readen_notifs;
-	std::vector<Comment*> unread_notifs;
+	std::vector<Notification*> readen_notifs;
+	std::vector<Notification*> unread_notifs;
 	int id;
 public:
 	// User();

@@ -1,19 +1,17 @@
 #include <iostream>
 #include "CommandHandler.h"
 #include "Manager.h"
-#include "User.h"
-#include "Film.h"
-#include "Publisher.h"
 #include "define.h"
+#include "Data.h"
+#include "Controller.h"
 
 using namespace std;
 
 Manager::Manager()
 {
 	command_handler = new CommandHandler;
-	signup_id = FIRST_ID;
-	film_id = FIRST_ID;
-	active_user = NULL;
+	data = new Data();
+	controller = new Controller(data);
 }
 
 void Manager::run()

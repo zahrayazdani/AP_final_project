@@ -8,13 +8,13 @@ a.out: main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher
 main.o: main.cpp Manager.h
 	$(CC) -c main.cpp
 
-Manager.o: Manager.cpp Manager.h CommandHandler.h define.h User.h Film.h Publisher.h
+Manager.o: Manager.cpp Manager.h CommandHandler.h define.h Data.h Controller.h
 	$(CC) -c Manager.cpp
 
 CommandHandler.o: CommandHandler.cpp CommandHandler.h define.h
 	$(CC) -c CommandHandler.cpp
 
-User.o: User.cpp User.h Publisher.h Film.h Comment.h
+User.o: User.cpp User.h Publisher.h Film.h Comment.h Notification.h
 	$(CC) -c User.cpp
 
 Publisher.o: Publisher.cpp Publisher.h User.h Film.h Exceptions.h define.h
@@ -29,10 +29,10 @@ Comment.o: Comment.cpp Comment.h
 Exceptions.o: Exceptions.cpp Exceptions.h define.h
 	$(CC) -c Exceptions.cpp
 
-Controller.o: Controller.cpp Controller.h
+Controller.o: Controller.cpp Controller.h Data.h
 	$(CC) -c Controller.cpp
 
-Data.o: Data.cpp Data.h
+Data.o: Data.cpp Data.h define.h User.h Film.h Publisher.h 
 	$(CC) -c Data.cpp
 
 Notification.o: Notification.cpp Notification.h

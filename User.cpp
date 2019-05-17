@@ -2,6 +2,7 @@
 #include "Publisher.h"
 #include "Film.h"
 #include "Comment.h"
+#include "Notification.h"
 
 using namespace std;
 
