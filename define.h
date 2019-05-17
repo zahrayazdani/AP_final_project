@@ -38,5 +38,11 @@ struct FilmInfo
 #define PRICE "price"
 #define QUESTION_MARK "?"
 #define SPACE ' '
+#define POST "POST"
+#define PUT "PUT"
+#define DELETE "DELETE"
+#define GET "GET"
+#define READ "read"
+#define NOTIFS "notifications"
 
 #endif
