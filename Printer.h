@@ -4,7 +4,7 @@
 class Printer
 {
 public:
-	//print_succ
+	void print_success_message();
 };
 
 #endif

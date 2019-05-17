@@ -44,5 +44,15 @@ struct FilmInfo
 #define GET "GET"
 #define READ "read"
 #define NOTIFS "notifications"
+#define OK "OK"
+#define SIGNUP "signup"
+#define LOGIN "login"
+#define FILMS "films"
+#define MONEY "money"
+#define REPLIES "replies"
+#define FOLLOWERS "followers"
+#define BUY "buy"
+#define RATE "rate"
+#define COMMENTS "comments"
 
 #endif

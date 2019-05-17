@@ -38,7 +38,7 @@ Data.o: Data.cpp Data.h define.h User.h Film.h Publisher.h
 Notification.o: Notification.cpp Notification.h
 	$(CC) -c Notification.cpp
 
-Printer.o: Printer.h Printer.cpp
+Printer.o: Printer.h Printer.cpp define.h
 	$(CC) -c Printer.cpp
 
 CommandParser.o: CommandParser.cpp CommandParser.h define.h Exceptions.h
