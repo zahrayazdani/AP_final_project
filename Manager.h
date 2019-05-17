@@ -8,6 +8,7 @@
 class CommandHandler;
 class Data;
 class Controller;
+class Printer;
 
 class Manager
 {
@@ -15,6 +16,7 @@ private:
 	CommandHandler* command_handler;
 	Data* data;
 	Controller* controller;
+	Printer* printer;
 	std::map<std::string, std::string> curr_command;
 	void run_command();
 	void handle_post_commands();

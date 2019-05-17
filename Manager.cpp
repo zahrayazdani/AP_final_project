@@ -5,6 +5,7 @@
 #include "Data.h"
 #include "Controller.h"
 #include "Exceptions.h"
+#include "Printer.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ Manager::Manager()
 	command_handler = new CommandHandler;
 	data = new Data();
 	controller = new Controller(data);
+	printer = new Printer;
 }
 
 void Manager::run()
@@ -45,7 +47,7 @@ void Manager::run_command()
 
 void Manager::handle_post_commands()
 {
-	
+
 }
 
 void Manager::handle_put_commands()
