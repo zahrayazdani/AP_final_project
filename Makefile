@@ -3,15 +3,15 @@ CC := g++ -std=c++11
 all: a.out
 
 a.out: main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher.o User.o Controller.o Data.o Notification.o
-	$(CC) -o a.out main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher.o User.o Data.o Notification.o
+	$(CC) -o a.out main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher.o User.o Controller.o Data.o Notification.o
 
 main.o: main.cpp Manager.h
 	$(CC) -c main.cpp
 
-Manager.o: Manager.cpp Manager.h CommandHandler.h define.h Data.h Controller.h
+Manager.o: Manager.cpp Manager.h CommandHandler.h define.h Data.h Controller.h Exceptions.h
 	$(CC) -c Manager.cpp
 
-CommandHandler.o: CommandHandler.cpp CommandHandler.h define.h
+CommandHandler.o: CommandHandler.cpp CommandHandler.h define.h Exceptions.h
 	$(CC) -c CommandHandler.cpp
 
 User.o: User.cpp User.h Publisher.h Film.h Comment.h Notification.h

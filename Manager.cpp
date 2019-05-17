@@ -4,6 +4,7 @@
 #include "define.h"
 #include "Data.h"
 #include "Controller.h"
+#include "Exceptions.h"
 
 using namespace std;
 
@@ -19,10 +20,15 @@ void Manager::run()
 	string input;
 	while (getline(cin, input))
 	{
-		curr_command = command_handler->parse_command(input);
-		// control_command;
-		// do_command;
-		// print;
+		try
+		{
+			curr_command = command_handler->parse_command(input);
+			// run_command();
+			// print_message
+		} catch (exception& exception)
+		{
+			cout << exception.what() << endl;
+		}
 	}
 }
 
