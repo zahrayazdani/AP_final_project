@@ -17,6 +17,7 @@ private:
 	std::vector<Film*> films;
 	int signup_id;
 	int film_id;
+	User* active_user;
 public:
 	Manager();
 	void run();

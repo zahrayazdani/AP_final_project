@@ -17,7 +17,5 @@ Manager::Manager()
 
 void Manager::run()
 {
-	// read_command
-	//exceptiona
+	
 }
-//publisher user gamemanager-metohoda gamemanagerrun commandhandler
