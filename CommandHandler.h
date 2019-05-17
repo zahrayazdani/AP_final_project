@@ -1,16 +1,15 @@
 #ifndef COMMANDHANDLER_H
 #define COMMANDHANDLER_H
 
-#include <vector>
-#include <string>
-#include <map>
+class Controller;
+class Data;
 
 class CommandHandler
 {
 private:
-	std::map<std::string, std::string> change_vector_to_map(std::vector<std::string> vector);
+	Controller* controller;
 public:
-	std::map<std::string, std::string> parse_command(std::string command);
+	CommandHandler(Data* data);
 };
 
 #endif

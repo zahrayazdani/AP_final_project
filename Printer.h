@@ -3,7 +3,8 @@
 
 class Printer
 {
-
+public:
+	//print_succ
 };
 
 #endif
