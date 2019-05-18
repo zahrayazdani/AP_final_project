@@ -12,3 +12,10 @@ Data::Data()
 	film_id = FIRST_ID;
 	active_user = NULL;
 }
+
+bool Data::does_user_exist(string username)
+{
+	for (i = 0; i < users.size(); i++)
+		if (users[i]->get_username() == username)
+		return true;
+}
