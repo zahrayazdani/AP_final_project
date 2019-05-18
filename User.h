@@ -30,6 +30,7 @@ public:
 	int get_id();
 	bool check_password(std::string pass);
 	bool is_publisher();
+	Film* find_film(int id);
 };
 
 #endif

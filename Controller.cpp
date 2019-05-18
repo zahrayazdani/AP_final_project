@@ -75,3 +75,19 @@ void Controller::control_follow(map<string, string> command)
 	if (!data->find_user(stoi(command[USER_ID]))->is_publisher())
 		throw BadRequest();
 }
+
+void Controller::control_rate(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw BadRequest();
+	if ((command.find(FILM_ID) == curr_command.end()) ||
+		(command.find(SCORE) == curr_command.end()))
+		throw BadRequest();
+	if (stoi((command[SCORE]) > MAX_SCORE) || stoi((command[SCORE]) < MIN_SCORE))
+		throw BadRequest();
+	if (data->find_film(stoi(command[FILM_ID])) == NULL)
+		throw BadRequest();
+	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
+		throw PermissionDenied();
+}
+

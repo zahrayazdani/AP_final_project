@@ -28,6 +28,14 @@ User* Data::find_user(int id)
 	return NULL;
 }
 
+Film* Data::find_film(int id)
+{
+	for (i = 0; i < films.size(); i++)
+		if (films[i]->get_id() == id)
+			return films[i];
+	return NULL;
+}
+
 User* Data::get_active_user()
 {
 	return active_user;

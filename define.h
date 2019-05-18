@@ -64,5 +64,8 @@ struct FilmInfo
 #define COMMENT_ID "comment_id"
 #define CONTENT "content"
 #define USER_ID "user_id"
+#define SCORE "score"
+#define MIN_SCORE 1
+#define MAX_SCORE 10
 
 #endif

@@ -30,6 +30,10 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw NotFound();
 }
 
+//permission denied a koja?
+//maghadire ba type namonaseb?
+//buy a film poolesh che jorie? money publisheram che jorie?
+//2 ta name film mishe yeki bashan?
 void CommandHandler::handle_post_commands()
 {
 	string command = curr_command[POST];
@@ -68,11 +72,13 @@ void CommandHandler::handle_post_commands()
 	else if (command == BUY)
 	{
 		controller->control_buy(curr_command);
+		//notif
 		//buy();
 	}
 	else if (command == RATE)
 	{
 		controller->control_rate(curr_command);
+		//notif
 		//rate();
 	}
 	else if (command == COMMENTS)
