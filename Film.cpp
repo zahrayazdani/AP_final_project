@@ -34,7 +34,7 @@ Comment* Film::find_comment(int id)
 	for (int i = 0; i < comments.size(); i++)
 		if (comments[i]->get_id() == id)
 			return comments[i];
-	throw NotFound();
+	return NULL;
 }
 
 void Film::delete_comment(int id)

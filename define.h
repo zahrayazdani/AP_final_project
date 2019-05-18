@@ -60,5 +60,8 @@ struct FilmInfo
 #define PASSWORD "password"
 #define EMAIL "email"
 #define AGE "age"
+#define FILM_ID "film_id"
+#define COMMENT_ID "comment_id"
+#define CONTENT "content"
 
 #endif

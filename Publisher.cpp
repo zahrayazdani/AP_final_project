@@ -33,7 +33,7 @@ Film* Publisher::find_film(int id)
 	for (int i = 0; i < published_films.size(); i++)
 		if (published_films[i]->get_id() == id)
 			return published_films[i];
-	throw PermissionDenied();
+	return NULL;
 }
 
 Film* publisher::find_film(string film_name)
