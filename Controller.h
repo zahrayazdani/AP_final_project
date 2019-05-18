@@ -16,6 +16,7 @@ public:
 	void control_login(std::map<std::string, std::string> command);
 	void control_add_film(std::map<std::string, std::string> command);
 	void control_reply(std::map<std::string, std::string> command);
+	void control_follow(std::map<std::string, std::string> command);
 };
 
 #endif

@@ -62,6 +62,7 @@ void CommandHandler::handle_post_commands()
 	else if (command == FOLLOWERS)
 	{
 		controller->control_follow(curr_command);
+		//notif
 		//follow();
 	}
 	else if (command == BUY)

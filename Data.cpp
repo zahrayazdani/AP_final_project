@@ -20,6 +20,14 @@ User* Data::find_user(string username)
 	return NULL;
 }
 
+User* Data::find_user(int id)
+{
+	for (i = 0; i < users.size(); i++)
+		if (users[i]->get_id() == id)
+			return users[i];
+	return NULL;
+}
+
 User* Data::get_active_user()
 {
 	return active_user;

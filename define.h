@@ -63,5 +63,6 @@ struct FilmInfo
 #define FILM_ID "film_id"
 #define COMMENT_ID "comment_id"
 #define CONTENT "content"
+#define USER_ID "user_id"
 
 #endif
