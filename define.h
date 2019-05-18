@@ -54,5 +54,8 @@ struct FilmInfo
 #define BUY "buy"
 #define RATE "rate"
 #define COMMENTS "comments"
+#define PUBLISHED "published"
+#define PURCHASED "purchased"
+#define READEN_NOTIFS "notificationsread"
 
 #endif

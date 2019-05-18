@@ -108,5 +108,43 @@ void CommandHandler::handle_delete_commands()
 	else
 		throw NotFound();
 	printer->print_success_message();
+}
 
+void CommandHandler::handle_get_commands()
+{
+	string command = curr_command[POST];
+	if (command == FOLLOWERS)
+	{
+		controller->get_followers();
+		//get_followers();
+		//print
+	}
+	else if (command == PUBLISHED)
+	{
+		controller->get_published_films();
+		//get_published_films();
+		//print
+	}
+	else if (command == FILMS)
+	{
+		//film
+	}
+	else if (command == PURCHASED)
+	{
+		controller->get_bought_films();
+		//get_bought_films();
+		//print
+	}
+	else if (command == NOTIFS)
+	{
+		controller->get_notifs();
+		//get_notifs();
+		//print
+	}
+	else if (command == READEN_NOTIFS)
+	{
+		controller->get_readen_notifs();
+		//get_readen_notifs();
+		//print
+	}
 }
