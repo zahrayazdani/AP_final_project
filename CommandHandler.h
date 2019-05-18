@@ -7,14 +7,12 @@
 class Controller;
 class Data;
 class Printer;
-class User;
 
 class CommandHandler
 {
 private:
 	Printer* printer;
 	Data* data;
-	User* active_user;
 	Controller* controller;
 	std::map<std::string, std::string> curr_command;
 	void handle_post_commands();

@@ -2,7 +2,6 @@
 #include "Controller.h"
 #include "Data.h"
 #include "define.h"
-#include "User.h"
 #include "Printer.h"
 #include "Exceptions.h"
 
@@ -27,6 +26,8 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		handle_delete_commands();
 	else if (curr_command.find(GET) != curr_command.end()) 
 		handle_get_commands();
+	else
+		throw NotFound();
 }
 
 void CommandHandler::handle_post_commands()
@@ -35,6 +36,7 @@ void CommandHandler::handle_post_commands()
 	if (command == SIGNUP)
 	{
 		controller->control_signup(curr_command);
+		//email
 		// signup();
 	}
 	else if (command == LOGIN)
@@ -97,17 +99,17 @@ void CommandHandler::handle_delete_commands()
 {
 	if (curr_command[DELETE] == FILMS)
 	{
-		controller->delete_film();
+		controller->delete_film(curr_command);
 		//delete_film();
 	}
 	else if (curr_command[DELETE] == COMMENTS)
 	{
-		controller->delete_comment();
+		controller->delete_comment(curr_command);
 		//delete_comment;
 	}
 	else
 		throw NotFound();
-	printer->print_success_message();
+	printer->print_success_message(curr_command);
 }
 
 void CommandHandler::handle_get_commands()
@@ -115,13 +117,13 @@ void CommandHandler::handle_get_commands()
 	string command = curr_command[POST];
 	if (command == FOLLOWERS)
 	{
-		controller->get_followers();
+		controller->get_followers(curr_command);
 		//get_followers();
 		//print
 	}
 	else if (command == PUBLISHED)
 	{
-		controller->get_published_films();
+		controller->get_published_films(curr_command);
 		//get_published_films();
 		//print
 	}
@@ -131,20 +133,22 @@ void CommandHandler::handle_get_commands()
 	}
 	else if (command == PURCHASED)
 	{
-		controller->get_bought_films();
+		controller->get_bought_films(curr_command);
 		//get_bought_films();
 		//print
 	}
 	else if (command == NOTIFS)
 	{
-		controller->get_notifs();
+		controller->get_notifs(curr_command);
 		//get_notifs();
 		//print
 	}
 	else if (command == READEN_NOTIFS)
 	{
-		controller->get_readen_notifs();
+		controller->get_readen_notifs(curr_command);
 		//get_readen_notifs();
 		//print
 	}
+	else
+		throw NotFound();
 }

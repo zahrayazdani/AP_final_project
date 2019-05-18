@@ -57,5 +57,8 @@ struct FilmInfo
 #define PUBLISHED "published"
 #define PURCHASED "purchased"
 #define READEN_NOTIFS "notificationsread"
+#define PASSWORD "password"
+#define EMAIL "email"
+#define AGE "age"
 
 #endif
