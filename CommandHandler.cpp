@@ -37,6 +37,7 @@ void CommandHandler::handle_post_commands()
 	{
 		controller->control_signup(curr_command);
 		//email
+		//badesh login
 		// signup();
 	}
 	else if (command == LOGIN)

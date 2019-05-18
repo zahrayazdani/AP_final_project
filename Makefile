@@ -29,7 +29,7 @@ Comment.o: Comment.cpp Comment.h
 Exceptions.o: Exceptions.cpp Exceptions.h define.h
 	$(CC) -c Exceptions.cpp
 
-Controller.o: Controller.cpp Controller.h Data.h Exceptions.h
+Controller.o: Controller.cpp Controller.h Data.h Exceptions.h User.h
 	$(CC) -c Controller.cpp
 
 Data.o: Data.cpp Data.h define.h User.h Film.h Publisher.h 

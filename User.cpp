@@ -20,3 +20,8 @@ int User::get_id()
 {
 	return id;
 }
+
+bool User::check_password(string pass)
+{
+	return pass == password;
+}
