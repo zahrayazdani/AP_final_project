@@ -75,5 +75,19 @@ void CommandHandler::handle_post_commands()
 		controller->control_comment(curr_command);
 		//comment();
 	}
+	else
+		throw NotFound();
+	printer->print_success_message();
+}
+
+void CommandHandler::handle_put_commands()
+{
+	if (curr_command[PUT] == FILMS)
+	{
+		controller->edit_film_info(curr_command);
+		//edit_film;
+	}
+	else
+		throw NotFound();
 	printer->print_success_message();
 }
