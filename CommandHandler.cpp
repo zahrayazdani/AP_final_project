@@ -4,6 +4,7 @@
 #include "define.h"
 #include "User.h"
 #include "Printer.h"
+#include "Exceptions.h"
 
 using namespace std;
 
@@ -90,4 +91,22 @@ void CommandHandler::handle_put_commands()
 	else
 		throw NotFound();
 	printer->print_success_message();
+}
+
+void CommandHandler::handle_delete_commands()
+{
+	if (curr_command[DELETE] == FILMS)
+	{
+		controller->delete_film();
+		//delete_film();
+	}
+	else if (curr_command[DELETE] == COMMENTS)
+	{
+		controller->delete_comment();
+		//delete_comment;
+	}
+	else
+		throw NotFound();
+	printer->print_success_message();
+
 }
