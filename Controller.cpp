@@ -85,9 +85,23 @@ void Controller::control_rate(map<string, string> command)
 		throw BadRequest();
 	if (stoi((command[SCORE]) > MAX_SCORE) || stoi((command[SCORE]) < MIN_SCORE))
 		throw BadRequest();
-	if (data->find_film(stoi(command[FILM_ID])) == NULL)
-		throw BadRequest();
-	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
-		throw PermissionDenied();
+	does_user_have_film(stoi(command[FILM_ID]));
 }
 
+void Controller::control_film(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw BadRequest();
+	if ((command.find(FILM_ID) == curr_command.end()) ||
+		(command.find(CONTENT) == curr_command.end()))
+		throw BadRequest();
+	does_user_have_film(stoi(command[FILM_ID]));
+}
+
+void Controller::does_user_have_film(int film_id)
+{
+	if (data->find_film(film_id) == NULL)
+		throw BadRequest();
+	if (data->get_active_user()->find_film(film_id) == NULL)
+		throw PermissionDenied();
+}
