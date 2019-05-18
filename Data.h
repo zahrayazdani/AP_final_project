@@ -19,7 +19,6 @@ private:
 	User* active_user;
 public:
 	Data();
-	bool does_user_exist(std::string username);
 	User* find_user(std::string username);
 };
 

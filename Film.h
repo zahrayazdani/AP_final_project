@@ -24,6 +24,7 @@ private:
 public:
 	Film(std::vector<std::string> info);
 	int get_id();
+	std::string get_name();
 	Comment* find_comment(int id);
 	void delete_comment(int id);
 	void reply_comment(int id, std::string content);

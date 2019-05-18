@@ -36,6 +36,14 @@ Film* Publisher::find_film(int id)
 	throw PermissionDenied();
 }
 
+Film* publisher::find_film(string film_name)
+{
+	for (int i = 0; i < published_films.size(); i++)
+		if (published_films[i]->get_name() == film_name)
+			return published_films[i];
+	return NULL;
+}
+
 void Publisher::delete_comment(vector<string> info)
 {
 	Film* film;

@@ -14,6 +14,7 @@ public:
 	Controller(Data* _data);
 	void control_signup(std::map<std::string, std::string> command);
 	void control_login(std::map<std::string, std::string> command);
+	void control_add_film(std::map<std::string, std::string> command);
 };
 
 #endif

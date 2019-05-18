@@ -15,7 +15,7 @@ void Controller::control_signup(map<string, string> command)
 		(command.find(EMAIL) == curr_command.end()) || 
 		(command.find(AGE) == curr_command.end()))
 		throw BadRequest();
-	if (data->does_user_exist(command[USERNAME]))
+	if (data->find_user(command[USERNAME]) != NULL)
 		throw BadRequest();
 }
 
@@ -28,4 +28,9 @@ void Controller::control_login(map<string, string> command)
 		throw BadRequest();
 	if (!data->find_user(command[USERNAME])->check_password(command[PASSWORD]))
 		throw BadRequest();
+}
+
+void Controller::control_add_film(map<string, string> command)
+{
+	
 }

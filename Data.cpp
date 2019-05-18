@@ -13,16 +13,10 @@ Data::Data()
 	active_user = NULL;
 }
 
-bool Data::does_user_exist(string username)
-{
-	for (i = 0; i < users.size(); i++)
-		if (users[i]->get_username() == username)
-		return true;
-}
-
 User* Data::find_user(string username)
 {
 	for (i = 0; i < users.size(); i++)
 		if (users[i]->get_username() == username)
-		return users[i];
+			return users[i];
+	return NULL;
 }

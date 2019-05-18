@@ -24,6 +24,11 @@ int Film::get_id()
 	return id;
 }
 
+string get_name()
+{
+	return name;
+}
+
 Comment* Film::find_comment(int id)
 {
 	for (int i = 0; i < comments.size(); i++)
