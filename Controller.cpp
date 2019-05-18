@@ -32,5 +32,17 @@ void Controller::control_login(map<string, string> command)
 
 void Controller::control_add_film(map<string, string> command)
 {
-	
+	if (data->get_active_user() == NULL)
+		throw BadRequest();
+	if (!data->get_active_user()->is_publisher())
+		throw BadRequest();
+	if ((command.find(NAME) == curr_command.end()) ||
+		(command.find(YEAR) == curr_command.end()) ||
+		(command.find(LENGTH) == curr_command.end()) || 
+		(command.find(PRICE) == curr_command.end()) ||
+		(command.find(SUMMARY) == curr_command.end()) ||
+		(command.find(DIRECTOR) == curr_command.end()))
+		throw BadRequest();
+	if (data->get_active_user()->find_film(command[NAME]) != NULL)
+		throw BadRequest();
 }

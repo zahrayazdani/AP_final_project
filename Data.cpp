@@ -2,7 +2,6 @@
 #include "define.h"
 #include "User.h"
 #include "Film.h"
-#include "Publisher.h"
 
 using namespace std;
 
@@ -19,4 +18,9 @@ User* Data::find_user(string username)
 		if (users[i]->get_username() == username)
 			return users[i];
 	return NULL;
+}
+
+User* Data::get_active_user()
+{
+	return active_user;
 }

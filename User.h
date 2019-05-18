@@ -29,6 +29,7 @@ public:
 	std::string get_email();
 	int get_id();
 	bool check_password(std::string pass);
+	bool is_publisher();
 };
 
 #endif

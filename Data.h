@@ -5,14 +5,12 @@
 #include <string>
 
 class User;
-class Publisher;
 class Film;
 
 class Data
 {
 private:
 	std::vector<User*> users;
-	std::vector<Publisher*> publishers;
 	std::vector<Film*> films;
 	int signup_id;
 	int film_id;
@@ -20,6 +18,7 @@ private:
 public:
 	Data();
 	User* find_user(std::string username);
+	User* get_active_user();
 };
 
 #endif

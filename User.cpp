@@ -25,3 +25,8 @@ bool User::check_password(string pass)
 {
 	return pass == password;
 }
+
+bool User::is_publisher()
+{
+	return is_publisher;
+}
