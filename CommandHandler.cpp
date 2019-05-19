@@ -30,23 +30,8 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw BadRequest();
 }
 
-//age chize bishtari az commanda gozasht -> check size
-
-//filmi k pak shode
-//soalaye bache ha//ekhtiari publisher 
-//tedad
-//noeshon -> for roye map va check in k aya faghat hamin key ha hastan ya na
-//age ye seri khas k int an bodan -> check type
-
-//age chize bishtari az commanda gozasht -> check size
-
 //filmi k pak shode
 //soalaye bache ha
-//email
-//buy a film poolesh che jorie? 
-//money publisheram che jorie?
-//baghie tavabe
-//tamizi
 //email
 //buy a film poolesh che jorie? 
 //money publisheram che jorie?
@@ -181,7 +166,3 @@ void CommandHandler::handle_get_commands()
 	else
 		throw NotFound();
 }
-
-//dorost kardan ye seri moshkela
-//neveshtan tavabe chan tai
-//buy o money o ina
