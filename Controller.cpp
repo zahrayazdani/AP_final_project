@@ -121,3 +121,21 @@ void Controller::control_edit_or_delete_film(map<string, string> command)
 	if (data->get_active_user()->find_published_film(stoi(command[FILM_ID])) == NULL)
 		throw PermissionDenied();
 }
+
+void Controller::control_delete_comment(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw BadRequest();
+	if (!data->get_active_user()->is_publisher())
+		throw PermissionDenied();
+	if ((command.find(FILM_ID) == command.end()) ||
+		(command.find(COMMENT_ID) == command.end()))
+		throw BadRequest();
+	if (data->find_film(stoi(command[FILM_ID])) == NULL)
+		throw NotFound();
+	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
+		throw PermissionDenied();
+	if (data->get_active_user()->find_film(stoi(command[FILM_ID]))
+		->find_comment(stoi(command[COMMENT_ID])) == 	NULL)
+		throw NotFound();
+}
