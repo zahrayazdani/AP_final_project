@@ -166,3 +166,8 @@ void CommandHandler::handle_get_commands()
 	else
 		throw NotFound();
 }
+
+//soala
+//dorost kardan ye seri moshkela
+//neveshtan tavabe chan tai
+//buy o money o ina
