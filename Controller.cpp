@@ -25,7 +25,7 @@ void Controller::control_signup(map<string, string> command)
 void Controller::control_login(map<string, string> command)
 {
 	if (!data->does_user_exist(command[USERNAME]))
-		throw BadRequest();
+		throw NotFound();
 	if ((command.find(USERNAME) == command.end()) ||
 		(command.find(PASSWORD) == command.end()))
 		throw BadRequest();
@@ -83,9 +83,9 @@ void Controller::control_follow(map<string, string> command)
 	if (typeid(command[USER_ID]) != typeid(int))
 		throw BadRequest();
 	if (data->find_user(stoi(command[USER_ID])) == NULL)
-		throw BadRequest();
+		throw NotFound();
 	if (!data->find_user(stoi(command[USER_ID]))->is_publisher())
-		throw BadRequest();
+		throw PermissionDenied();
 }
 
 void Controller::control_rate(map<string, string> command)

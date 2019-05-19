@@ -30,11 +30,11 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw BadRequest();
 }
 
-//ekhtiari publisher
-//klan noe exc
+//ekhtiari publisher va bara optionala check type
+//age chize bishtari az commanda gozasht ya eshtebah
+//filmi k pak shode
 //soalaye bache ha
 //email
-//age chize bishtari az commanda gozasht ya eshtebah va bara optionala check type
 //buy a film poolesh che jorie? 
 //money publisheram che jorie?
 //baghie tavabe
