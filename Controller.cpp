@@ -20,6 +20,13 @@ void Controller::control_signup(map<string, string> command)
 		throw BadRequest();
 	if (data->find_user(command[USERNAME]) != NULL)
 		throw BadRequest();
+	if (command.size() > 6)
+		throw BadRequest();
+	if ((command.size() == 6) && (command.find(PUBLISHER) == command.end()))
+		throw BadRequest();
+	if ((command.find(PUBLISHER) != command.end()) && ((command[PUBLISHER] != _TRUE) ||
+		(command[PUBLISHER] != _FALSE)))
+		throw BadRequest();
 }
 
 void Controller::control_login(map<string, string> command)
@@ -122,7 +129,37 @@ void Controller::does_user_have_the_film(int film_id)
 		throw PermissionDenied();
 }
 
-void Controller::control_edit_or_delete_film(map<string, string> command)
+void Controller::control_edit_film(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw PermissionDenied();
+	if (!data->get_active_user()->is_publisher())
+		throw PermissionDenied();
+	if (command.find(FILM_ID) == command.end())
+		throw BadRequest();
+	if (command.size() > 7)
+		throw BadRequest();
+	check_edit_film_optional_datas(command);
+	if (data->find_film(stoi(command[FILM_ID])) == NULL)
+		throw NotFound();
+	if (data->get_active_user()->find_published_film(stoi(command[FILM_ID])) == NULL)
+		throw PermissionDenied();
+}
+
+void Controller::check_edit_film_optional_datas(map<string, string> command)
+{
+	for (map<string, string>::iterator it = command.begin(); it != command.end(); ++it)
+	{
+		if ((it->first != NAME) && (it->first != YEAR) && (it->first != LENGTH) &&
+			(it->first != SUMMARY) && (it->first != DIRECTOR))
+			throw BadRequest();
+		if (((it->first == YEAR) && (typeid(it->second) != typeid(int))) ||
+			((it->first == LENGTH) && (typeid(it->second) != typeid(int))))
+			throw BadRequest();
+	}
+}
+
+void Controller::control_delete_film(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
 		throw PermissionDenied();
@@ -170,9 +207,50 @@ void Controller::control_get_published_films(map<string, string> command)
 		throw PermissionDenied();
 	if (!data->get_active_user()->is_publisher())
 		throw PermissionDenied();
+	if (command.size() > 7)
+		throw BadRequest();
+	check_get_published_films_optional_datas(command);
 }
 
-void Controller::control_get_bought_films_and_notifs(map<string, string> command)
+void Controller::check_get_published_films_optional_datas(map<string, string> command)
+{
+	for (map<string, string>::iterator it = command.begin(); it != command.end(); ++it)
+	{
+		if ((it->first != NAME) && (it->first != MINRATE) && (it->first != MAXYEAR) &&
+			(it->first != MINYEAR) && (it->first != PRICE) && (it->first != DIRECTOR))
+			throw BadRequest();
+		if (((it->first == MINRATE) && (typeid(it->second) != typeid(int))) ||
+			((it->first == MAXYEAR) && (typeid(it->second) != typeid(int))) ||
+			(it->first == MINYEAR) && (typeid(it->second) != typeid(int)) ||
+			((it->first == PRICE) && (typeid(it->second) != typeid(int))))
+			throw BadRequest();
+	}
+}
+
+void Controller::control_get_bought_films(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw PermissionDenied();
+	if (command.size() > 6)
+		throw BadRequest();
+	check_get_bought_films_optional_datas(command);
+}
+
+void Controller::check_get_bought_films_optional_datas(map<string, string> command)
+{
+	for (map<string, string>::iterator it = command.begin(); it != command.end(); ++it)
+	{
+		if ((it->first != NAME) && (it->first != MAXYEAR) && (it->first != MINYEAR) &&
+			(it->first != PRICE) && (it->first != DIRECTOR))
+			throw BadRequest();
+		if (((it->first == MAXYEAR) && (typeid(it->second) != typeid(int))) ||
+			(it->first == MINYEAR) && (typeid(it->second) != typeid(int)) ||
+			((it->first == PRICE) && (typeid(it->second) != typeid(int))))
+			throw BadRequest();
+	}
+}
+
+void Controller::control_get_notifs(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
 		throw PermissionDenied();

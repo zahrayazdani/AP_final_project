@@ -30,10 +30,23 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw BadRequest();
 }
 
-//ekhtiari publisher va bara optionala check type
-//age chize bishtari az commanda gozasht ya eshtebah
+//age chize bishtari az commanda gozasht -> check size
+
+//filmi k pak shode
+//soalaye bache ha//ekhtiari publisher 
+//tedad
+//noeshon -> for roye map va check in k aya faghat hamin key ha hastan ya na
+//age ye seri khas k int an bodan -> check type
+
+//age chize bishtari az commanda gozasht -> check size
+
 //filmi k pak shode
 //soalaye bache ha
+//email
+//buy a film poolesh che jorie? 
+//money publisheram che jorie?
+//baghie tavabe
+//tamizi
 //email
 //buy a film poolesh che jorie? 
 //money publisheram che jorie?
@@ -103,7 +116,7 @@ void CommandHandler::handle_put_commands()
 {
 	if (curr_command[PUT] == FILMS)
 	{
-		controller->control_edit_or_delete_film(curr_command);
+		controller->control_edit_film(curr_command);
 		//edit_film;
 	}
 	else
@@ -115,7 +128,7 @@ void CommandHandler::handle_delete_commands()
 control_{
 	if (curr_command[DELETE] == FILMS)
 	{
-		controller->control_edit_or_delete_film(curr_command);
+		controller->control_delete_film(curr_command);
 		//delete_film();
 	}
 	else if (curr_command[DELETE] == COMMENTS)
@@ -149,13 +162,13 @@ void CommandHandler::handle_get_commands()
 	}
 	else if (command == PURCHASED)
 	{
-		controller->control_get_bought_films_and_notifs(curr_command);
+		controller->control_get_bought_films(curr_command);
 		//get_bought_films();
 		//print
 	}
 	else if (command == NOTIFS)
 	{
-		controller->control_get_bought_films_and_notifs(curr_command);
+		controller->control_get_notifs(curr_command);
 		//get_notifs();
 		//print
 	}

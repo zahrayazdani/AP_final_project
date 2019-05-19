@@ -68,5 +68,8 @@ struct FilmInfo
 #define MIN_SCORE 1
 #define MAX_SCORE 10
 #define LIMIT "limit"
+#define PUBLISHER "publisher"
+#define _TRUE "true"
+#define _FALSE "false"
 
 #endif

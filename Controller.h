@@ -11,6 +11,9 @@ class Controller
 private:
 	Data* data;
 	void does_user_have_the_film(int film_id);
+	void check_get_published_films_optional_datas(std::map<std::string, std::string> command);
+	void check_edit_film_optional_datas(std::map<std::string, std::string> command);
+	void check_get_bought_films_optional_datas(std::map<std::string, std::string> command);
 public:
 	Controller(Data* _data);
 	void control_signup(std::map<std::string, std::string> command);
@@ -20,11 +23,13 @@ public:
 	void control_follow(std::map<std::string, std::string> command);
 	void control_rate(std::map<std::string, std::string> command);
 	void control_comment(std::map<std::string, std::string> command);
-	void control_edit_or_delete_film(std::map<std::string, std::string> command);
+	void control_delete_film(std::map<std::string, std::string> command);
+	void control_edit_film(std::map<std::string, std::string> command);
 	void control_delete_comment(std::map<std::string, std::string> command);
 	void control_get_followers(std::map<std::string, std::string> command);
 	void control_get_published_films(std::map<std::string, std::string> command);
-	void control_get_bought_films_and_notifs(std::map<std::string, std::string> command);
+	void control_get_bought_films(std::map<std::string, std::string> command);
+	void control_get_notifs(std::map<std::string, std::string> command);
 	void control_get_readen_notifs(std::map<std::string, std::string> command);
 };
 
