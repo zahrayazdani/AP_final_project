@@ -139,3 +139,11 @@ void Controller::control_delete_comment(map<string, string> command)
 		->find_comment(stoi(command[COMMENT_ID])) == 	NULL)
 		throw NotFound();
 }
+
+void Controller::control_get_followers(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw BadRequest();
+	if (!data->get_active_user()->is_publisher())
+		throw PermissionDenied();
+}
