@@ -67,5 +67,6 @@ struct FilmInfo
 #define SCORE "score"
 #define MIN_SCORE 1
 #define MAX_SCORE 10
+#define LIMIT "limit"
 
 #endif

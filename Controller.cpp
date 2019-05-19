@@ -33,7 +33,7 @@ void Controller::control_login(map<string, string> command)
 void Controller::control_add_film(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
-		throw BadRequest();
+		throw PermissionDenied();
 	if (!data->get_active_user()->is_publisher())
 		throw PermissionDenied();
 	if ((command.find(NAME) == command.end()) ||
@@ -50,7 +50,7 @@ void Controller::control_add_film(map<string, string> command)
 void Controller::control_reply(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
-		throw BadRequest();
+		throw PermissionDenied();
 	if (!data->get_active_user()->is_publisher())
 		throw PermissionDenied();
 	if ((command.find(FILM_ID) == command.end()) ||
@@ -69,7 +69,7 @@ void Controller::control_reply(map<string, string> command)
 void Controller::control_follow(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
-		throw BadRequest();
+		throw PermissionDenied();
 	if (command.find(USER_ID) == command.end())
 		throw BadRequest();
 	if (data->find_user(stoi(command[USER_ID])) == NULL)
@@ -81,7 +81,7 @@ void Controller::control_follow(map<string, string> command)
 void Controller::control_rate(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
-		throw BadRequest();
+		throw PermissionDenied();
 	if ((command.find(FILM_ID) == command.end()) ||
 		(command.find(SCORE) == command.end()))
 		throw BadRequest();
@@ -93,7 +93,7 @@ void Controller::control_rate(map<string, string> command)
 void Controller::control_comment(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
-		throw BadRequest();
+		throw PermissionDenied();
 	if ((command.find(FILM_ID) == command.end()) ||
 		(command.find(CONTENT) == command.end()))
 		throw BadRequest();
@@ -111,7 +111,7 @@ void Controller::does_user_have_the_film(int film_id)
 void Controller::control_edit_or_delete_film(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
-		throw BadRequest();
+		throw PermissionDenied();
 	if (!data->get_active_user()->is_publisher())
 		throw PermissionDenied();
 	if (command.find(FILM_ID) == command.end())
@@ -125,7 +125,7 @@ void Controller::control_edit_or_delete_film(map<string, string> command)
 void Controller::control_delete_comment(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
-		throw BadRequest();
+		throw PermissionDenied();
 	if (!data->get_active_user()->is_publisher())
 		throw PermissionDenied();
 	if ((command.find(FILM_ID) == command.end()) ||
@@ -143,7 +143,7 @@ void Controller::control_delete_comment(map<string, string> command)
 void Controller::control_get_followers(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
-		throw BadRequest();
+		throw PermissionDenied();
 	if (!data->get_active_user()->is_publisher())
 		throw PermissionDenied();
 }
@@ -151,14 +151,21 @@ void Controller::control_get_followers(map<string, string> command)
 void Controller::control_get_published_films(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
-		throw BadRequest();
+		throw PermissionDenied();
 	if (!data->get_active_user()->is_publisher())
 		throw PermissionDenied();
 }
 
-void Controller::control_get_bought_films(map<string, string> command)
+void Controller::control_get_bought_films_and_notifs(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
-		throw BadRequest();
+		throw PermissionDenied();
 }
 
+void Controller::control_get_readen_notifs(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw PermissionDenied();
+	if (command.find(LIMIT) == command.end())
+		throw BadRequest();
+}

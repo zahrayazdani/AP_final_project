@@ -147,13 +147,13 @@ void CommandHandler::handle_get_commands()
 	}
 	else if (command == PURCHASED)
 	{
-		controller->control_get_bought_films(curr_command);
+		controller->control_get_bought_films_and_notifs(curr_command);
 		//get_bought_films();
 		//print
 	}
 	else if (command == NOTIFS)
 	{
-		controller->control_get_notifs(curr_command);
+		controller->control_get_bought_films_and_notifs(curr_command);
 		//get_notifs();
 		//print
 	}

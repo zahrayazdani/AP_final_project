@@ -24,7 +24,8 @@ public:
 	void control_delete_comment(std::map<std::string, std::string> command);
 	void control_get_followers(std::map<std::string, std::string> command);
 	void control_get_published_films(std::map<std::string, std::string> command);
-	void control_get_bought_films(std::map<std::string, std::string> command);
+	void control_get_bought_films_and_notifs(std::map<std::string, std::string> command);
+	void control_get_readen_notifs(std::map<std::string, std::string> command);
 };
 
 #endif
