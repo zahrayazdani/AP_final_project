@@ -30,13 +30,15 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw BadRequest();
 }
 
-//permission denied a koja?
-//maghadire ba type namonaseb?
+//ekhtiari publisher
+//klan noe exc
+//soalaye bache ha
+//email
+//age chize bishtari az commanda gozasht ya eshtebah va bara optionala check type
 //buy a film poolesh che jorie? 
 //money publisheram che jorie?
-//2 ta name film mishe yeki bashan?
-//klan noe exc
-//age chize bishtari az commanda gozasht ya eshtebah
+//baghie tavabe
+//tamizi
 void CommandHandler::handle_post_commands()
 {
 	string command = curr_command[POST];
@@ -167,7 +169,6 @@ void CommandHandler::handle_get_commands()
 		throw NotFound();
 }
 
-//soala
 //dorost kardan ye seri moshkela
 //neveshtan tavabe chan tai
 //buy o money o ina
