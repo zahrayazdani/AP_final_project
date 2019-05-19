@@ -100,7 +100,7 @@ void CommandHandler::handle_put_commands()
 {
 	if (curr_command[PUT] == FILMS)
 	{
-		controller->control_edit_film_info(curr_command);
+		controller->control_edit_or_delete_film(curr_command);
 		//edit_film;
 	}
 	else
@@ -112,7 +112,7 @@ void CommandHandler::handle_delete_commands()
 control_{
 	if (curr_command[DELETE] == FILMS)
 	{
-		controller->control_delete_film(curr_command);
+		controller->control_edit_or_delete_film(curr_command);
 		//delete_film();
 	}
 	else if (curr_command[DELETE] == COMMENTS)

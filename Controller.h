@@ -20,7 +20,7 @@ public:
 	void control_follow(std::map<std::string, std::string> command);
 	void control_rate(std::map<std::string, std::string> command);
 	void control_comment(std::map<std::string, std::string> command);
-	void control_edit_film_info(std::map<std::string, std::string> command);
+	void control_edit_or_delete_film(std::map<std::string, std::string> command);
 };
 
 #endif
