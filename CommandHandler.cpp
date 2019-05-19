@@ -36,6 +36,7 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 //money publisheram che jorie?
 //2 ta name film mishe yeki bashan?
 //klan noe exc
+//age chize bishtari az commanda gozasht ya eshtebah
 void CommandHandler::handle_post_commands()
 {
 	string command = curr_command[POST];

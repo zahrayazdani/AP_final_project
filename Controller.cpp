@@ -147,3 +147,11 @@ void Controller::control_get_followers(map<string, string> command)
 	if (!data->get_active_user()->is_publisher())
 		throw PermissionDenied();
 }
+
+void Controller::control_get_published_films(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw BadRequest();
+	if (!data->get_active_user()->is_publisher())
+		throw PermissionDenied();
+}
