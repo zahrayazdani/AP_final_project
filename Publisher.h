@@ -14,9 +14,9 @@ private:
 	std::vector<Film*> published_films;
 	std::vector<User*> followers;
 	int money_from_films;
-	Film* find_film(int id);
 public:
 	//Publisher();
+	Film* find_published_film(int id);
 	Film* add_film(std::vector<std::string> info);
 	void edit_film(std::vector<std::string> info);
 	void delete_film(int id);

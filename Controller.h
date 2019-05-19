@@ -10,7 +10,7 @@ class Controller
 {
 private:
 	Data* data;
-	void does_user_have_film(int film_id);
+	void does_user_have_the_film(int film_id);
 public:
 	Controller(Data* _data);
 	void control_signup(std::map<std::string, std::string> command);
@@ -20,6 +20,7 @@ public:
 	void control_follow(std::map<std::string, std::string> command);
 	void control_rate(std::map<std::string, std::string> command);
 	void control_comment(std::map<std::string, std::string> command);
+	void control_edit_film_info(std::map<std::string, std::string> command);
 };
 
 #endif

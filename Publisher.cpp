@@ -3,7 +3,6 @@
 #include "Publisher.h"
 #include "Film.h"
 
-
 // publisher code
 using namespace std;
 
@@ -28,7 +27,7 @@ vector<FollowersInfo> Publisher::get_followrs()
 	return followers_info;
 }
 
-Film* Publisher::find_film(int id)
+Film* Publisher::find_published_film(int id)
 {
 	for (int i = 0; i < published_films.size(); i++)
 		if (published_films[i]->get_id() == id)
@@ -36,7 +35,7 @@ Film* Publisher::find_film(int id)
 	return NULL;
 }
 
-Film* publisher::find_film(string film_name)
+Film* publisher::find_published_film(string film_name)
 {
 	for (int i = 0; i < published_films.size(); i++)
 		if (published_films[i]->get_name() == film_name)
@@ -49,7 +48,7 @@ void Publisher::delete_comment(vector<string> info)
 	Film* film;
 	try
 	{
-		film = find_film(stoi(info[3]));
+		film = find_published_film(stoi(info[3]));
 	}catch (exception& exception)
 	{
 		cout << exception.what() << endl;
@@ -63,7 +62,7 @@ void Publisher::reply_comment(vector<string> info)
 	Film* film;
 	try
 	{
-		film = find_film(stoi(info[3]));
+		film = find_published_film(stoi(info[3]));
 	}catch (exception& exception)
 	{
 		cout << exception.what() << endl;
@@ -77,7 +76,7 @@ void Publisher::delete_film(int id)
 	Film* film;
 	try
 	{
-		film = find_film(id);
+		film = find_published_film(id);
 	}catch (exception& exception)
 	{
 		cout << exception.what() << endl;
@@ -91,7 +90,7 @@ void Publisher::edit_film(vector<string> info)
 	Film* film;
 	try
 	{
-		film = find_film(stoi(info[3]));
+		film = find_published_film(stoi(info[3]));
 	}catch (exception& exception)
 	{
 		cout << exception.what() << endl;

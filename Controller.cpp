@@ -43,26 +43,27 @@ void Controller::control_add_film(map<string, string> command)
 		(command.find(SUMMARY) == curr_command.end()) ||
 		(command.find(DIRECTOR) == curr_command.end()))
 		throw BadRequest();
-	if (data->get_active_user()->find_film(command[NAME]) != NULL)
+	if (data->get_active_user()->find_published_film(command[NAME]) != NULL)
 		throw BadRequest();
 }
 
-void Controller::control_reply(map<string, string> command)
-{
-	if (data->get_active_user() == NULL)
-		throw BadRequest();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
-	if ((command.find(FILM_ID) == curr_command.end()) ||
-		(command.find(COMMENT_ID) == curr_command.end()) ||
-		(command.find(CONTENT) == curr_command.end()))
-		throw BadRequest();
-	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
-		throw BadRequest();
-	if (data->get_active_user()->find_film(stoi(command[FILM_ID]))
-		->find_comment(stoi(command[COMMENT_ID])) == 	NULL)
-		throw BadRequest();
-}
+//age film ya coment bashan vali bara in nabashn
+// void Controller::control_reply(map<string, string> command)
+// {
+// 	if (data->get_active_user() == NULL)
+// 		throw BadRequest();
+// 	if (!data->get_active_user()->is_publisher())
+// 		throw PermissionDenied();
+// 	if ((command.find(FILM_ID) == curr_command.end()) ||
+// 		(command.find(COMMENT_ID) == curr_command.end()) ||
+// 		(command.find(CONTENT) == curr_command.end()))
+// 		throw BadRequest();
+// 	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
+// 		throw BadRequest();
+// 	if (data->get_active_user()->find_film(stoi(command[FILM_ID]))
+// 		->find_comment(stoi(command[COMMENT_ID])) == 	NULL)
+// 		throw BadRequest();
+// }
 
 void Controller::control_follow(map<string, string> command)
 {
@@ -85,23 +86,38 @@ void Controller::control_rate(map<string, string> command)
 		throw BadRequest();
 	if (stoi((command[SCORE]) > MAX_SCORE) || stoi((command[SCORE]) < MIN_SCORE))
 		throw BadRequest();
-	does_user_have_film(stoi(command[FILM_ID]));
+	does_user_have_the_film(stoi(command[FILM_ID]));
 }
 
-void Controller::control_film(map<string, string> command)
+void Controller::control_comment(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
 		throw BadRequest();
 	if ((command.find(FILM_ID) == curr_command.end()) ||
 		(command.find(CONTENT) == curr_command.end()))
 		throw BadRequest();
-	does_user_have_film(stoi(command[FILM_ID]));
+	does_user_have_the_film(stoi(command[FILM_ID]));
 }
 
-void Controller::does_user_have_film(int film_id)
+void Controller::does_user_have_the_film(int film_id)
 {
 	if (data->find_film(film_id) == NULL)
 		throw BadRequest();
 	if (data->get_active_user()->find_film(film_id) == NULL)
 		throw PermissionDenied();
 }
+
+void Controller::control_edit_film_info(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw BadRequest();
+	if (!data->get_active_user()->is_publisher())
+		throw PermissionDenied();
+	if (command.find(FILM_ID) == curr_command.end())
+		throw BadRequest();
+	if (data->find_film(stoi(command[FILM_ID])) == NULL)
+		throw NotFound();
+	if (data->get_active_user()->find_published_film(stoi(command[FILM_ID])))
+		throw PermissionDenied();
+}
+
