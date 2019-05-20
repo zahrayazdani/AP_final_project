@@ -9,5 +9,5 @@ int Comment::get_id()
 
 void Comment::add_reply(string reply_message)
 {
-	reply = reply_message;
+	replies.push_back(reply_message);
 }

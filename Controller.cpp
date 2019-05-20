@@ -294,3 +294,23 @@ void Controller::control_get_readen_notifs(map<string, string> command)
 	if (command.size() > 2)
 		throw BadRequest();
 }
+
+void Controller::control_get_money_from_network(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw PermissionDenied();
+	if (!data->get_active_user()->is_publisher())
+		throw PermissionDenied();
+	if (command.size() > 1)
+		throw BadRequest();
+}
+
+void Controller::control_charge_account(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw PermissionDenied();
+	if (command.size() > 2)
+		throw BadRequest();
+	if (typeid(command[AMOUNT]) != typeid(int))
+		throw BadRequest();
+}

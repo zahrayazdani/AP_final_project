@@ -32,6 +32,8 @@ public:
 	void control_get_bought_films(std::map<std::string, std::string> command);
 	void control_get_notifs(std::map<std::string, std::string> command);
 	void control_get_readen_notifs(std::map<std::string, std::string> command);
+	void control_get_money_from_network(std::map<std::string, std::string> command);
+	void control_charge_account(std::map<std::string, std::string> command);
 };
 
 #endif

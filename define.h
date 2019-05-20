@@ -73,5 +73,6 @@ struct FilmInfo
 #define _FALSE "false"
 #define AT '@'
 #define DOT '.'
+#define AMOUNT "amount"
 
 #endif

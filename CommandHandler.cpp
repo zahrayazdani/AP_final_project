@@ -30,8 +30,6 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw BadRequest();
 }
 
-//buy a film poolesh che jorie? 
-//money publisheram che jorie?
 //baghie tavabe
 //tamizi
 void CommandHandler::handle_post_commands()
@@ -40,7 +38,6 @@ void CommandHandler::handle_post_commands()
 	if (command == SIGNUP)
 	{
 		controller->control_signup(curr_command);
-		//email
 		//badesh login
 		// signup();
 	}
@@ -57,7 +54,7 @@ void CommandHandler::handle_post_commands()
 	}
 	else if (command == MONEY)
 	{
-		//money();
+		handle_post_money_commands();
 	}
 	else if (command == REPLIES)
 	{
@@ -92,6 +89,20 @@ void CommandHandler::handle_post_commands()
 	else
 		throw NotFound();
 	printer->print_success_message();
+}
+
+void CommandHandler::handle_post_money_commands()
+{
+	if (curr_command.find(AMOUNT) == curr_command.end())
+	{
+		control_get_money_from_network(curr_command);
+		//get_money
+	}
+	else
+	{
+		control_charge_account(curr_command);
+		//charge_account;
+	}
 }
 
 void CommandHandler::handle_put_commands()

@@ -2,6 +2,7 @@
 #include "define.h"
 #include "User.h"
 #include "Film.h"
+#include "Publisher.h"
 
 using namespace std;
 

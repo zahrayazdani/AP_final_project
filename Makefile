@@ -32,7 +32,7 @@ Exceptions.o: Exceptions.cpp Exceptions.h define.h
 Controller.o: Controller.cpp Controller.h Data.h Exceptions.h User.h
 	$(CC) -c Controller.cpp
 
-Data.o: Data.cpp Data.h define.h User.h Film.h
+Data.o: Data.cpp Data.h define.h User.h Film.h Publisher.h
 	$(CC) -c Data.cpp
 
 Notification.o: Notification.cpp Notification.h
