@@ -36,6 +36,7 @@ public:
 	void control_charge_account(std::map<std::string, std::string> command);
 	void control_show_film_details(std::map<std::string, std::string> command);
 	void control_search(std::map<std::string, std::string> command);
+	void control_buy(std::map<std::string, std::string> command);
 };
 
 #endif

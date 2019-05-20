@@ -70,7 +70,8 @@ void CommandHandler::handle_post_commands()
 	}
 	else if (command == BUY)
 	{
-		//controller->control_buy(curr_command);
+		controller->control_buy(curr_command);
+		//check pool
 		//notif
 		//buy();
 	}

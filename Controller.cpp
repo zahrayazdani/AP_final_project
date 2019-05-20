@@ -332,4 +332,20 @@ void Controller::control_show_film_details(map<string, string> command)
 		throw BadRequest();
 	if (typeid(command[FILM_ID]) != typeid(int))
 		throw BadRequest();
+	if (data->find_film(stoi(command[FILM_ID])) == NULL)
+		throw NotFound();
+}
+
+void Controller::control_buy(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw PermissionDenied();
+	if (command.find(FILM_ID) == command.end())
+		throw BadRequest();
+	if (command.size() > 2)
+		throw BadRequest();
+	if (typeid(command[FILM_ID]) != typeid(int))
+		throw BadRequest();
+	if (data->find_film(stoi(command[FILM_ID])) == NULL)
+		throw NotFound();
 }
