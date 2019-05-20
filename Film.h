@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include "define.h"
 
 class Comment;
@@ -22,7 +23,7 @@ private:
 	int id;
 	bool deleted;
 public:
-	Film(std::vector<std::string> info);
+	Film(std::map<std::string, std::string> info);
 	int get_id();
 	std::string get_name();
 	Comment* find_comment(int id);

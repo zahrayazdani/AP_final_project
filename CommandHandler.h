@@ -22,6 +22,8 @@ private:
 	void handle_post_money_commands();
 	void handle_get_films_commands();
 	void signup();
+	void login();
+	void add_film();
 public:
 	CommandHandler();
 	void handle_command(std::map<std::string, std::string> _curr_command);

@@ -29,6 +29,7 @@ public:
 	void add_new_user(User* new_user);
 	int get_new_user_id();
 	int get_new_film_id();
+	void add_new_film(Film* new_film);
 };
 
 #endif

@@ -2,17 +2,19 @@
 #include "Exceptions.h"
 #include "Publisher.h"
 #include "Film.h"
+#include "define.h"
 
 using namespace std;
 
 Publisher::Publisher(map<string, string> info)
  : User(info) {}
 
-Film* Publisher::add_film(vector<string> info)
+Film* Publisher::add_film(map<string, string> info)
 {
-	info.push_back(USERNAME);
-	info.push_back(username);
+	info[PUBLISHER] = username;
 	Film* new_film = new Film(info);
+	published_films.push_back(new_film);
+	return new_film;
 }
 
 vector<FollowersInfo> Publisher::get_followrs()
@@ -107,4 +109,16 @@ vector<FilmInfo> Publisher::get_published_films(vector<string> info)
 	for (int i = 0; i < published_films.size(); i++)
 		if (published_films[i]->is_in_range(info))
 			films_info.push_back(published_films[i]->set_info());
+}
+
+void Publisher::send_add_film_notif()
+{
+	string notif;
+	notif += "Publisher ";
+	notif += username;
+	notif += " with id ";
+	notif += id;
+	notif += " reply to your comment.";
+	for (int i = 0; i < followers.size(); i++)
+		followers[i]->add_new_notif(notif);
 }

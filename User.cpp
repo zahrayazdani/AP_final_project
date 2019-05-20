@@ -2,7 +2,6 @@
 #include "Publisher.h"
 #include "Film.h"
 #include "Comment.h"
-#include "Notification.h"
 #include "define.h"
 
 using namespace std;
@@ -51,4 +50,9 @@ Film* User::find_film(int id)
 		if ((bought_films[i]->get_id() == id) && (!bought_films[i]->is_deleted()))
 			return bought_films[i];
 	return NULL;
+}
+
+void User::add_new_notif(string notif)
+{
+	unread_notifs.push_back(notif);
 }

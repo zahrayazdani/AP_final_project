@@ -6,6 +6,7 @@
 #include "Exceptions.h"
 #include "User.h"
 #include "Publisher.h"
+#include "Film.h"
 
 using namespace std;
 
@@ -31,8 +32,9 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw BadRequest();
 }
 
+//cast
 //type moteghayera
-//tamizi
+//tamiz kardan functiona
 void CommandHandler::handle_post_commands()
 {
 	string command = curr_command[POST];
@@ -44,13 +46,13 @@ void CommandHandler::handle_post_commands()
 	else if (command == LOGIN)
 	{
 		controller->control_login(curr_command);
-		//login();
+		login();
 	}
 	else if (command == FILMS)
 	{
 		controller->control_add_film(curr_command);
 		//notif
-		//add_film();
+		add_film();
 	}
 	else if (command == MONEY)
 	{
@@ -206,4 +208,18 @@ void CommandHandler::signup()
 	}
 	data->add_new_user(new_user);
 	data->change_active_user(new_user);
+}
+
+void CommandHandler::login()
+{
+	User* new_login = data->find_user(curr_command[USERNAME]);
+	data->change_active_user(new_login);
+}
+
+void CommandHandler::add_film()
+{
+	curr_command[FILM_ID] = to_string(data->get_new_film_id());
+	Film* new_film = data->get_active_user()->add_film(curr_command);
+	data->add_new_film(new_film);
+	data->get_active_user()->send_add_film_notif();
 }

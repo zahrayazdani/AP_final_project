@@ -5,16 +5,16 @@
 
 using namespace std;
 
-Film::Film(vector<string> info)
+Film::Film(map<string, string> info)
 {
-	name = info[3];
-	year = stoi(info[5]);
-	length = stoi(info[7]);
-	price = stoi(info[9]);
-	summary = info[11];
-	director = info[13];
-	id = stoi(info[15]);
-	publisher_username = info[17];
+	name = info[NAME];
+	year = stoi(info[YEAR]);
+	length = stoi(info[LENGTH]);
+	price = stoi(info[PRICE]);
+	summary = info[SUMMARY];
+	director = info[DIRECTOR];
+	id = stoi(info[FILM_ID]);
+	publisher_username = info[PUBLISHER];
 	rate = FIRST_RATE;
 	deleted = false;
 }

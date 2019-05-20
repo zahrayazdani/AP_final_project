@@ -8,7 +8,6 @@
 class Publisher;
 class Film;
 class Comment;
-class Notification;
 
 class User
 {
@@ -22,8 +21,8 @@ protected:
 	std::vector<Publisher*> following;
 	std::vector<Film*> bought_films;
 	int money;
-	std::vector<Notification*> readen_notifs;
-	std::vector<Notification*> unread_notifs;
+	std::vector<std::string> readen_notifs;
+	std::vector<std::string> unread_notifs;
 public:
 	User(std::map<std::string, std::string> info);
 	std::string get_username();
@@ -32,6 +31,7 @@ public:
 	bool check_password(std::string pass);
 	bool is_publisher();
 	Film* find_film(int id);
+	void add_new_notif(std::string notif);
 };
 
 #endif

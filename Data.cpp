@@ -63,3 +63,8 @@ int Data::get_new_film_id()
 	film_id++;
 	return film_id;
 }
+
+void Data::add_new_film(Film* new_film)
+{
+	films.push_back(new_film);
+}

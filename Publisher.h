@@ -5,7 +5,6 @@
 #include <string>
 #include <map>
 #include "User.h"
-#include "define.h"
 
 class Film;
 
@@ -19,7 +18,7 @@ public:
 	Publisher(std::map<std::string, std::string> info);
 	Film* find_published_film(int id);
 	Film* find_published_film(std::string film_name);
-	Film* add_film(std::vector<std::string> info);
+	Film* add_film(std::map<std::string, std::string> info);
 	void edit_film(std::vector<std::string> info);
 	void delete_film(int id);
 	std::vector<FollowersInfo> get_followrs();
@@ -27,6 +26,7 @@ public:
 	std::vector<FilmInfo> get_published_films(std::vector<std::string> info);
 	void reply_comment(std::vector<std::string> info);
 	void delete_comment(std::vector<std::string> info);
+	void send_add_film_notif();
 };
 
 #endif
