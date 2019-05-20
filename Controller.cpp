@@ -238,10 +238,10 @@ void Controller::control_get_published_films(map<string, string> command)
 		throw PermissionDenied();
 	if (command.size() > 7)
 		throw BadRequest();
-	check_get_published_films_optional_datas(command);
+	check_search_films_optional_datas(command);
 }
 
-void Controller::check_get_published_films_optional_datas(map<string, string> command)
+void Controller::check_search_films_optional_datas(map<string, string> command)
 {
 	for (map<string, string>::iterator it = command.begin(); it != command.end(); ++it)
 	{
@@ -312,5 +312,24 @@ void Controller::control_charge_account(map<string, string> command)
 	if (command.size() > 2)
 		throw BadRequest();
 	if (typeid(command[AMOUNT]) != typeid(int))
+		throw BadRequest();
+}
+
+void Controller::control_search(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw PermissionDenied();
+	if (command.size() > 7)
+		throw BadRequest();
+	check_search_films_optional_datas(command);
+}
+
+void Controller::control_show_film_details(map<string, string> command)
+{
+	if (data->get_active_user() == NULL)
+		throw PermissionDenied();
+	if (command.size() > 2)
+		throw BadRequest();
+	if (typeid(command[FILM_ID]) != typeid(int))
 		throw BadRequest();
 }

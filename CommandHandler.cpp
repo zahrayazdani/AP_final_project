@@ -70,7 +70,7 @@ void CommandHandler::handle_post_commands()
 	}
 	else if (command == BUY)
 	{
-		controller->control_buy(curr_command);
+		//controller->control_buy(curr_command);
 		//notif
 		//buy();
 	}
@@ -95,12 +95,12 @@ void CommandHandler::handle_post_money_commands()
 {
 	if (curr_command.find(AMOUNT) == curr_command.end())
 	{
-		control_get_money_from_network(curr_command);
+		controller->control_get_money_from_network(curr_command);
 		//get_money
 	}
 	else
 	{
-		control_charge_account(curr_command);
+		controller->control_charge_account(curr_command);
 		//charge_account;
 	}
 }
@@ -151,7 +151,7 @@ void CommandHandler::handle_get_commands()
 	}
 	else if (command == FILMS)
 	{
-		//film
+		handle_get_films_commands();
 	}
 	else if (command == PURCHASED)
 	{
@@ -173,4 +173,21 @@ void CommandHandler::handle_get_commands()
 	}
 	else
 		throw NotFound();
+}
+
+void CommandHandler::handle_get_films_commands()
+{
+	if (curr_command.find(FILM_ID) == curr_command.end())
+	{
+		controller->control_search(curr_command);
+		//search;
+		//print
+	}
+	else
+	{
+		controller->control_show_film_details(curr_command);
+		//show_details;
+		//print
+		//recomend
+	}
 }

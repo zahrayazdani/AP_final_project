@@ -11,7 +11,7 @@ class Controller
 private:
 	Data* data;
 	void does_user_have_the_film(int film_id);
-	void check_get_published_films_optional_datas(std::map<std::string, std::string> command);
+	void check_search_films_optional_datas(std::map<std::string, std::string> command);
 	void check_edit_film_optional_datas(std::map<std::string, std::string> command);
 	void check_get_bought_films_optional_datas(std::map<std::string, std::string> command);
 	void check_validataion_of_email(std::string email);
@@ -34,6 +34,8 @@ public:
 	void control_get_readen_notifs(std::map<std::string, std::string> command);
 	void control_get_money_from_network(std::map<std::string, std::string> command);
 	void control_charge_account(std::map<std::string, std::string> command);
+	void control_show_film_details(std::map<std::string, std::string> command);
+	void control_search(std::map<std::string, std::string> command);
 };
 
 #endif
