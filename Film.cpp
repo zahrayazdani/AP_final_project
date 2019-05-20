@@ -53,16 +53,7 @@ void Film::delete_comment(int id)
 
 void Film::reply_comment(int id, string content)
 {
-	Comment* comment;
-	try
-	{
-		comment = find_comment(id);	
-	}catch (exception& exception)
-	{
-		cout << exception.what() << endl;
-		return;
-	}
-	comment->add_reply(content);
+	find_comment(id)->add_reply(content);
 }
 
 void Film::edit_info(vector<string> info)

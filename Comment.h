@@ -15,6 +15,7 @@ public:
 	// Comment();
 	int get_id();
 	void add_reply(std::string reply_message);
+	std::string get_writer();
 };
 
 #endif

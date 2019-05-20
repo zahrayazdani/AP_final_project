@@ -32,9 +32,12 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw BadRequest();
 }
 
+//notif
 //cast
+//check
 //type moteghayera
 //tamiz kardan functiona
+
 void CommandHandler::handle_post_commands()
 {
 	string command = curr_command[POST];
@@ -51,7 +54,6 @@ void CommandHandler::handle_post_commands()
 	else if (command == FILMS)
 	{
 		controller->control_add_film(curr_command);
-		//notif
 		add_film();
 	}
 	else if (command == MONEY)
@@ -61,8 +63,7 @@ void CommandHandler::handle_post_commands()
 	else if (command == REPLIES)
 	{
 		controller->control_reply(curr_command);
-		//notif
-		//reply();
+		reply();
 	}
 	else if (command == FOLLOWERS)
 	{
@@ -221,5 +222,10 @@ void CommandHandler::add_film()
 	curr_command[FILM_ID] = to_string(data->get_new_film_id());
 	Film* new_film = data->get_active_user()->add_film(curr_command);
 	data->add_new_film(new_film);
-	data->get_active_user()->send_add_film_notif();
+}
+
+void CommandHandler::reply()
+{
+	data->get_active_user()->reply_comment(curr_command);
+	/////////////////
 }

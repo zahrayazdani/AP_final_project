@@ -14,6 +14,7 @@ Film* Publisher::add_film(map<string, string> info)
 	info[PUBLISHER] = username;
 	Film* new_film = new Film(info);
 	published_films.push_back(new_film);
+	send_add_film_notif();
 	return new_film;
 }
 
@@ -47,7 +48,7 @@ Film* Publisher::find_published_film(string film_name)
 	return NULL;
 }
 
-void Publisher::delete_comment(vector<string> info)
+void Publisher::delete_comment(map<string, string> info)
 {
 	Film* film;
 	try
@@ -61,18 +62,18 @@ void Publisher::delete_comment(vector<string> info)
 	film->delete_comment(stoi(info[5]));
 }
 
-void Publisher::reply_comment(vector<string> info)
+void Publisher::reply_comment(map<string, string> info)
 {
-	Film* film;
-	try
-	{
-		film = find_published_film(stoi(info[3]));
-	}catch (exception& exception)
-	{
-		cout << exception.what() << endl;
-		return;
-	}
-	film->reply_comment(stoi(info[5]), info[7]);
+	find_published_film(stoi(info[FILM_ID]))->reply_comment(stoi(info[COMMENT_ID]), info[CONTENT]);
+	string notif;
+	notif += "Publisher ";
+	notif += username;
+	notif += " with id ";
+	notif += id;
+	notif += " reply to your comment.";
+	string comment_writer = find_published_film(stoi(info[FILM_ID]))->
+		find_comment(stoi(info[COMMENT_ID]))->get_writer();
+	///////////////////////////////////////
 }
 
 void Publisher::delete_film(int id)
@@ -89,7 +90,7 @@ void Publisher::delete_film(int id)
 	delete film;
 }
 
-void Publisher::edit_film(vector<string> info)
+void Publisher::edit_film(map<string, string> info)
 {
 	Film* film;
 	try
@@ -103,7 +104,7 @@ void Publisher::edit_film(vector<string> info)
 	film->edit_info(info);
 }
 
-vector<FilmInfo> Publisher::get_published_films(vector<string> info)
+vector<FilmInfo> Publisher::get_published_films(map<string, string> info)
 {
 	vector<FilmInfo> films_info;
 	for (int i = 0; i < published_films.size(); i++)
@@ -118,7 +119,7 @@ void Publisher::send_add_film_notif()
 	notif += username;
 	notif += " with id ";
 	notif += id;
-	notif += " reply to your comment.";
+	notif += " register new film.";
 	for (int i = 0; i < followers.size(); i++)
 		followers[i]->add_new_notif(notif);
 }

@@ -19,13 +19,13 @@ public:
 	Film* find_published_film(int id);
 	Film* find_published_film(std::string film_name);
 	Film* add_film(std::map<std::string, std::string> info);
-	void edit_film(std::vector<std::string> info);
+	void edit_film(std::map<std::string, std::string> info);
 	void delete_film(int id);
 	std::vector<FollowersInfo> get_followrs();
 	//money
-	std::vector<FilmInfo> get_published_films(std::vector<std::string> info);
-	void reply_comment(std::vector<std::string> info);
-	void delete_comment(std::vector<std::string> info);
+	std::vector<FilmInfo> get_published_films(std::map<std::string, std::string> info);
+	void reply_comment(std::map<std::string, std::string> info);
+	void delete_comment(std::map<std::string, std::string> info);
 	void send_add_film_notif();
 };
 

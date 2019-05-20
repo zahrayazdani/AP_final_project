@@ -11,3 +11,8 @@ void Comment::add_reply(string reply_message)
 {
 	replies.push_back(reply_message);
 }
+
+string Comment::get_writer()
+{
+	return writer;
+}
