@@ -71,5 +71,7 @@ struct FilmInfo
 #define PUBLISHER "publisher"
 #define _TRUE "true"
 #define _FALSE "false"
+#define AT '@'
+#define DOT '.'
 
 #endif

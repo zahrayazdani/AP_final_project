@@ -24,8 +24,17 @@ void Controller::control_signup(map<string, string> command)
 		throw BadRequest();
 	if ((command.size() == 6) && (command.find(PUBLISHER) == command.end()))
 		throw BadRequest();
+	check_validataion_of_email(command[EMAIL]);
 	if ((command.find(PUBLISHER) != command.end()) && ((command[PUBLISHER] != _TRUE) ||
 		(command[PUBLISHER] != _FALSE)))
+		throw BadRequest();
+}
+
+void check_validataion_of_email(string email)
+{
+	if (email.find(AT) == email.end())
+		throw BadRequest();
+	if (email.find(DOT, email.find(AT) + 1) == email.end())
 		throw BadRequest();
 }
 
