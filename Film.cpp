@@ -16,7 +16,7 @@ Film::Film(vector<string> info)
 	id = stoi(info[15]);
 	publisher_username = info[17];
 	rate = FIRST_RATE;
-	is_deleted = false;
+	deleted = false;
 }
 
 int Film::get_id()
@@ -24,7 +24,7 @@ int Film::get_id()
 	return id;
 }
 
-string get_name()
+string Film::get_name()
 {
 	return name;
 }
@@ -133,7 +133,7 @@ bool Film::is_in_range(std::vector<std::string> info)
 	return true;
 }
 
-bool is_deleted()
+bool Film::is_deleted()
 {
-	return is_deleted;
+	return deleted;
 }

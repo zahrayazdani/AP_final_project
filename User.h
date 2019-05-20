@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 class Publisher;
 class Film;
@@ -16,15 +17,15 @@ protected:
 	std::string email;
 	std::string password;
 	int age;
-	bool is_publisher;
+	int id;
+	bool publisher;
 	std::vector<Publisher*> following;
 	std::vector<Film*> bought_films;
 	int money;
 	std::vector<Notification*> readen_notifs;
 	std::vector<Notification*> unread_notifs;
-	int id;
 public:
-	// User();
+	User(std::map<std::string, std::string> info);
 	std::string get_username();
 	std::string get_email();
 	int get_id();

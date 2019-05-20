@@ -2,9 +2,12 @@
 #include "Exceptions.h"
 #include "Publisher.h"
 #include "Film.h"
+#include "User.h"
 
-// publisher code
 using namespace std;
+
+Publisher::Publisher(map<string, string> info)
+ : User(info) {}
 
 Film* Publisher::add_film(vector<string> info)
 {
@@ -35,7 +38,7 @@ Film* Publisher::find_published_film(int id)
 	return NULL;
 }
 
-Film* publisher::find_published_film(string film_name)
+Film* Publisher::find_published_film(string film_name)
 {
 	for (int i = 0; i < published_films.size(); i++)
 		if (published_films[i]->get_name() == film_name)

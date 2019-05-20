@@ -3,8 +3,22 @@
 #include "Film.h"
 #include "Comment.h"
 #include "Notification.h"
+#include "define.h"
 
 using namespace std;
+
+User::User(map<string, string> info)
+{
+	username = info[USERNAME];
+	password = info[PASSWORD];
+	email = info[EMAIL];
+	age = stoi(info[AGE]);
+	id = stoi(info[USER_ID]);
+	if (info[PUBLISHER] == _TRUE)
+		publisher = true;
+	else
+		publisher = false;
+}
 
 string User::get_username()
 {
@@ -28,7 +42,7 @@ bool User::check_password(string pass)
 
 bool User::is_publisher()
 {
-	return is_publisher;
+	return publisher;
 }
 
 Film* User::find_film(int id)

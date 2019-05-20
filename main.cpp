@@ -2,6 +2,6 @@
 
 int main()
 {
-	Manager manager();
-	//manager.run();
+	Manager manager;
+	manager.run();
 }

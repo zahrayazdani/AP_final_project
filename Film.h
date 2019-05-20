@@ -20,7 +20,7 @@ private:
 	std::string publisher_username;
 	std::vector<Comment*> comments;
 	int id;
-	bool is_deleted;
+	bool deleted;
 public:
 	Film(std::vector<std::string> info);
 	int get_id();

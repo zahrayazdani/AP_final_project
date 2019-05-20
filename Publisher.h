@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 #include "User.h"
 #include "define.h"
 
@@ -15,8 +16,9 @@ private:
 	std::vector<User*> followers;
 	int money_from_films;
 public:
-	//Publisher();
+	Publisher(std::map<std::string, std::string> info);
 	Film* find_published_film(int id);
+	Film* find_published_film(std::string film_name);
 	Film* add_film(std::vector<std::string> info);
 	void edit_film(std::vector<std::string> info);
 	void delete_film(int id);

@@ -8,7 +8,7 @@ using namespace std;
 
 Data::Data()
 {
-	signup_id = FIRST_ID;
+	user_id = FIRST_ID;
 	film_id = FIRST_ID;
 	active_user = NULL;
 }
@@ -40,4 +40,26 @@ Film* Data::find_film(int id)
 User* Data::get_active_user()
 {
 	return active_user;
+}
+
+void Data::change_active_user(User* new_active_user);
+{
+	active_user = new_active_user;
+}
+
+void add_new_user(User* new_user)
+{
+	users.push_back(new_user);
+}
+
+int get_new_user_id()
+{
+	user_id++;
+	return user_id;
+}
+
+int get_new_film_id()
+{
+	film_id++;
+	return film_id;
 }

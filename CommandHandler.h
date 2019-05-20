@@ -20,7 +20,8 @@ private:
 	void handle_delete_commands();
 	void handle_get_commands();
 	void handle_post_money_commands();
-	void handle_get_films_command();
+	void handle_get_films_commands();
+	void signup();
 public:
 	CommandHandler();
 	void handle_command(std::map<std::string, std::string> _curr_command);

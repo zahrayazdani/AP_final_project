@@ -4,6 +4,8 @@
 #include "define.h"
 #include "Printer.h"
 #include "Exceptions.h"
+#include "User.h"
+#include "Publisher.h"
 
 using namespace std;
 
@@ -12,7 +14,6 @@ CommandHandler::CommandHandler()
 	data = new Data;
 	controller = new Controller(data);
 	printer = new Printer;
-	active_user = NULL;
 }
 
 void CommandHandler::handle_command(map<string, string> _curr_command)
@@ -30,16 +31,17 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw BadRequest();
 }
 
-//baghie tavabe
+//type moteghayera
 //tamizi
+//compile
+//debug
 void CommandHandler::handle_post_commands()
 {
 	string command = curr_command[POST];
 	if (command == SIGNUP)
 	{
 		controller->control_signup(curr_command);
-		//badesh login
-		// signup();
+		signup();
 	}
 	else if (command == LOGIN)
 	{
@@ -119,7 +121,7 @@ void CommandHandler::handle_put_commands()
 }
 
 void CommandHandler::handle_delete_commands()
-control_{
+{
 	if (curr_command[DELETE] == FILMS)
 	{
 		controller->control_delete_film(curr_command);
@@ -132,7 +134,7 @@ control_{
 	}
 	else
 		throw NotFound();
-	printer->print_success_message(curr_command);
+	printer->print_success_message();
 }
 
 void CommandHandler::handle_get_commands()
@@ -191,4 +193,19 @@ void CommandHandler::handle_get_films_commands()
 		//print
 		//recomend
 	}
+}
+
+void CommandHandler::signup()
+{
+	curr_command[USER_ID] = to_string(data->get_new_user_id());
+	User* new_user;
+	if ((curr_command.find(PUBLISHER) != curr_command.end()) && (curr_command[PUBLISHER] == _TRUE))
+		new_user = new Publisher(curr_command);
+	else
+	{
+		curr_command[PUBLISHER] = _FALSE;
+		new_user = new User(curr_command);
+	}
+	data->add_new_user(new_user);
+	data->change_active_user(new_user);
 }

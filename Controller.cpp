@@ -3,6 +3,9 @@
 #include "Data.h"
 #include "Exceptions.h"
 #include "User.h"
+#include "define.h"
+
+using namespace std;
 
 Controller::Controller(Data* _data)
 {
