@@ -30,7 +30,6 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw BadRequest();
 }
 
-//filmi k pak shode
 //soalaye bache ha
 //email
 //buy a film poolesh che jorie? 

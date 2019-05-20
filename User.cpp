@@ -34,7 +34,7 @@ bool User::is_publisher()
 Film* User::find_film(int id)
 {
 	for (int i = 0; i < bought_films.size(); i++)
-		if (bought_films[i]->get_id() == id)
+		if ((bought_films[i]->get_id() == id) && (!bought_films[i]->is_deleted()))
 			return bought_films[i];
 	return NULL;
 }

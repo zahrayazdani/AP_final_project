@@ -30,7 +30,7 @@ vector<FollowersInfo> Publisher::get_followrs()
 Film* Publisher::find_published_film(int id)
 {
 	for (int i = 0; i < published_films.size(); i++)
-		if (published_films[i]->get_id() == id)
+		if ((published_films[i]->get_id() == id) && (!published_films[i]->is_deleted()))
 			return published_films[i];
 	return NULL;
 }

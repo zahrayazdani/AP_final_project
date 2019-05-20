@@ -132,3 +132,8 @@ bool Film::is_in_range(std::vector<std::string> info)
 	}
 	return true;
 }
+
+bool is_deleted()
+{
+	return is_deleted;
+}
