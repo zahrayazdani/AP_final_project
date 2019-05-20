@@ -33,8 +33,6 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 
 //type moteghayera
 //tamizi
-//compile
-//debug
 void CommandHandler::handle_post_commands()
 {
 	string command = curr_command[POST];

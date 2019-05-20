@@ -4,6 +4,8 @@
 #include "Exceptions.h"
 #include "User.h"
 #include "define.h"
+#include "Publisher.h"
+#include "Film.h"
 
 using namespace std;
 
@@ -35,15 +37,15 @@ void Controller::control_signup(map<string, string> command)
 
 void check_validataion_of_email(string email)
 {
-	if (email.find(AT) == email.end())
+	if (email.find(AT) == string::npos)
 		throw BadRequest();
-	if (email.find(DOT, email.find(AT) + 1) == email.end())
+	if (email.find(DOT, email.find(AT) + 1) == string::npos)
 		throw BadRequest();
 }
 
 void Controller::control_login(map<string, string> command)
 {
-	if (!data->does_user_exist(command[USERNAME]))
+	if (!data->find_user(command[USERNAME]))
 		throw NotFound();
 	if ((command.find(USERNAME) == command.end()) ||
 		(command.find(PASSWORD) == command.end()))
@@ -72,7 +74,7 @@ void Controller::control_add_film(map<string, string> command)
 	if ((typeid(command[YEAR]) != typeid(int)) || (typeid(command[LENGTH]) != typeid(int)) ||
 		(typeid(command[PRICE]) != typeid(int)))
 		throw BadRequest();
-	if (data->get_active_user()->find_published_film(command[NAME]) != NULL)
+	if (data->(Publisher*)get_active_user()-> find_published_film(command[NAME]) != NULL)
 		throw BadRequest();
 }
 
@@ -95,7 +97,7 @@ void Controller::control_reply(map<string, string> command)
 	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
 		throw PermissionDenied();
 	if (data->get_active_user()->find_film(stoi(command[FILM_ID]))
-		->find_comment(stoi(command[COMMENT_ID])) == 	NULL)
+		->find_comment(stoi(command[COMMENT_ID])) == NULL)
 		throw NotFound();
 }
 
@@ -126,7 +128,7 @@ void Controller::control_rate(map<string, string> command)
 		throw BadRequest();
 	if ((typeid(command[FILM_ID]) != typeid(int)) || (typeid(command[SCORE]) != typeid(int)))
 		throw BadRequest();
-	if (stoi((command[SCORE]) > MAX_SCORE) || stoi((command[SCORE]) < MIN_SCORE))
+	if ((stoi(command[SCORE]) > MAX_SCORE) || (stoi(command[SCORE]) < MIN_SCORE))
 		throw BadRequest();
 	does_user_have_the_film(stoi(command[FILM_ID]));
 }
@@ -168,7 +170,7 @@ void Controller::control_edit_film(map<string, string> command)
 	check_edit_film_optional_datas(command);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
-	if (data->get_active_user()->find_published_film(stoi(command[FILM_ID])) == NULL)
+	if (data->(Publisher*)get_active_user()-> find_published_film(stoi(command[FILM_ID])) == NULL)
 		throw PermissionDenied();
 }
 
@@ -199,7 +201,7 @@ void Controller::control_delete_film(map<string, string> command)
 		throw BadRequest();
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
-	if (data->get_active_user()->find_published_film(stoi(command[FILM_ID])) == NULL)
+	if (data->(Publisher*)get_active_user()-> find_published_film(stoi(command[FILM_ID])) == NULL)
 		throw PermissionDenied();
 }
 

@@ -22,6 +22,8 @@ private:
 public:
 	Data();
 	User* find_user(std::string username);
+	User* find_user(int id);
+	Film* find_film(int id);
 	User* get_active_user();
 	void change_active_user(User* new_active_user);
 	void add_new_user(User* new_user);

@@ -26,11 +26,11 @@ struct FilmInfo
 #define PERMISSIONDENIED "Permission Denied"
 #define FIRST_ID 0
 #define FIRST_RATE 0
-#define NAME_STR "name"
-#define YEAR_STR "year"
-#define LENGTH_STR "length"
-#define SUMMARY_STR "summary"
-#define DIRECTOR_STR "director"
+#define NAME "name"
+#define YEAR "year"
+#define LENGTH "length"
+#define SUMMARY "summary"
+#define DIRECTOR "director"
 #define USERNAME "username"
 #define MINRATE "min_rate"
 #define MINYEAR "min_year"

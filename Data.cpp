@@ -47,18 +47,18 @@ void Data::change_active_user(User* new_active_user);
 	active_user = new_active_user;
 }
 
-void add_new_user(User* new_user)
+void Data::add_new_user(User* new_user)
 {
 	users.push_back(new_user);
 }
 
-int get_new_user_id()
+int Data::get_new_user_id()
 {
 	user_id++;
 	return user_id;
 }
 
-int get_new_film_id()
+int Data::get_new_film_id()
 {
 	film_id++;
 	return film_id;
