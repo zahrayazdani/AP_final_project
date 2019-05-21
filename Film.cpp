@@ -140,12 +140,12 @@ string Film::add_new_rate(int score)
 int Film::get_new_comment_id()
 {
 	comment_id++;
-	return commnt_id;
+	return comment_id;
 }
 
-string Film::add_new_comment(int content, string writer)
+string Film::add_new_comment(string content, string writer)
 {
 	Comment* new_comment = new Comment(get_new_comment_id(), writer, content);
-	comment.push_back(new_comment);
+	comments.push_back(new_comment);
 	return publisher_username;
 }

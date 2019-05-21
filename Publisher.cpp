@@ -78,7 +78,7 @@ void Publisher::reply_comment(map<string, string> info)
 	notif << "Publisher " << username << " with id " << id << " reply to your comment.";
 	string comment_writer = find_published_film(stoi(info[FILM_ID]))->
 		find_comment(stoi(info[COMMENT_ID]))->get_writer();
-	find_follower(comment_writer)->add_new_notif(notif);
+	find_follower(comment_writer)->add_new_notif(notif.str());
 }
 
 // void Publisher::delete_film(int id)
@@ -122,5 +122,5 @@ void Publisher::send_add_film_notif()
 	stringstream notif;
 	notif << "Publisher " << username << " with id " << id << " register new film.";
 	for (int i = 0; i < followers.size(); i++)
-		followers[i]->add_new_notif(notif);
+		followers[i]->add_new_notif(notif.str());
 }

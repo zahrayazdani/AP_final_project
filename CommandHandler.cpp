@@ -225,10 +225,10 @@ void CommandHandler::follow()
 {
 	User* curr_user = data->get_active_user();
 	stringstream notif;
-	notif << "User " << curr_user->get_username() << " with id "  << curr_user->get_id <<
+	notif << "User " << curr_user->get_username() << " with id "  << curr_user->get_id() <<
 		 " follow you.";
 	curr_user->follow((Publisher*)(data->find_user(stoi(curr_command[USER_ID]))));
-	data->find_user(stoi(curr_command[USER_ID]))->add_new_notif(notif);
+	data->find_user(stoi(curr_command[USER_ID]))->add_new_notif(notif.str());
 }
 
 void CommandHandler::rate()

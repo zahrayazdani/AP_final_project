@@ -1,3 +1,4 @@
+#include <sstream>
 #include "User.h"
 #include "Publisher.h"
 #include "Film.h"
@@ -75,7 +76,7 @@ void User::rate_film(int film_id, int score)
 	notif << "User " << username << " with id " << id << " rate your film " <<
 		find_film(film_id)->get_name() << " with id " << film_id;
 	string publisher = find_film(film_id)->add_new_rate(score);
-	find_publisher(publisher)->add_new_notif(notif);
+	find_publisher(publisher)->add_new_notif(notif.str());
 }
 
 void User::comment(int film_id, string content)
@@ -84,11 +85,10 @@ void User::comment(int film_id, string content)
 	notif << "User " << username << " with id " << id << " comment on your film" <<
 		find_film(film_id)->get_name() << " with id " << film_id;
 	string publisher_name = find_film(film_id)->add_new_comment(content, username);
-	find_publisher(publisher_name)->add_new_notif(notif);
+	find_publisher(publisher_name)->add_new_notif(notif.str());
 }
 
 void User::charge_account(int amount)
 {
-	//dfsf
 	money += amount;
 }

@@ -35,8 +35,9 @@ public:
 	FilmInfo set_info();
 	bool is_in_range(std::vector<std::string> info);
 	bool is_deleted();
+	int get_new_comment_id();
 	std::string add_new_rate(int score);
-	std::string add_new_comment(int content, std::string writer);
+	std::string add_new_comment(std::string content, std::string writer);
 };
 
 #endif
