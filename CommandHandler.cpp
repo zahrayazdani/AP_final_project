@@ -32,7 +32,6 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw BadRequest();
 }
 
-//notif
 //check
 //tamiz kardan functiona
 
@@ -67,7 +66,7 @@ void CommandHandler::handle_post_commands()
 	{
 		controller->control_follow(curr_command);
 		//notif
-		//follow();
+		follow();
 	}
 	else if (command == BUY)
 	{
@@ -225,5 +224,9 @@ void CommandHandler::add_film()
 void CommandHandler::reply()
 {
 	((Publisher*)(data->get_active_user()))->reply_comment(curr_command);
-	/////////////////
+}
+
+void CommandHandler::follow()
+{
+	data->get_active_user()->follow((Publisher*)(data->find_user(curr_command[USER_ID])));
 }

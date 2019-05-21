@@ -19,6 +19,13 @@ Film* Publisher::add_film(map<string, string> info)
 	return new_film;
 }
 
+User* Publisher::find_follower(string username)
+{
+	for (int i = 0; i < followers.size(); i++)
+		if (followers[i]->get_username() == username)
+			return followers[i];
+}
+
 // vector<FollowersInfo> Publisher::get_followrs()
 // {
 // 	vector<FollowersInfo> followers_info;
@@ -74,7 +81,7 @@ void Publisher::reply_comment(map<string, string> info)
 	notif += " reply to your comment.";
 	string comment_writer = find_published_film(stoi(info[FILM_ID]))->
 		find_comment(stoi(info[COMMENT_ID]))->get_writer();
-	///////////////////////////////////////
+	find_follower(comment_writer)->add_new_notif(notif);
 }
 
 // void Publisher::delete_film(int id)

@@ -25,6 +25,7 @@ private:
 	void login();
 	void add_film();
 	void reply();
+	void follow();
 public:
 	CommandHandler();
 	void handle_command(std::map<std::string, std::string> _curr_command);

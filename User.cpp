@@ -56,3 +56,8 @@ void User::add_new_notif(string notif)
 {
 	unread_notifs.push_back(notif);
 }
+
+void User::follow(Publisher* publisher)
+{
+	following.push_back(publisher);
+}

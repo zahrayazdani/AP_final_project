@@ -28,7 +28,7 @@ void Controller::control_signup(map<string, string> command)
 	if ((command.size() == 6) && (command.find(PUBLISHER) == command.end()))
 		throw BadRequest();
 	check_validataion_of_email(command[EMAIL]);
-	if ((command.find(PUBLISHER) != command.end()) && ((command[PUBLISHER] != _TRUE) ||
+	if ((command.find(PUBLISHER) != command.end()) && ((command[PUBLISHER] != _TRUE) &&
 		(command[PUBLISHER] != _FALSE)))
 		throw BadRequest();
 }
@@ -43,11 +43,11 @@ void Controller::check_validataion_of_email(string email)
 
 void Controller::control_login(map<string, string> command)
 {
-	if (!data->find_user(command[USERNAME]))
-		throw NotFound();
 	if ((command.find(USERNAME) == command.end()) ||
 		(command.find(PASSWORD) == command.end()))
 		throw BadRequest();
+	if (!data->find_user(command[USERNAME]))
+		throw NotFound();
 	if (command.size() > 3)
 		throw BadRequest();
 	if (!data->find_user(command[USERNAME])->check_password(command[PASSWORD]))
@@ -355,6 +355,6 @@ void Controller::control_buy(map<string, string> command)
 void Controller::check_if_number(string str)
 {
 	for (int i = 0; i < str.size(); i++)
-		if ((str[i] < ASCII_ZERO) && (str[i] > ASCII_NINE))
+		if ((str[i] < ASCII_ZERO) || (str[i] > ASCII_NINE))
 			throw BadRequest();
 }

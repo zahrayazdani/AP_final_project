@@ -14,6 +14,7 @@ private:
 	std::vector<Film*> published_films;
 	std::vector<User*> followers;
 	int money_from_films;
+	User* find_follower(std::string username);
 public:
 	Publisher(std::map<std::string, std::string> info);
 	Film* find_published_film(int id);
