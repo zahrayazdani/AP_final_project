@@ -33,9 +33,7 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 }
 
 //notif
-//cast
 //check
-//type moteghayera
 //tamiz kardan functiona
 
 void CommandHandler::handle_post_commands()
@@ -220,12 +218,12 @@ void CommandHandler::login()
 void CommandHandler::add_film()
 {
 	curr_command[FILM_ID] = to_string(data->get_new_film_id());
-	Film* new_film = data->get_active_user()->add_film(curr_command);
+	Film* new_film = ((Publisher*)(data->get_active_user()))->add_film(curr_command);
 	data->add_new_film(new_film);
 }
 
 void CommandHandler::reply()
 {
-	data->get_active_user()->reply_comment(curr_command);
+	((Publisher*)(data->get_active_user()))->reply_comment(curr_command);
 	/////////////////
 }

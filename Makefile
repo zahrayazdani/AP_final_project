@@ -17,7 +17,7 @@ CommandHandler.o: CommandHandler.cpp CommandHandler.h Controller.h Data.h define
 User.o: User.cpp User.h Publisher.h Film.h Comment.h define.h
 	$(CC) -c User.cpp
 
-Publisher.o: Publisher.cpp Publisher.h User.h Film.h Exceptions.h define.h
+Publisher.o: Publisher.cpp Publisher.h User.h Film.h Exceptions.h define.h Comment.h
 	$(CC) -c Publisher.cpp
 
 Film.o: Film.cpp Film.h Comment.h Exceptions.h define.h
