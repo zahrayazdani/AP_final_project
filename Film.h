@@ -18,6 +18,7 @@ private:
 	std::string summary;
 	std::string director;
 	float rate;
+	std::vector<float> scores;
 	std::string publisher_username;
 	std::vector<Comment*> comments;
 	int id;
@@ -33,6 +34,7 @@ public:
 	FilmInfo set_info();
 	bool is_in_range(std::vector<std::string> info);
 	bool is_deleted();
+	std::string add_new_rate(int score);
 };
 
 #endif

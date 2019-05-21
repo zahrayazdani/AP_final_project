@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "Exceptions.h"
 #include "Publisher.h"
 #include "Film.h"
@@ -73,12 +74,8 @@ Film* Publisher::find_published_film(string film_name)
 void Publisher::reply_comment(map<string, string> info)
 {
 	find_published_film(stoi(info[FILM_ID]))->reply_comment(stoi(info[COMMENT_ID]), info[CONTENT]);
-	string notif;
-	notif += "Publisher ";
-	notif += username;
-	notif += " with id ";
-	notif += id;
-	notif += " reply to your comment.";
+	stringstream notif;
+	notif << "Publisher " << username << " with id " << id << " reply to your comment.";
 	string comment_writer = find_published_film(stoi(info[FILM_ID]))->
 		find_comment(stoi(info[COMMENT_ID]))->get_writer();
 	find_follower(comment_writer)->add_new_notif(notif);
@@ -122,12 +119,8 @@ void Publisher::reply_comment(map<string, string> info)
 
 void Publisher::send_add_film_notif()
 {
-	string notif;
-	notif += "Publisher ";
-	notif += username;
-	notif += " with id ";
-	notif += id;
-	notif += " register new film.";
+	stringstream notif;
+	notif << "Publisher " << username << " with id " << id << " register new film.";
 	for (int i = 0; i < followers.size(); i++)
 		followers[i]->add_new_notif(notif);
 }

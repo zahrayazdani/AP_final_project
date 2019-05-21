@@ -146,7 +146,7 @@ void Controller::control_comment(map<string, string> command)
 void Controller::does_user_have_the_film(int film_id)
 {
 	if (data->find_film(film_id) == NULL)
-		throw BadRequest();
+		throw NotFound();
 	if (data->get_active_user()->find_film(film_id) == NULL)
 		throw PermissionDenied();
 }

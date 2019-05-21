@@ -1,3 +1,4 @@
+#include <sstream>
 #include "CommandHandler.h"
 #include "Controller.h"
 #include "Data.h"
@@ -65,7 +66,6 @@ void CommandHandler::handle_post_commands()
 	else if (command == FOLLOWERS)
 	{
 		controller->control_follow(curr_command);
-		//notif
 		follow();
 	}
 	else if (command == BUY)
@@ -79,7 +79,7 @@ void CommandHandler::handle_post_commands()
 	{
 		controller->control_rate(curr_command);
 		//notif
-		//rate();
+		rate();
 	}
 	else if (command == COMMENTS)
 	{
@@ -228,5 +228,15 @@ void CommandHandler::reply()
 
 void CommandHandler::follow()
 {
-	data->get_active_user()->follow((Publisher*)(data->find_user(curr_command[USER_ID])));
+	curr_user = data->get_active_user()
+	stringstream notif;
+	notif << "User " << curr_user->get_username() << " with id "  << curr_user->get_id <<
+		 " follow you.";
+	curr_user->follow((Publisher*)(data->find_user(stoi(curr_command[USER_ID]))));
+	data->find_user(stoi(curr_command[USER_ID]))->add_new_notif(notif);
+}
+
+void CommandHandler::rate()
+{
+	data->get_active_user(rate_film(stoi(curr_command[FILM_ID]), stoi(curr_command[SCORE])));	
 }

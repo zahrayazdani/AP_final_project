@@ -33,6 +33,7 @@ public:
 	Film* find_film(int id);
 	void add_new_notif(std::string notif);
 	void follow(Publisher* publisher);
+	Publisher* find_publisher(std::string publisher_name);
 };
 
 #endif

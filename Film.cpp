@@ -128,3 +128,10 @@ bool Film::is_deleted()
 {
 	return deleted;
 }
+
+string Film::add_new_rate(int score)
+{
+	scores.push_back(score);
+	rate = (rate + score) / scores.size();
+	return publisher_username;
+}
