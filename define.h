@@ -74,5 +74,7 @@ struct FilmInfo
 #define AT '@'
 #define DOT '.'
 #define AMOUNT "amount"
+#define ASCII_ZERO '0'
+#define ASCII_NINE '9'
 
 #endif

@@ -1,4 +1,3 @@
-#include <typeinfo>
 #include "Controller.h"
 #include "Data.h"
 #include "Exceptions.h"
@@ -21,8 +20,7 @@ void Controller::control_signup(map<string, string> command)
 		(command.find(EMAIL) == command.end()) || 
 		(command.find(AGE) == command.end()))
 		throw BadRequest();
-	if (typeid(command[AGE]) != typeid(int))
-		throw BadRequest();
+	check_if_number(command[AGE]);
 	if (data->find_user(command[USERNAME]) != NULL)
 		throw BadRequest();
 	if (command.size() > 6)
@@ -71,9 +69,9 @@ void Controller::control_add_film(map<string, string> command)
 		throw BadRequest();
 	if (command.size() > 7)
 		throw BadRequest();
-	if ((typeid(command[YEAR]) != typeid(int)) || (typeid(command[LENGTH]) != typeid(int)) ||
-		(typeid(command[PRICE]) != typeid(int)))
-		throw BadRequest();
+	check_if_number(command[YEAR]);
+	check_if_number(command[LENGTH]);
+	check_if_number(command[PRICE]);
 	if (data->(Publisher*)get_active_user()-> find_published_film(command[NAME]) != NULL)
 		throw BadRequest();
 }
@@ -90,8 +88,8 @@ void Controller::control_reply(map<string, string> command)
 		throw BadRequest();
 	if (command.size() > 4)
 		throw BadRequest();
-	if ((typeid(command[FILM_ID]) != typeid(int)) || (typeid(command[COMMENT_ID]) != typeid(int)))
-		throw BadRequest();
+	check_if_number(command[FILM_ID]);
+	check_if_number(command[COMMENT_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
 	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
@@ -109,8 +107,7 @@ void Controller::control_follow(map<string, string> command)
 		throw BadRequest();
 	if (command.size() > 2)
 		throw BadRequest();
-	if (typeid(command[USER_ID]) != typeid(int))
-		throw BadRequest();
+	check_if_number(command[USER_ID]);
 	if (data->find_user(stoi(command[USER_ID])) == NULL)
 		throw NotFound();
 	if (!data->find_user(stoi(command[USER_ID]))->is_publisher())
@@ -126,8 +123,8 @@ void Controller::control_rate(map<string, string> command)
 		throw BadRequest();
 	if (command.size() > 3)
 		throw BadRequest();
-	if ((typeid(command[FILM_ID]) != typeid(int)) || (typeid(command[SCORE]) != typeid(int)))
-		throw BadRequest();
+	check_if_number(command[FILM_ID]);
+	check_if_number(command[SCORE]);
 	if ((stoi(command[SCORE]) > MAX_SCORE) || (stoi(command[SCORE]) < MIN_SCORE))
 		throw BadRequest();
 	does_user_have_the_film(stoi(command[FILM_ID]));
@@ -142,8 +139,7 @@ void Controller::control_comment(map<string, string> command)
 		throw BadRequest();
 	if (command.size() > 3)
 		throw BadRequest();
-	if (typeid(command[FILM_ID]) != typeid(int))
-		throw BadRequest();
+	check_if_number(command[FILM_ID]);
 	does_user_have_the_film(stoi(command[FILM_ID]));
 }
 
@@ -165,8 +161,7 @@ void Controller::control_edit_film(map<string, string> command)
 		throw BadRequest();
 	if (command.size() > 7)
 		throw BadRequest();
-	if (typeid(command[FILM_ID]) != typeid(int))
-		throw BadRequest();
+	check_if_number(command[FILM_ID]);
 	check_edit_film_optional_datas(command);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
@@ -181,9 +176,10 @@ void Controller::check_edit_film_optional_datas(map<string, string> command)
 		if ((it->first != NAME) && (it->first != YEAR) && (it->first != LENGTH) &&
 			(it->first != SUMMARY) && (it->first != DIRECTOR))
 			throw BadRequest();
-		if (((it->first == YEAR) && (typeid(it->second) != typeid(int))) ||
-			((it->first == LENGTH) && (typeid(it->second) != typeid(int))))
-			throw BadRequest();
+		if (it->first == YEAR)
+			check_if_number(it->second);
+		if (it->first == LENGTH)
+			check_if_number(it->second);
 	}
 }
 
@@ -197,8 +193,7 @@ void Controller::control_delete_film(map<string, string> command)
 		throw BadRequest();
 	if (command.size() > 2)
 		throw BadRequest();
-	if (typeid(command[FILM_ID]) != typeid(int))
-		throw BadRequest();
+	check_if_number(command[FILM_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
 	if (data->(Publisher*)get_active_user()-> find_published_film(stoi(command[FILM_ID])) == NULL)
@@ -216,8 +211,8 @@ void Controller::control_delete_comment(map<string, string> command)
 		throw BadRequest();
 	if (command.size() > 3)
 		throw BadRequest();
-	if ((typeid(command[FILM_ID]) != typeid(int)) || (typeid(command[COMMENT_ID]) != typeid(int)))
-		throw BadRequest();
+	check_if_number(command[FILM_ID]);
+	check_if_number(command[COMMENT_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
 	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
@@ -253,11 +248,14 @@ void Controller::check_search_films_optional_datas(map<string, string> command)
 		if ((it->first != NAME) && (it->first != MINRATE) && (it->first != MAXYEAR) &&
 			(it->first != MINYEAR) && (it->first != PRICE) && (it->first != DIRECTOR))
 			throw BadRequest();
-		if (((it->first == MINRATE) && (typeid(it->second) != typeid(int))) ||
-			((it->first == MAXYEAR) && (typeid(it->second) != typeid(int))) ||
-			(it->first == MINYEAR) && (typeid(it->second) != typeid(int)) ||
-			((it->first == PRICE) && (typeid(it->second) != typeid(int))))
-			throw BadRequest();
+		if (it->first == MINRATE)
+			check_if_number(it->second);
+		if (it->first == MAXYEAR)
+			check_if_number(it->second);
+		if (it->first == MINYEAR)
+			check_if_number(it->second);
+		if (it->first == PRICE)
+			check_if_number(it->second);
 	}
 }
 
@@ -277,10 +275,12 @@ void Controller::check_get_bought_films_optional_datas(map<string, string> comma
 		if ((it->first != NAME) && (it->first != MAXYEAR) && (it->first != MINYEAR) &&
 			(it->first != PRICE) && (it->first != DIRECTOR))
 			throw BadRequest();
-		if (((it->first == MAXYEAR) && (typeid(it->second) != typeid(int))) ||
-			(it->first == MINYEAR) && (typeid(it->second) != typeid(int)) ||
-			((it->first == PRICE) && (typeid(it->second) != typeid(int))))
-			throw BadRequest();
+		if (it->first == MAXYEAR)
+			check_if_number(it->second);
+		if (it->first == MINYEAR)
+			check_if_number(it->second);
+		if (it->first == PRICE)
+			check_if_number(it->second);
 	}
 }
 
@@ -316,8 +316,7 @@ void Controller::control_charge_account(map<string, string> command)
 		throw PermissionDenied();
 	if (command.size() > 2)
 		throw BadRequest();
-	if (typeid(command[AMOUNT]) != typeid(int))
-		throw BadRequest();
+	check_if_number(command[AMOUNT]);
 }
 
 void Controller::control_search(map<string, string> command)
@@ -335,8 +334,7 @@ void Controller::control_show_film_details(map<string, string> command)
 		throw PermissionDenied();
 	if (command.size() > 2)
 		throw BadRequest();
-	if (typeid(command[FILM_ID]) != typeid(int))
-		throw BadRequest();
+	check_if_number(command[FILM_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
 }
@@ -349,8 +347,14 @@ void Controller::control_buy(map<string, string> command)
 		throw BadRequest();
 	if (command.size() > 2)
 		throw BadRequest();
-	if (typeid(command[FILM_ID]) != typeid(int))
-		throw BadRequest();
+	check_if_number(command[FILM_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
+}
+
+void Controller::check_if_number(string str)
+{
+	for (int i = 0; i < str.size(); i++)
+		if ((str[i] < ASCII_ZERO) && (str[i] > ASCII_NINE))
+			throw BadRequest();
 }
