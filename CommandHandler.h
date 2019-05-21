@@ -27,6 +27,8 @@ private:
 	void reply();
 	void follow();
 	void rate();
+	void comment();
+	void charge_account();
 public:
 	CommandHandler();
 	void handle_command(std::map<std::string, std::string> _curr_command);

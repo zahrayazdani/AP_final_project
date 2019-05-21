@@ -33,9 +33,6 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		throw BadRequest();
 }
 
-//check
-//tamiz kardan functiona
-
 void CommandHandler::handle_post_commands()
 {
 	string command = curr_command[POST];
@@ -78,14 +75,12 @@ void CommandHandler::handle_post_commands()
 	else if (command == RATE)
 	{
 		controller->control_rate(curr_command);
-		//notif
 		rate();
 	}
 	else if (command == COMMENTS)
 	{
 		controller->control_comment(curr_command);
-		//notif
-		//comment();
+		comment();
 	}
 	else
 		throw NotFound();
@@ -102,7 +97,7 @@ void CommandHandler::handle_post_money_commands()
 	else
 	{
 		controller->control_charge_account(curr_command);
-		//charge_account;
+		charge_account();
 	}
 }
 
@@ -228,7 +223,7 @@ void CommandHandler::reply()
 
 void CommandHandler::follow()
 {
-	curr_user = data->get_active_user()
+	User* curr_user = data->get_active_user();
 	stringstream notif;
 	notif << "User " << curr_user->get_username() << " with id "  << curr_user->get_id <<
 		 " follow you.";
@@ -238,5 +233,15 @@ void CommandHandler::follow()
 
 void CommandHandler::rate()
 {
-	data->get_active_user(rate_film(stoi(curr_command[FILM_ID]), stoi(curr_command[SCORE])));	
+	data->get_active_user()->rate_film(stoi(curr_command[FILM_ID]), stoi(curr_command[SCORE]));	
+}
+
+void CommandHandler::comment()
+{
+	data->get_active_user()->comment(stoi(curr_command[FILM_ID]), curr_command[CONTENT]);
+}
+
+void CommandHandler::charge_account()
+{
+	data->get_active_user()->charge_account(stoi(curr_command[AMOUNT]));
 }

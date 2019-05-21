@@ -34,6 +34,10 @@ public:
 	void add_new_notif(std::string notif);
 	void follow(Publisher* publisher);
 	Publisher* find_publisher(std::string publisher_name);
+	int get_new_comment_id();
+	void comment(int film_id, std::string content);
+	void charge_account(int amount);
+	void rate_film(int film_id, int score);
 };
 
 #endif

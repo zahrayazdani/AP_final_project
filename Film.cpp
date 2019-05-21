@@ -17,6 +17,7 @@ Film::Film(map<string, string> info)
 	publisher_username = info[PUBLISHER];
 	rate = FIRST_RATE;
 	deleted = false;
+	comment_id = FIRST_ID;
 }
 
 int Film::get_id()
@@ -133,5 +134,18 @@ string Film::add_new_rate(int score)
 {
 	scores.push_back(score);
 	rate = (rate + score) / scores.size();
+	return publisher_username;
+}
+
+int Film::get_new_comment_id()
+{
+	comment_id++;
+	return commnt_id;
+}
+
+string Film::add_new_comment(int content, string writer)
+{
+	Comment* new_comment = new Comment(get_new_comment_id(), writer, content);
+	comment.push_back(new_comment);
 	return publisher_username;
 }

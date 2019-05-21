@@ -23,6 +23,7 @@ private:
 	std::vector<Comment*> comments;
 	int id;
 	bool deleted;
+	int comment_id;
 public:
 	Film(std::map<std::string, std::string> info);
 	int get_id();
@@ -35,6 +36,7 @@ public:
 	bool is_in_range(std::vector<std::string> info);
 	bool is_deleted();
 	std::string add_new_rate(int score);
+	std::string add_new_comment(int content, std::string writer);
 };
 
 #endif

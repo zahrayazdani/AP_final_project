@@ -12,7 +12,7 @@ private:
 	std::string content;
 	std::vector<std::string> replies;
 public:
-	// Comment();
+	Comment(int _id, std::string _writer, std::string _content);
 	int get_id();
 	void add_reply(std::string reply_message);
 	std::string get_writer();
