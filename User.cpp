@@ -89,5 +89,6 @@ void User::comment(int film_id, string content)
 
 void User::charge_account(int amount)
 {
+	//dfsf
 	money += amount;
 }
