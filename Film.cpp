@@ -149,3 +149,8 @@ string Film::add_new_comment(string content, string writer)
 	comments.push_back(new_comment);
 	return publisher_username;
 }
+
+void Film::change_delete_stat()
+{
+	deleted = true;
+}

@@ -38,6 +38,7 @@ public:
 	int get_new_comment_id();
 	std::string add_new_rate(int score);
 	std::string add_new_comment(std::string content, std::string writer);
+	void change_delete_stat();
 };
 
 #endif

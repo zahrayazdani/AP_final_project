@@ -118,7 +118,7 @@ void CommandHandler::handle_delete_commands()
 	if (curr_command[DELETE] == FILMS)
 	{
 		controller->control_delete_film(curr_command);
-		//delete_film();
+		delete_film();
 	}
 	else if (curr_command[DELETE] == COMMENTS)
 	{
@@ -249,4 +249,9 @@ void CommandHandler::charge_account()
 void CommandHandler::edit_film()
 {
 	((Publisher*)(data->get_active_user()))->edit_film(curr_command);
+}
+
+void CommandHandler::delete_film()
+{
+	((Publisher*)(data->get_active_user()))->delete_film(stoi(curr_command[FILM_ID]));
 }

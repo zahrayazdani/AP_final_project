@@ -81,19 +81,10 @@ void Publisher::reply_comment(map<string, string> info)
 	find_follower(comment_writer)->add_new_notif(notif.str());
 }
 
-// void Publisher::delete_film(int id)
-// {
-// 	Film* film;
-// 	try
-// 	{
-// 		film = find_published_film(id);
-// 	}catch (exception& exception)
-// 	{
-// 		cout << exception.what() << endl;
-// 		return;
-// 	}
-// 	delete film;
-// }
+void Publisher::delete_film(int id)
+{
+	find_published_film(id)->change_delete_stat();
+}
 
 void Publisher::edit_film(map<string, string> info)
 {
