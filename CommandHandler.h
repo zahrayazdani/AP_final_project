@@ -31,6 +31,7 @@ private:
 	void charge_account();
 	void edit_film();
 	void delete_film();
+	void delete_comment();
 public:
 	CommandHandler();
 	void handle_command(std::map<std::string, std::string> _curr_command);

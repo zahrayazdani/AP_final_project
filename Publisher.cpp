@@ -57,19 +57,10 @@ Film* Publisher::find_published_film(string film_name)
 	return NULL;
 }
 
-// void Publisher::delete_comment(map<string, string> info)
-// {
-// 	Film* film;
-// 	try
-// 	{
-// 		film = find_published_film(stoi(info[3]));
-// 	}catch (exception& exception)
-// 	{
-// 		cout << exception.what() << endl;
-// 		return;
-// 	}
-// 	film->delete_comment(stoi(info[5]));
-// }
+void Publisher::delete_comment(int film_id, int comment_id)
+{
+	find_published_film(film_id)->delete_comment(comment_id);
+}
 
 void Publisher::reply_comment(map<string, string> info)
 {

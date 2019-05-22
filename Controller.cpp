@@ -218,7 +218,7 @@ void Controller::control_delete_comment(map<string, string> command)
 	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
 		throw PermissionDenied();
 	if (data->get_active_user()->find_film(stoi(command[FILM_ID]))
-		->find_comment(stoi(command[COMMENT_ID])) == 	NULL)
+		->find_comment(stoi(command[COMMENT_ID])) == NULL)
 		throw NotFound();
 }
 

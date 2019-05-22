@@ -33,24 +33,15 @@ string Film::get_name()
 Comment* Film::find_comment(int id)
 {
 	for (int i = 0; i < comments.size(); i++)
-		if (comments[i]->get_id() == id)
+		if ((comments[i]->get_id() == id) && (!comments[i]->is_deleted()))
 			return comments[i];
 	return NULL;
 }
 
-// void Film::delete_comment(int id)
-// {
-// 	Comment* comment;
-// 	try
-// 	{
-// 		comment = find_comment(id);
-// 	}catch (exception& exception)
-// 	{
-// 		cout << exception.what() << endl;
-// 		return;
-// 	}
-// 	delete comment;
-// }
+void Film::delete_comment(int id)
+{
+	find_comment(id)->change_delete_stat();
+}
 
 void Film::reply_comment(int id, string content)
 {

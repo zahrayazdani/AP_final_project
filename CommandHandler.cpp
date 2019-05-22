@@ -123,7 +123,7 @@ void CommandHandler::handle_delete_commands()
 	else if (curr_command[DELETE] == COMMENTS)
 	{
 		controller->control_delete_comment(curr_command);
-		//delete_comment;
+		delete_comment();
 	}
 	else
 		throw NotFound();
@@ -254,4 +254,10 @@ void CommandHandler::edit_film()
 void CommandHandler::delete_film()
 {
 	((Publisher*)(data->get_active_user()))->delete_film(stoi(curr_command[FILM_ID]));
+}
+
+void CommandHandler::delete_comment()
+{
+	((Publisher*)(data->get_active_user()))->delete_comment(stoi(curr_command[FILM_ID]), 
+		stoi(curr_command[COMMENT_ID]));
 }

@@ -26,7 +26,7 @@ public:
 	//money
 	//std::vector<FilmInfo> get_published_films(std::map<std::string, std::string> info);
 	void reply_comment(std::map<std::string, std::string> info);
-	void delete_comment(std::map<std::string, std::string> info);
+	void delete_comment(int film_id, int comment_id);
 	void send_add_film_notif();
 };
 
