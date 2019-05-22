@@ -84,3 +84,12 @@ void Data::decrease_network_money(int money)
 {
 	network_money -= money;
 }
+
+vector<FilmInfo> Data::search(map<string, string> info)
+{
+	vector<FilmInfo> films_info;
+	for (int i = 0; i < films.size(); i++)
+		if (films[i]->is_in_range(info) && (!films[i]->is_deleted()))
+			films_info.push_back(films[i]->set_info());
+	return films_info;
+}

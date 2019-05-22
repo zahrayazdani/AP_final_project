@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 class User;
 class Film;
@@ -30,6 +31,7 @@ public:
 	void add_new_film(Film* new_film);
 	User* increase_network_money(int film_id);
 	void decrease_network_money(int money);
+	std::vector<FilmInfo> search(std::map<std::string, std::string> info);
 };
 
 #endif

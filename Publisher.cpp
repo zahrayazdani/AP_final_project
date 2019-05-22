@@ -88,8 +88,9 @@ vector<FilmInfo> Publisher::get_published_films(map<string, string> info)
 {
 	vector<FilmInfo> films_info;
 	for (int i = 0; i < published_films.size(); i++)
-		if (published_films[i]->is_in_range(info))
+		if (published_films[i]->is_in_range(info) && (!published_films[i]->is_deleted()))
 			films_info.push_back(published_films[i]->set_info());
+	return films_info;
 }
 
 void Publisher::send_add_film_notif()

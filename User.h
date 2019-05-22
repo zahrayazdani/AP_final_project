@@ -43,6 +43,7 @@ public:
 	std::string buy_new_film(Film* new_film);
 	std::vector<FilmInfo> get_bought_films(std::map<std::string, std::string> info);
 	std::vector<std::string> get_notifs();
+	std::vector<std::vector<std::string>> get_readen_notifs();
 };
 
 #endif

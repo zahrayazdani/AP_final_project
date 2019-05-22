@@ -168,8 +168,7 @@ void CommandHandler::handle_get_films_commands()
 	if (curr_command.find(FILM_ID) == curr_command.end())
 	{
 		controller->control_search(curr_command);
-		//search;
-		//print
+		printer->print_films(search());
 	}
 	else
 	{
@@ -293,5 +292,10 @@ vector<string> CommandHandler::get_notifs()
 
 vector<vector<string>> CommandHandler::get_readen_notifs()
 {
+	return data->get_active_user()->get_readen_notifs();
+}
 
+vector<FilmInfo> CommandHandler::search()
+{
+	return data->search(curr_command);	
 }

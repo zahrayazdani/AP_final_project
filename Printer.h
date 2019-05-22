@@ -15,6 +15,7 @@ public:
 	void print_followers(std::vector<FollowersInfo> followers);
 	void print_films(std::vector<FilmInfo> films);
 	void print_notifs(std::vector<std::string> notifs);
+	void print_readen_notifs(std::vector<std::string>);
 };
 
 #endif
