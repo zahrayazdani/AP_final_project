@@ -145,3 +145,13 @@ void Film::change_delete_stat()
 {
 	deleted = true;
 }
+
+int Film::get_price()
+{
+	return price;
+}
+
+string Film::get_publisher_username()
+{
+	return publisher_username;
+}

@@ -9,7 +9,10 @@
 using namespace std;
 
 Publisher::Publisher(map<string, string> info)
- : User(info) {}
+ : User(info)
+ {
+ 	money_from_films = debt_money = 0;
+ }
 
 Film* Publisher::add_film(map<string, string> info)
 {
@@ -96,4 +99,9 @@ void Publisher::send_add_film_notif()
 	notif << "Publisher " << username << " with id " << id << " register new film.";
 	for (int i = 0; i < followers.size(); i++)
 		followers[i]->add_new_notif(notif.str());
+}
+
+void Publisher::increase_debt(int film_price)
+{
+	debt_money += film_price;
 }

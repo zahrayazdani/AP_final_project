@@ -28,6 +28,8 @@ public:
 	Film(std::map<std::string, std::string> info);
 	int get_id();
 	std::string get_name();
+	int get_price();
+	std::string get_publisher_username();
 	Comment* find_comment(int id);
 	void delete_comment(int id);
 	void reply_comment(int id, std::string content);

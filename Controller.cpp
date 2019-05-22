@@ -350,6 +350,9 @@ void Controller::control_buy(map<string, string> command)
 	check_if_number(command[FILM_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
+	if (!data->get_active_user()->
+		check_can_buy_film(data->find_film(stoi(command[FILM_ID]))->get_price()))
+		throw PermissionDenied();
 }
 
 void Controller::check_if_number(string str)

@@ -14,6 +14,7 @@ private:
 	std::vector<Film*> published_films;
 	std::vector<User*> followers;
 	int money_from_films;
+	int debt_money;
 	User* find_follower(std::string username);
 public:
 	Publisher(std::map<std::string, std::string> info);
@@ -28,6 +29,7 @@ public:
 	void reply_comment(std::map<std::string, std::string> info);
 	void delete_comment(int film_id, int comment_id);
 	void send_add_film_notif();
+	void increase_debt(int film_price);
 };
 
 #endif

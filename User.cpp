@@ -18,6 +18,7 @@ User::User(map<string, string> info)
 		publisher = true;
 	else
 		publisher = false;
+	money = 0;
 }
 
 string User::get_username()
@@ -91,4 +92,19 @@ void User::comment(int film_id, string content)
 void User::charge_account(int amount)
 {
 	money += amount;
+}
+
+bool User::check_can_buy_film(int film_price)
+{
+	if (film_price > money)
+		return false;
+}
+
+string User::buy_new_film(Film* new_film)
+{
+	bought_films.push_back(new_film);
+	stringstream notif;
+	notif << "User " << username << " with id " << id << " buy your film " << new_film->get_name() <<
+		" with id " << new_film->get_id();
+	return notif.str();
 }

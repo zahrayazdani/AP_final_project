@@ -68,9 +68,7 @@ void CommandHandler::handle_post_commands()
 	else if (command == BUY)
 	{
 		controller->control_buy(curr_command);
-		//check pool
-		//notif
-		//buy();
+		buy();
 	}
 	else if (command == RATE)
 	{
@@ -260,4 +258,12 @@ void CommandHandler::delete_comment()
 {
 	((Publisher*)(data->get_active_user()))->delete_comment(stoi(curr_command[FILM_ID]), 
 		stoi(curr_command[COMMENT_ID]));
+}
+
+void CommandHandler::buy()
+{
+	Film* film = data->find_film(stoi(curr_command[FILM_ID]));
+	string notif = data->get_active_user()->buy_new_film(film);
+	User* publisher = data->increase_network_money(stoi(curr_command[FILM_ID]));
+	publisher->add_new_notif(notif);
 }

@@ -10,6 +10,7 @@ Data::Data()
 {
 	user_id = FIRST_ID;
 	film_id = FIRST_ID;
+	network_money = 0;
 	active_user = NULL;
 }
 
@@ -67,4 +68,13 @@ int Data::get_new_film_id()
 void Data::add_new_film(Film* new_film)
 {
 	films.push_back(new_film);
+}
+
+User* Data::increase_network_money(int film_id)
+{
+	string publisher_username = find_film(film_id)->get_publisher_username();
+	int film_price = find_film(film_id)->get_price();
+	network_money += film_price;
+	((Publisher*)(find_user(publisher_username)))->increase_debt(film_price);
+	return find_user(publisher_username);
 }

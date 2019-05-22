@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-#include <map>
 
 class User;
 class Film;
@@ -18,7 +17,6 @@ private:
 	int film_id;
 	User* active_user;
 	int network_money;
-	std::map<Publisher*, int> publishers_money;
 public:
 	Data();
 	User* find_user(std::string username);
@@ -30,6 +28,7 @@ public:
 	int get_new_user_id();
 	int get_new_film_id();
 	void add_new_film(Film* new_film);
+	User* increase_network_money(int film_id);
 };
 
 #endif
