@@ -44,3 +44,10 @@ bool Printer::compare_by_film_id(const FilmInfo& num1, const FilmInfo& num2)
 {
 	return num1.id < num2.id;
 }
+
+void Printer::print_notifs(vector<string> notifs)
+{
+	cout << "#. Notification Message" << endl;
+	for (int i = notifs.size() - 1; i >= 0; i--)
+		cout << notifs.size() - i << ". " << notifs[i] << endl;
+}

@@ -2,6 +2,7 @@
 #define PRINTER_H
 
 #include <vector>
+#include <string>
 #include "define.h"
 
 class Printer
@@ -13,6 +14,7 @@ public:
 	void print_success_message();
 	void print_followers(std::vector<FollowersInfo> followers);
 	void print_films(std::vector<FilmInfo> films);
+	void print_notifs(std::vector<std::string> notifs);
 };
 
 #endif

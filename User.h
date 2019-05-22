@@ -22,7 +22,7 @@ protected:
 	std::vector<Publisher*> following;
 	std::vector<Film*> bought_films;
 	int money;
-	std::vector<std::string> readen_notifs;
+	std::vector<std::vector<std::string>> readen_notifs;
 	std::vector<std::string> unread_notifs;
 public:
 	User(std::map<std::string, std::string> info);
@@ -42,6 +42,7 @@ public:
 	void rate_film(int film_id, int score);
 	std::string buy_new_film(Film* new_film);
 	std::vector<FilmInfo> get_bought_films(std::map<std::string, std::string> info);
+	std::vector<std::string> get_notifs();
 };
 
 #endif

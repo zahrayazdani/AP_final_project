@@ -39,6 +39,8 @@ private:
 	std::vector<FollowersInfo> get_followers();
 	std::vector<FilmInfo> get_published_films();
 	std::vector<FilmInfo> get_bought_films();
+	std::vector<std::string> get_notifs();
+	std::vector<std::vector<std::string>> get_readen_notifs();
 public:
 	CommandHandler();
 	void handle_command(std::map<std::string, std::string> _curr_command);

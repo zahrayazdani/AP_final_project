@@ -117,10 +117,18 @@ string User::buy_new_film(Film* new_film)
 	return EMPTY_STRING;
 }
 
-vector<FilmInfo> Publisher::get_published_films(map<string, string> info)
+vector<FilmInfo> User::get_bought_films(map<string, string> info)
 {
 	vector<FilmInfo> films_info;
 	for (int i = 0; i < bought_films.size(); i++)
 		if (bought_films[i]->is_in_range(info))
 			films_info.push_back(bought_films[i]->set_info());
+}
+
+vector<string> User::get_notifs()
+{
+	readen_notifs.push_back(unread_notifs);
+	for (int i = 0; i < unread_notifs.size(); i++)
+		unread_notifs.pop_back();
+	return readen_notifs[readen_notifs.size() - 1];
 }

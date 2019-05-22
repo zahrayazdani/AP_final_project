@@ -152,14 +152,12 @@ void CommandHandler::handle_get_commands()
 	else if (command == NOTIFS)
 	{
 		controller->control_get_notifs(curr_command);
-		//get_notifs();
-		//print
+		printer->print_notifs(get_notifs());
 	}
 	else if (command == READEN_NOTIFS)
 	{
 		controller->control_get_readen_notifs(curr_command);
-		//get_readen_notifs();
-		//print
+		// printer->print_readen_notifs(get_readen_notifs());
 	}
 	else
 		throw NotFound();
@@ -286,4 +284,14 @@ vector<FilmInfo> CommandHandler::get_published_films()
 vector<FilmInfo> CommandHandler::get_bought_films()
 {
 	return data->get_active_user()->get_bought_films(curr_command);
+}
+
+vector<string> CommandHandler::get_notifs()
+{
+	return data->get_active_user()->get_notifs();
+}
+
+vector<vector<string>> CommandHandler::get_readen_notifs()
+{
+
 }
