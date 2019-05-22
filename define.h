@@ -78,5 +78,6 @@ struct FilmInfo
 #define ASCII_NINE '9'
 #define HIGH_RATE 8
 #define LOW_RATE 5
+#define EMPTY_STRING ""
 
 #endif

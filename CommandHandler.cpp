@@ -2,7 +2,6 @@
 #include "CommandHandler.h"
 #include "Controller.h"
 #include "Data.h"
-#include "define.h"
 #include "Printer.h"
 #include "Exceptions.h"
 #include "User.h"
@@ -134,8 +133,7 @@ void CommandHandler::handle_get_commands()
 	if (command == FOLLOWERS)
 	{
 		controller->control_get_followers(curr_command);
-		//get_followers();
-		//print
+		printer->print_followers(get_followers());
 	}
 	else if (command == PUBLISHED)
 	{
@@ -225,8 +223,8 @@ void CommandHandler::follow()
 	stringstream notif;
 	notif << "User " << curr_user->get_username() << " with id "  << curr_user->get_id() <<
 		 " follow you.";
-	curr_user->follow((Publisher*)(data->find_user(stoi(curr_command[USER_ID]))));
-	data->find_user(stoi(curr_command[USER_ID]))->add_new_notif(notif.str());
+	if (curr_user->follow((Publisher*)(data->find_user(stoi(curr_command[USER_ID])))))
+		data->find_user(stoi(curr_command[USER_ID]))->add_new_notif(notif.str());
 }
 
 void CommandHandler::rate()
@@ -264,12 +262,20 @@ void CommandHandler::buy()
 {
 	Film* film = data->find_film(stoi(curr_command[FILM_ID]));
 	string notif = data->get_active_user()->buy_new_film(film);
-	User* publisher = data->increase_network_money(stoi(curr_command[FILM_ID]));
-	publisher->add_new_notif(notif);
+	if (notif == EMPTY_STRING)
+	{
+		User* publisher = data->increase_network_money(stoi(curr_command[FILM_ID]));
+		publisher->add_new_notif(notif);
+	}
 }
 
 void CommandHandler::get_money_from_network()
 {
 	int money = ((Publisher*)(data->get_active_user()))->get_money_from_network();
 	data->decrease_network_money(money);
+}
+
+vector<FollowersInfo> CommandHandler::get_followers()
+{
+	return ((Publisher*)(data->get_active_user()))->get_followers();
 }

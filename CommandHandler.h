@@ -3,6 +3,8 @@
 
 #include <string>
 #include <map>
+#include <vector>
+#include "define.h"
 
 class Controller;
 class Data;
@@ -34,6 +36,7 @@ private:
 	void delete_comment();
 	void buy();
 	void get_money_from_network();
+	std::vector<FollowersInfo> get_followers();
 public:
 	CommandHandler();
 	void handle_command(std::map<std::string, std::string> _curr_command);

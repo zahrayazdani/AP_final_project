@@ -51,6 +51,7 @@ Publisher* User::find_publisher(string publisher_name)
 	for (int i = 0; i < following.size(); i++)
 		if (following[i]->get_username() == publisher_name)
 			return following[i];
+	return NULL;
 }
 
 Film* User::find_film(int id)
@@ -66,9 +67,13 @@ void User::add_new_notif(string notif)
 	unread_notifs.push_back(notif);
 }
 
-void User::follow(Publisher* publisher)
+bool User::follow(Publisher* publisher)
 {
-	following.push_back(publisher);
+	if (find_publisher(publisher->get_username()) == NULL)
+	{
+		following.push_back(publisher);
+		return true;
+	}
 }
 
 void User::rate_film(int film_id, int score)
@@ -102,9 +107,13 @@ bool User::check_can_buy_film(int film_price)
 
 string User::buy_new_film(Film* new_film)
 {
-	bought_films.push_back(new_film);
-	stringstream notif;
-	notif << "User " << username << " with id " << id << " buy your film " << new_film->get_name() <<
-		" with id " << new_film->get_id();
-	return notif.str();
+	if (find_film(new_film->get_id()) == NULL)
+	{
+		bought_films.push_back(new_film);
+		stringstream notif;
+		notif << "User " << username << " with id " << id << " buy your film " << new_film->get_name() <<
+			" with id " << new_film->get_id();
+		return notif.str();
+	}
+	return EMPTY_STRING;
 }

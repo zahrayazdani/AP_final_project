@@ -3,7 +3,6 @@
 #include "Exceptions.h"
 #include "Publisher.h"
 #include "Film.h"
-#include "define.h"
 #include "Comment.h"
 
 using namespace std;
@@ -30,19 +29,19 @@ User* Publisher::find_follower(string username)
 			return followers[i];
 }
 
-// vector<FollowersInfo> Publisher::get_followrs()
-// {
-// 	vector<FollowersInfo> followers_info;
-// 	FollowersInfo follower;
-// 	for (int i = 0; i < followers.size(); i++)
-// 	{
-// 		follower.user_id = followers[i]->get_id();
-// 		follower.username = followers[i]->get_username();
-// 		follower.email = followers[i]->get_email();
-// 		followers_info.push_back(follower);
-// 	}
-// 	return followers_info;
-// }
+vector<FollowersInfo> Publisher::get_followers()
+{
+	vector<FollowersInfo> followers_info;
+	FollowersInfo follower;
+	for (int i = 0; i < followers.size(); i++)
+	{
+		follower.user_id = followers[i]->get_id();
+		follower.username = followers[i]->get_username();
+		follower.email = followers[i]->get_email();
+		followers_info.push_back(follower);
+	}
+	return followers_info;
+}
 
 Film* Publisher::find_published_film(int id)
 {

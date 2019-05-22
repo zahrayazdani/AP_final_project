@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include "User.h"
+#include "define.h"
 
 class Film;
 
@@ -23,7 +24,7 @@ public:
 	Film* add_film(std::map<std::string, std::string> info);
 	void edit_film(std::map<std::string, std::string> info);
 	void delete_film(int id);
-	// std::vector<FollowersInfo> get_followrs();
+	std::vector<FollowersInfo> get_followers();
 	//money
 	//std::vector<FilmInfo> get_published_films(std::map<std::string, std::string> info);
 	void reply_comment(std::map<std::string, std::string> info);
