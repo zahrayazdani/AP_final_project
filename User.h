@@ -1,6 +1,7 @@
 #ifndef USER_H
 #define USER_H
 
+#include "define.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -40,6 +41,7 @@ public:
 	void charge_account(int amount);
 	void rate_film(int film_id, int score);
 	std::string buy_new_film(Film* new_film);
+	std::vector<FilmInfo> get_bought_films(std::map<std::string, std::string> info);
 };
 
 #endif

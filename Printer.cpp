@@ -26,7 +26,7 @@ bool Printer::compare_by_user_id(const FollowersInfo& num1, const FollowersInfo&
 	return num1.user_id < num2.user_id;
 }
 
-void Printer::print_published_films(vector<FilmInfo> films)
+void Printer::print_films(vector<FilmInfo> films)
 {
 	sort(films.begin(), films.end(), compare_by_film_id);
 	cout << 

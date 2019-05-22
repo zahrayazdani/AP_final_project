@@ -38,6 +38,7 @@ private:
 	void get_money_from_network();
 	std::vector<FollowersInfo> get_followers();
 	std::vector<FilmInfo> get_published_films();
+	std::vector<FilmInfo> get_bought_films();
 public:
 	CommandHandler();
 	void handle_command(std::map<std::string, std::string> _curr_command);

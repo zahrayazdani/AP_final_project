@@ -138,7 +138,7 @@ void CommandHandler::handle_get_commands()
 	else if (command == PUBLISHED)
 	{
 		controller->control_get_published_films(curr_command);
-		printer->print_published_films(get_published_films());
+		printer->print_films(get_published_films());
 	}
 	else if (command == FILMS)
 	{
@@ -147,8 +147,7 @@ void CommandHandler::handle_get_commands()
 	else if (command == PURCHASED)
 	{
 		controller->control_get_bought_films(curr_command);
-		//get_bought_films();
-		//print
+		printer->print_films(get_bought_films());
 	}
 	else if (command == NOTIFS)
 	{
@@ -282,4 +281,9 @@ vector<FollowersInfo> CommandHandler::get_followers()
 vector<FilmInfo> CommandHandler::get_published_films()
 {
 	return ((Publisher*)(data->get_active_user()))->get_published_films(curr_command);
+}
+
+vector<FilmInfo> CommandHandler::get_bought_films()
+{
+	return data->get_active_user()->get_bought_films(curr_command);
 }

@@ -3,7 +3,6 @@
 #include "Publisher.h"
 #include "Film.h"
 #include "Comment.h"
-#include "define.h"
 
 using namespace std;
 
@@ -116,4 +115,12 @@ string User::buy_new_film(Film* new_film)
 		return notif.str();
 	}
 	return EMPTY_STRING;
+}
+
+vector<FilmInfo> Publisher::get_published_films(map<string, string> info)
+{
+	vector<FilmInfo> films_info;
+	for (int i = 0; i < bought_films.size(); i++)
+		if (bought_films[i]->is_in_range(info))
+			films_info.push_back(bought_films[i]->set_info());
 }

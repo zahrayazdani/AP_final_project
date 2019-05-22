@@ -12,7 +12,7 @@ private:
 public:
 	void print_success_message();
 	void print_followers(std::vector<FollowersInfo> followers);
-	void print_published_films(std::vector<FilmInfo> films);
+	void print_films(std::vector<FilmInfo> films);
 };
 
 #endif
