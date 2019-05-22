@@ -1,398 +1,13 @@
-#ifndef COMMANDHANDLER_H
-#define COMMANDHANDLER_H
-
-#include <string>
-#include <map>
-
-class Controller;
-class Data;
-class Printer;
-
-class CommandHandler
-{
-private:
-	Printer* printer;
-	Data* data;
-	Controller* controller;
-	std::map<std::string, std::string> curr_command;
-	void handle_post_commands();
-	void handle_put_commands();
-	void handle_delete_commands();
-	void handle_get_commands();
-	void handle_post_money_commands();
-	void handle_get_films_commands();
-	void signup();
-	void login();
-	void add_film();
-	void reply();
-	void follow();
-public:
-	CommandHandler();
-	void handle_command(std::map<std::string, std::string> _curr_command);
-};
-
-#endif#ifndef COMMANDPARSER_H
-#define COMMANDPARSER_H
-
-#include <vector>
-#include <string>
-#include <map>
-
-class CommandParser
-{
-private:
-	std::map<std::string, std::string> change_vector_to_map(std::vector<std::string> vector);
-public:
-	std::map<std::string, std::string> parse_command(std::string command);
-};
-
-
-#endif#ifndef COMMENT_H
-#define COMMENT_H
-
-#include <string>
-#include <vector>
-
-class Comment
-{
-private:
-	int id;
-	std::string writer;
-	std::string content;
-	std::vector<std::string> replies;
-public:
-	// Comment();
-	int get_id();
-	void add_reply(std::string reply_message);
-	std::string get_writer();
-};
-
-#endif#ifndef CONTROLLER_H
-#define CONTROLLER_H
-
-#include <map>
-#include <string>
-
-class Data;
-
-class Controller
-{
-private:
-	Data* data;
-	void does_user_have_the_film(int film_id);
-	void check_search_films_optional_datas(std::map<std::string, std::string> command);
-	void check_edit_film_optional_datas(std::map<std::string, std::string> command);
-	void check_get_bought_films_optional_datas(std::map<std::string, std::string> command);
-	void check_validataion_of_email(std::string email);
-	void check_if_number(std::string str);
-public:
-	Controller(Data* _data);
-	void control_signup(std::map<std::string, std::string> command);
-	void control_login(std::map<std::string, std::string> command);
-	void control_add_film(std::map<std::string, std::string> command);
-	void control_reply(std::map<std::string, std::string> command);
-	void control_follow(std::map<std::string, std::string> command);
-	void control_rate(std::map<std::string, std::string> command);
-	void control_comment(std::map<std::string, std::string> command);
-	void control_delete_film(std::map<std::string, std::string> command);
-	void control_edit_film(std::map<std::string, std::string> command);
-	void control_delete_comment(std::map<std::string, std::string> command);
-	void control_get_followers(std::map<std::string, std::string> command);
-	void control_get_published_films(std::map<std::string, std::string> command);
-	void control_get_bought_films(std::map<std::string, std::string> command);
-	void control_get_notifs(std::map<std::string, std::string> command);
-	void control_get_readen_notifs(std::map<std::string, std::string> command);
-	void control_get_money_from_network(std::map<std::string, std::string> command);
-	void control_charge_account(std::map<std::string, std::string> command);
-	void control_show_film_details(std::map<std::string, std::string> command);
-	void control_search(std::map<std::string, std::string> command);
-	void control_buy(std::map<std::string, std::string> command);
-};
-
-#endif#ifndef DATA_H
-#define DATA_H
-
-#include <vector>
-#include <string>
-#include <map>
-
-class User;
-class Film;
-class Publisher;
-
-class Data
-{
-private:
-	std::vector<User*> users;
-	std::vector<Film*> films;
-	int user_id;
-	int film_id;
-	User* active_user;
-	int network_money;
-	std::map<Publisher*, int> publishers_money;
-public:
-	Data();
-	User* find_user(std::string username);
-	User* find_user(int id);
-	Film* find_film(int id);
-	User* get_active_user();
-	void change_active_user(User* new_active_user);
-	void add_new_user(User* new_user);
-	int get_new_user_id();
-	int get_new_film_id();
-	void add_new_film(Film* new_film);
-};
-
-#endif#ifndef DEFINE_H
-#define DEFINE_H
-
-#include <string>
-
-struct FollowersInfo
-{
-	int user_id;
-	std::string username;
-	std::string email;
-};
-
-struct FilmInfo
-{
-	int id;
-	std::string name;
-	int length;
-	int price;
-	float rate;
-	int year;
-	std::string director; 
-};
-
-#define NOTFOUND "Not Found"
-#define BADREQUEST "Bad Request"
-#define PERMISSIONDENIED "Permission Denied"
-#define FIRST_ID 0
-#define FIRST_RATE 0
-#define NAME "name"
-#define YEAR "year"
-#define LENGTH "length"
-#define SUMMARY "summary"
-#define DIRECTOR "director"
-#define USERNAME "username"
-#define MINRATE "min_rate"
-#define MINYEAR "min_year"
-#define MAXYEAR "max_year"
-#define PRICE "price"
-#define QUESTION_MARK "?"
-#define SPACE ' '
-#define POST "POST"
-#define PUT "PUT"
-#define DELETE "DELETE"
-#define GET "GET"
-#define READ "read"
-#define NOTIFS "notifications"
-#define OK "OK"
-#define SIGNUP "signup"
-#define LOGIN "login"
-#define FILMS "films"
-#define MONEY "money"
-#define REPLIES "replies"
-#define FOLLOWERS "followers"
-#define BUY "buy"
-#define RATE "rate"
-#define COMMENTS "comments"
-#define PUBLISHED "published"
-#define PURCHASED "purchased"
-#define READEN_NOTIFS "notificationsread"
-#define PASSWORD "password"
-#define EMAIL "email"
-#define AGE "age"
-#define FILM_ID "film_id"
-#define COMMENT_ID "comment_id"
-#define CONTENT "content"
-#define USER_ID "user_id"
-#define SCORE "score"
-#define MIN_SCORE 1
-#define MAX_SCORE 10
-#define LIMIT "limit"
-#define PUBLISHER "publisher"
-#define _TRUE "true"
-#define _FALSE "false"
-#define AT '@'
-#define DOT '.'
-#define AMOUNT "amount"
-#define ASCII_ZERO '0'
-#define ASCII_NINE '9'
-
-#endif#ifndef EXCEPTIONS_H
-#define EXCEPTIONS_H
-
-#include <exception>
-
-class NotFound : public std::exception
-{
-public:
-	virtual const char* what() const throw();
-};
-
-class BadRequest : public std::exception
-{
-public:
-	virtual const char* what() const throw();
-};
-
-class PermissionDenied : public std::exception
-{
-public:
-	virtual const char* what() const throw();
-};
-
-#endif#ifndef FILM_H
-#define FILM_H
-
-#include <string>
-#include <vector>
-#include <map>
-#include "define.h"
-
-class Comment;
-
-class Film
-{
-private:
-	std::string name;
-	int year;
-	int length;
-	int price;
-	std::string summary;
-	std::string director;
-	float rate;
-	std::string publisher_username;
-	std::vector<Comment*> comments;
-	int id;
-	bool deleted;
-public:
-	Film(std::map<std::string, std::string> info);
-	int get_id();
-	std::string get_name();
-	Comment* find_comment(int id);
-	void delete_comment(int id);
-	void reply_comment(int id, std::string content);
-	void edit_info(std::vector<std::string> info);
-	FilmInfo set_info();
-	bool is_in_range(std::vector<std::string> info);
-	bool is_deleted();
-};
-
-#endif#ifndef MANAGER_H
-#define MANAGER_H
-
-#include <vector>
-#include <string>
-#include <map>
-
-class CommandHandler;
-class Data;
-class CommandParser;
-class Printer;
-
-class Manager
-{
-private:
-	CommandHandler* command_handler;
-	CommandParser* command_parser;
-	std::map<std::string, std::string> curr_command;
-public:
-	Manager();
-	void run();
-};
-
-#endif#ifndef PRINTER_H
-#define PRINTER_H
-
-class Printer
-{
-public:
-	void print_success_message();
-};
-
-#endif#ifndef PUBLISHER_H
-#define PUBLISHER_H
-
-#include <vector>
-#include <string>
-#include <map>
-#include "User.h"
-
-class Film;
-
-class Publisher : public User
-{
-private:
-	std::vector<Film*> published_films;
-	std::vector<User*> followers;
-	int money_from_films;
-	User* find_follower(std::string username);
-public:
-	Publisher(std::map<std::string, std::string> info);
-	Film* find_published_film(int id);
-	Film* find_published_film(std::string film_name);
-	Film* add_film(std::map<std::string, std::string> info);
-	void edit_film(std::map<std::string, std::string> info);
-	void delete_film(int id);
-	// std::vector<FollowersInfo> get_followrs();
-	//money
-	//std::vector<FilmInfo> get_published_films(std::map<std::string, std::string> info);
-	void reply_comment(std::map<std::string, std::string> info);
-	void delete_comment(std::map<std::string, std::string> info);
-	void send_add_film_notif();
-};
-
-#endif#ifndef USER_H
-#define USER_H
-
-#include <string>
-#include <vector>
-#include <map>
-
-class Publisher;
-class Film;
-class Comment;
-
-class User
-{
-protected:
-	std::string username;
-	std::string email;
-	std::string password;
-	int age;
-	int id;
-	bool publisher;
-	std::vector<Publisher*> following;
-	std::vector<Film*> bought_films;
-	int money;
-	std::vector<std::string> readen_notifs;
-	std::vector<std::string> unread_notifs;
-public:
-	User(std::map<std::string, std::string> info);
-	std::string get_username();
-	std::string get_email();
-	int get_id();
-	bool check_password(std::string pass);
-	bool is_publisher();
-	Film* find_film(int id);
-	void add_new_notif(std::string notif);
-	void follow(Publisher* publisher);
-};
-
-#endif#include <sstream>
+#include <sstream>
 #include "CommandHandler.h"
 #include "Controller.h"
 #include "Data.h"
-#include "define.h"
 #include "Printer.h"
 #include "Exceptions.h"
 #include "User.h"
 #include "Publisher.h"
 #include "Film.h"
+#include "Recommender.h"
 
 using namespace std;
 
@@ -401,6 +16,7 @@ CommandHandler::CommandHandler()
 	data = new Data;
 	controller = new Controller(data);
 	printer = new Printer;
+	recommender = new Recommender(data);
 }
 
 void CommandHandler::handle_command(map<string, string> _curr_command)
@@ -417,9 +33,6 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 	else
 		throw BadRequest();
 }
-
-//check
-//tamiz kardan functiona
 
 void CommandHandler::handle_post_commands()
 {
@@ -456,21 +69,17 @@ void CommandHandler::handle_post_commands()
 	else if (command == BUY)
 	{
 		controller->control_buy(curr_command);
-		//check pool
-		//notif
-		//buy();
+		buy();
 	}
 	else if (command == RATE)
 	{
 		controller->control_rate(curr_command);
-		//notif
-		//rate();
+		rate();
 	}
 	else if (command == COMMENTS)
 	{
 		controller->control_comment(curr_command);
-		//notif
-		//comment();
+		comment();
 	}
 	else
 		throw NotFound();
@@ -482,12 +91,12 @@ void CommandHandler::handle_post_money_commands()
 	if (curr_command.find(AMOUNT) == curr_command.end())
 	{
 		controller->control_get_money_from_network(curr_command);
-		//get_money
+		get_money_from_network();
 	}
 	else
 	{
 		controller->control_charge_account(curr_command);
-		//charge_account;
+		charge_account();
 	}
 }
 
@@ -496,7 +105,7 @@ void CommandHandler::handle_put_commands()
 	if (curr_command[PUT] == FILMS)
 	{
 		controller->control_edit_film(curr_command);
-		//edit_film;
+		edit_film();
 	}
 	else
 		throw NotFound();
@@ -508,12 +117,12 @@ void CommandHandler::handle_delete_commands()
 	if (curr_command[DELETE] == FILMS)
 	{
 		controller->control_delete_film(curr_command);
-		//delete_film();
+		delete_film();
 	}
 	else if (curr_command[DELETE] == COMMENTS)
 	{
 		controller->control_delete_comment(curr_command);
-		//delete_comment;
+		delete_comment();
 	}
 	else
 		throw NotFound();
@@ -526,14 +135,12 @@ void CommandHandler::handle_get_commands()
 	if (command == FOLLOWERS)
 	{
 		controller->control_get_followers(curr_command);
-		//get_followers();
-		//print
+		printer->print_followers(get_followers());
 	}
 	else if (command == PUBLISHED)
 	{
 		controller->control_get_published_films(curr_command);
-		//get_published_films();
-		//print
+		printer->print_films(get_published_films());
 	}
 	else if (command == FILMS)
 	{
@@ -542,20 +149,17 @@ void CommandHandler::handle_get_commands()
 	else if (command == PURCHASED)
 	{
 		controller->control_get_bought_films(curr_command);
-		//get_bought_films();
-		//print
+		printer->print_films(get_bought_films());
 	}
 	else if (command == NOTIFS)
 	{
 		controller->control_get_notifs(curr_command);
-		//get_notifs();
-		//print
+		printer->print_notifs(get_notifs());
 	}
 	else if (command == READEN_NOTIFS)
 	{
 		controller->control_get_readen_notifs(curr_command);
-		//get_readen_notifs();
-		//print
+		printer->print_readen_notifs(get_readen_notifs(), stoi(curr_command[LIMIT]));
 	}
 	else
 		throw NotFound();
@@ -566,15 +170,13 @@ void CommandHandler::handle_get_films_commands()
 	if (curr_command.find(FILM_ID) == curr_command.end())
 	{
 		controller->control_search(curr_command);
-		//search;
-		//print
+		printer->print_films(search());
 	}
 	else
 	{
 		controller->control_show_film_details(curr_command);
-		//show_details;
-		//print
-		//recomend
+		printer->print_film_details(data->find_film(stoi(curr_command[FILM_ID])));
+		printer->print_recommend_films(recommender->recommend_film(data->get_active_user()));
 	}
 }
 
@@ -613,12 +215,90 @@ void CommandHandler::reply()
 
 void CommandHandler::follow()
 {
-	curr_user = data->get_active_user()
+	User* curr_user = data->get_active_user();
 	stringstream notif;
-	notif << "User " << curr_user->get_username() << " with id "  << curr_user->get_id <<
+	notif << "User " << curr_user->get_username() << " with id "  << curr_user->get_id() <<
 		 " follow you.";
-	curr_user->follow((Publisher*)(data->find_user(curr_command[USER_ID])));
-	data->find_user(curr_command[USER_ID])->add_new_notif(notif);
+	if (curr_user->follow((Publisher*)(data->find_user(stoi(curr_command[USER_ID])))))
+		data->find_user(stoi(curr_command[USER_ID]))->add_new_notif(notif.str());
+}
+
+void CommandHandler::rate()
+{
+	data->get_active_user()->rate_film(stoi(curr_command[FILM_ID]), stoi(curr_command[SCORE]));	
+}
+
+void CommandHandler::comment()
+{
+	data->get_active_user()->comment(stoi(curr_command[FILM_ID]), curr_command[CONTENT]);
+}
+
+void CommandHandler::charge_account()
+{
+	data->get_active_user()->charge_account(stoi(curr_command[AMOUNT]));
+}
+
+void CommandHandler::edit_film()
+{
+	((Publisher*)(data->get_active_user()))->edit_film(curr_command);
+}
+
+void CommandHandler::delete_film()
+{
+	((Publisher*)(data->get_active_user()))->delete_film(stoi(curr_command[FILM_ID]));
+}
+
+void CommandHandler::delete_comment()
+{
+	((Publisher*)(data->get_active_user()))->delete_comment(stoi(curr_command[FILM_ID]), 
+		stoi(curr_command[COMMENT_ID]));
+}
+
+void CommandHandler::buy()
+{
+	Film* film = data->find_film(stoi(curr_command[FILM_ID]));
+	string notif = data->get_active_user()->buy_new_film(film);
+	if (notif == EMPTY_STRING)
+	{
+		User* publisher = data->increase_network_money(stoi(curr_command[FILM_ID]));
+		publisher->add_new_notif(notif);
+	}
+}
+
+void CommandHandler::get_money_from_network()
+{
+	int money = ((Publisher*)(data->get_active_user()))->get_money_from_network();
+	data->decrease_network_money(money);
+}
+
+vector<FollowersInfo> CommandHandler::get_followers()
+{
+	return ((Publisher*)(data->get_active_user()))->get_followers();
+}
+
+vector<FilmInfo> CommandHandler::get_published_films()
+{
+	return ((Publisher*)(data->get_active_user()))->get_published_films(curr_command);
+}
+
+vector<FilmInfo> CommandHandler::get_bought_films()
+{
+	return data->get_active_user()->get_bought_films(curr_command);
+}
+
+vector<string> CommandHandler::get_notifs()
+{
+	return data->get_active_user()->get_notifs();
+}
+
+vector<FilmInfo> CommandHandler::search()
+{
+	return data->search(curr_command);	
+}
+
+vector<string> CommandHandler::get_readen_notifs()
+{
+	return data->get_active_user()->get_readen_notifs();
 }#include "CommandParser.h"
 #include "define.h"
 #include "Exceptions.h"
@@ -661,6 +341,14 @@ map<string, string> CommandParser::change_vector_to_map(vector<string> vector)
 
 using namespace std;
 
+Comment::Comment(int _id, string _writer, string _content)
+{
+	id = _id;
+	writer = _writer;
+	content = _content;
+	deleted = false;
+}
+
 int Comment::get_id()
 {
 	return id;
@@ -674,6 +362,24 @@ void Comment::add_reply(string reply_message)
 string Comment::get_writer()
 {
 	return writer;
+}
+
+void Comment::change_delete_stat()
+{
+	deleted = true;
+}
+
+bool Comment::is_deleted()
+{
+	return deleted;
+}
+
+CommentInfo Comment::set_info()
+{
+	CommentInfo info;
+	info.id = id;
+	info.content = content;
+	info.replies = replies;
 }#include "Controller.h"
 #include "Data.h"
 #include "Exceptions.h"
@@ -822,7 +528,7 @@ void Controller::control_comment(map<string, string> command)
 void Controller::does_user_have_the_film(int film_id)
 {
 	if (data->find_film(film_id) == NULL)
-		throw BadRequest();
+		throw NotFound();
 	if (data->get_active_user()->find_film(film_id) == NULL)
 		throw PermissionDenied();
 }
@@ -894,7 +600,7 @@ void Controller::control_delete_comment(map<string, string> command)
 	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
 		throw PermissionDenied();
 	if (data->get_active_user()->find_film(stoi(command[FILM_ID]))
-		->find_comment(stoi(command[COMMENT_ID])) == 	NULL)
+		->find_comment(stoi(command[COMMENT_ID])) == NULL)
 		throw NotFound();
 }
 
@@ -1026,6 +732,9 @@ void Controller::control_buy(map<string, string> command)
 	check_if_number(command[FILM_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
+	if (!data->get_active_user()->
+		check_can_buy_film(data->find_film(stoi(command[FILM_ID]))->get_price()))
+		throw PermissionDenied();
 }
 
 void Controller::check_if_number(string str)
@@ -1034,7 +743,6 @@ void Controller::check_if_number(string str)
 		if ((str[i] < ASCII_ZERO) || (str[i] > ASCII_NINE))
 			throw BadRequest();
 }#include "Data.h"
-#include "define.h"
 #include "User.h"
 #include "Film.h"
 #include "Publisher.h"
@@ -1045,6 +753,7 @@ Data::Data()
 {
 	user_id = FIRST_ID;
 	film_id = FIRST_ID;
+	network_money = 0;
 	active_user = NULL;
 }
 
@@ -1067,7 +776,7 @@ User* Data::find_user(int id)
 Film* Data::find_film(int id)
 {
 	for (int i = 0; i < films.size(); i++)
-		if (films[i]->get_id() == id)
+		if ((films[i]->get_id() == id) && (!films[i]->is_deleted()))
 			return films[i];
 	return NULL;
 }
@@ -1102,6 +811,35 @@ int Data::get_new_film_id()
 void Data::add_new_film(Film* new_film)
 {
 	films.push_back(new_film);
+}
+
+User* Data::increase_network_money(int film_id)
+{
+	string publisher_username = find_film(film_id)->get_publisher_username();
+	int film_price = find_film(film_id)->get_price();
+	int film_rate = find_film(film_id)->get_rate();
+	network_money += film_price;
+	((Publisher*)(find_user(publisher_username)))->increase_debt(film_price, film_rate);
+	return find_user(publisher_username);
+}
+
+void Data::decrease_network_money(int money)
+{
+	network_money -= money;
+}
+
+vector<FilmInfo> Data::search(map<string, string> info)
+{
+	vector<FilmInfo> films_info;
+	for (int i = 0; i < films.size(); i++)
+		if (films[i]->is_in_range(info) && (!films[i]->is_deleted()))
+			films_info.push_back(films[i]->set_info());
+	return films_info;
+}
+
+vector<Film*> Data::get_films()
+{
+	return films;
 }#include <iostream>
 #include "Exceptions.h"
 #include "define.h"
@@ -1140,6 +878,7 @@ Film::Film(map<string, string> info)
 	publisher_username = info[PUBLISHER];
 	rate = FIRST_RATE;
 	deleted = false;
+	comment_id = FIRST_ID;
 }
 
 int Film::get_id()
@@ -1155,101 +894,141 @@ string Film::get_name()
 Comment* Film::find_comment(int id)
 {
 	for (int i = 0; i < comments.size(); i++)
-		if (comments[i]->get_id() == id)
+		if ((comments[i]->get_id() == id) && (!comments[i]->is_deleted()))
 			return comments[i];
 	return NULL;
 }
 
-// void Film::delete_comment(int id)
-// {
-// 	Comment* comment;
-// 	try
-// 	{
-// 		comment = find_comment(id);
-// 	}catch (exception& exception)
-// 	{
-// 		cout << exception.what() << endl;
-// 		return;
-// 	}
-// 	delete comment;
-// }
+void Film::delete_comment(int id)
+{
+	find_comment(id)->change_delete_stat();
+}
 
 void Film::reply_comment(int id, string content)
 {
 	find_comment(id)->add_reply(content);
 }
 
-// void Film::edit_info(vector<string> info)
-// {
-// 	for (int i = 4; info.size(); i + 2)
-// 	{
-// 		if (info[i] == NAME)
-// 			name = info[i + 1];
-// 		else if (info[i] == YEAR)
-// 			year = stoi(info[i + 1]);
-// 		else if (info[i] == LENGTH)
-// 			length = stoi(info[i + 1]);
-// 		else if (info[i] == SUMMARY)
-// 			summary = info[i + 1];
-// 		else if (info[i] == DIRECTOR)
-// 			director = info[i + 1];
-// 	}
-// }
+void Film::edit_info(map<string, string> info)
+{
+	for (map<string, string>::iterator it = info.begin(); it != info.end(); ++it)
+	{
+		if (it->first == NAME)
+			name = it->second;
+		else if (it->first == YEAR)
+			year = stoi(it->second);
+		else if (it->first == LENGTH)
+			length = stoi(it->second);
+		else if (it->first == SUMMARY)
+			summary = it->second;
+		else if (it->first == DIRECTOR)
+			director = it->second;
+	}
+}
 
-// FilmInfo Film::set_info()
-// {
-// 	FilmInfo film_info;
-// 	film_info.id = id;
-// 	film_info.name = name;
-// 	film_info.length = length;
-// 	film_info.price = price;
-// 	film_info.rate = rate;
-// 	film_info.year = year;
-// 	film_info.director = director;
-// 	return film_info;
-// }
+FilmInfo Film::set_info()
+{
+	FilmInfo film_info;
+	film_info.id = id;
+	film_info.name = name;
+	film_info.length = length;
+	film_info.price = price;
+	film_info.rate = rate;
+	film_info.year = year;
+	film_info.director = director;
+	film_info.summary = summary;
+	return film_info;
+}
 
-// bool Film::is_in_range(std::vector<std::string> info)
-// {
-// 	for (int i = 2; i < info.size(); i + 2)
-// 	{
-// 		if (info[i] == NAME)
-// 		{
-// 			if (info[i + 1] != name)
-// 				return false;
-// 		}
-// 		else if (info[i] == MINRATE)
-// 		{
-// 			if (rate < stof(info[i + 1]))
-// 				return false;
-// 		}
-// 		else if (info[i] == MINYEAR)
-// 		{
-// 			if (year < stoi(info[i + 1]))
-// 				return false;
-// 		}
-// 		else if (info[i] == MAXYEAR)
-// 		{
-// 			if (year > stoi(info[i + 1]))
-// 				return false;
-// 		}
-// 		else if (info[i] == PRICE)
-// 		{
-// 			if (price != stoi(info[i + 1]))
-// 				return false;
-// 		}
-// 		else if (info[i] == DIRECTOR)
-// 		{
-// 			if (director != info[i + 1])
-// 				return false;
-// 		}
-// 	}
-// 	return true;
-// }
+bool Film::is_in_range(map<string, string> info)
+{
+	for (map<string, string>::iterator it = info.begin(); it != info.end(); ++it)
+	{
+		if (it->first == NAME)
+		{
+			if (it->second != name)
+				return false;
+		}
+		else if (it->first == MINRATE)
+		{
+			if (rate < stof(it->second))
+				return false;
+		}
+		else if (it->first == MINYEAR)
+		{
+			if (year < stoi(it->second))
+				return false;
+		}
+		else if (it->first == MAXYEAR)
+		{
+			if (year > stoi(it->second))
+				return false;
+		}
+		else if (it->first == PRICE)
+		{
+			if (price != stoi(it->second))
+				return false;
+		}
+		else if (it->first == DIRECTOR)
+		{
+			if (director != it->second)
+				return false;
+		}
+	}
+	return true;
+}
 
 bool Film::is_deleted()
 {
 	return deleted;
+}
+
+string Film::add_new_rate(int score)
+{
+	scores.push_back(score);
+	rate = (rate + score) / scores.size();
+	return publisher_username;
+}
+
+int Film::get_new_comment_id()
+{
+	comment_id++;
+	return comment_id;
+}
+
+string Film::add_new_comment(string content, string writer)
+{
+	Comment* new_comment = new Comment(get_new_comment_id(), writer, content);
+	comments.push_back(new_comment);
+	return publisher_username;
+}
+
+void Film::change_delete_stat()
+{
+	deleted = true;
+}
+
+int Film::get_price()
+{
+	return price;
+}
+
+string Film::get_publisher_username()
+{
+	return publisher_username;
+}
+
+int Film::get_rate()
+{
+	return rate;
+}
+
+vector<CommentInfo> Film::get_comments_info()
+{
+	vector<CommentInfo> comments_info;
+	for (int i = 0; i < comments.size(); i++)
+		comments_info.push_back(comments[i]->set_info());
+	return comments_info;
 }#include "Manager.h"
 
 int main()
@@ -1284,27 +1063,108 @@ void Manager::run()
 			cout << exception.what() << endl;
 		}
 	}
-}#include <iostream>
+}#include <algorithm>
+#include <iostream>
 #include "Printer.h"
-#include "define.h"
+#include "Film.h"
 
 using namespace std;
 
 void Printer::print_success_message()
 {
 	cout << OK << endl;
+}
+
+void Printer::print_followers(vector<FollowersInfo> followers)
+{
+	sort(followers.begin(), followers.end(), Printer::compare_by_user_id);
+	cout << "List of Followers" << endl;
+	cout << "#. User Id | User Username | User Email" << endl;
+	for (int i = 0; i < followers.size(); i++)
+	{
+		cout << i + 1 << ". " << followers[i].user_id << " | " << followers[i].username << " | "
+			<< followers[i].email << endl;
+	}
+}
+
+bool Printer::compare_by_user_id(const FollowersInfo& num1, const FollowersInfo& num2)
+{
+	return num1.user_id < num2.user_id;
+}
+
+void Printer::print_films(vector<FilmInfo> films)
+{
+	sort(films.begin(), films.end(), Printer::compare_by_film_id);
+	cout << 
+		"#. Film Id | Film Name | Film Length | Film price | Rata | Production Year | Film Director"
+		<< endl;
+	for (int i = 0; i < films.size(); i++)
+	{
+		cout << i + 1 << ". " << films[i].id << " | " << films[i].name << " | " << films[i].length <<
+			" | " << films[i].price << " | " << films[i].rate << " | " << films[i].year << " | " << 
+			films[i].director << endl;
+	}
+}
+
+bool Printer::compare_by_film_id(const FilmInfo& num1, const FilmInfo& num2)
+{
+	return num1.id < num2.id;
+}
+
+void Printer::print_notifs(vector<string> notifs)
+{
+	cout << "#. Notification Message" << endl;
+	for (int i = notifs.size() - 1; i >= 0; i--)
+		cout << notifs.size() - i << ". " << notifs[i] << endl;
+}
+
+void Printer::print_readen_notifs(vector<string> notifs, int limit)
+{
+	cout << "#. Notification Message" << endl;
+	for (int i = notifs.size() - 1; i >= notifs.size() - limit; i--)
+		cout << notifs.size() - i << ". " << notifs[i] << endl;
+}
+
+void Printer::print_film_details(Film* film)
+{
+	FilmInfo info = film->set_info();
+	cout << "Details of Film " << info.name << endl;
+	cout << "Id = "<< info.id << endl << "Director = " << info.director << endl << "Year = " <<
+		info.year << endl << "Summary = " << info.summary << endl << "Rate = " << info.rate <<
+		endl << "Price = " << info.price << endl << endl;
+
+	vector<CommentInfo> comments = film->get_comments_info();
+	cout << "Comments" << endl;
+	for (int i = 0; i < comments.size(); i++)
+	{
+		cout << comments[i].id << ". " << comments[i].content << endl;
+		for(int j = 0; j < comments[i].replies.size(); j++)
+			cout << comments[i].id << "." << j + 1 << ". " << comments[i].replies[j] << endl;
+	}
+	cout << endl;
+}
+
+void Printer::print_recommend_films(vector<FilmInfo> recommends)
+{
+	cout << "Recommendation Film" << endl <<
+		"#. Film Id | Film Name | Film Length | Film Director" << endl;
+	for (int i = 0; i < recommends.size(); i++)
+		cout << i + 1 << ". " << recommends[i].id << " | " << recommends[i].name << " | " <<
+			recommends[i].length << " | " << recommends[i].director << endl;
 }#include <iostream>
 #include <sstream>
 #include "Exceptions.h"
 #include "Publisher.h"
 #include "Film.h"
-#include "define.h"
 #include "Comment.h"
 
 using namespace std;
 
 Publisher::Publisher(map<string, string> info)
- : User(info) {}
+ : User(info)
+ {
+ 	money_from_films = debt_money = 0;
+ }
 
 Film* Publisher::add_film(map<string, string> info)
 {
@@ -1322,19 +1182,19 @@ User* Publisher::find_follower(string username)
 			return followers[i];
 }
 
-// vector<FollowersInfo> Publisher::get_followrs()
-// {
-// 	vector<FollowersInfo> followers_info;
-// 	FollowersInfo follower;
-// 	for (int i = 0; i < followers.size(); i++)
-// 	{
-// 		follower.user_id = followers[i]->get_id();
-// 		follower.username = followers[i]->get_username();
-// 		follower.email = followers[i]->get_email();
-// 		followers_info.push_back(follower);
-// 	}
-// 	return followers_info;
-// }
+vector<FollowersInfo> Publisher::get_followers()
+{
+	vector<FollowersInfo> followers_info;
+	FollowersInfo follower;
+	for (int i = 0; i < followers.size(); i++)
+	{
+		follower.user_id = followers[i]->get_id();
+		follower.username = followers[i]->get_username();
+		follower.email = followers[i]->get_email();
+		followers_info.push_back(follower);
+	}
+	return followers_info;
+}
 
 Film* Publisher::find_published_film(int id)
 {
@@ -1347,24 +1207,15 @@ Film* Publisher::find_published_film(int id)
 Film* Publisher::find_published_film(string film_name)
 {
 	for (int i = 0; i < published_films.size(); i++)
-		if (published_films[i]->get_name() == film_name)
+		if ((published_films[i]->get_name() == film_name) && (!published_films[i]->is_deleted()))
 			return published_films[i];
 	return NULL;
 }
 
-// void Publisher::delete_comment(map<string, string> info)
-// {
-// 	Film* film;
-// 	try
-// 	{
-// 		film = find_published_film(stoi(info[3]));
-// 	}catch (exception& exception)
-// 	{
-// 		cout << exception.what() << endl;
-// 		return;
-// 	}
-// 	film->delete_comment(stoi(info[5]));
-// }
+void Publisher::delete_comment(int film_id, int comment_id)
+{
+	find_published_film(film_id)->delete_comment(comment_id);
+}
 
 void Publisher::reply_comment(map<string, string> info)
 {
@@ -1373,56 +1224,93 @@ void Publisher::reply_comment(map<string, string> info)
 	notif << "Publisher " << username << " with id " << id << " reply to your comment.";
 	string comment_writer = find_published_film(stoi(info[FILM_ID]))->
 		find_comment(stoi(info[COMMENT_ID]))->get_writer();
-	find_follower(comment_writer)->add_new_notif(notif);
+	find_follower(comment_writer)->add_new_notif(notif.str());
 }
 
-// void Publisher::delete_film(int id)
-// {
-// 	Film* film;
-// 	try
-// 	{
-// 		film = find_published_film(id);
-// 	}catch (exception& exception)
-// 	{
-// 		cout << exception.what() << endl;
-// 		return;
-// 	}
-// 	delete film;
-// }
+void Publisher::delete_film(int id)
+{
+	find_published_film(id)->change_delete_stat();
+}
 
-// void Publisher::edit_film(map<string, string> info)
-// {
-// 	Film* film;
-// 	try
-// 	{
-// 		film = find_published_film(stoi(info[3]));
-// 	}catch (exception& exception)
-// 	{
-// 		cout << exception.what() << endl;
-// 		return;
-// 	}
-// 	film->edit_info(info);
-// }
+void Publisher::edit_film(map<string, string> info)
+{
+	find_published_film(stoi(info[FILM_ID]))->edit_info(info);
+}
 
-// vector<FilmInfo> Publisher::get_published_films(map<string, string> info)
-// {
-// 	vector<FilmInfo> films_info;
-// 	for (int i = 0; i < published_films.size(); i++)
-// 		if (published_films[i]->is_in_range(info))
-// 			films_info.push_back(published_films[i]->set_info());
-// }
+vector<FilmInfo> Publisher::get_published_films(map<string, string> info)
+{
+	vector<FilmInfo> films_info;
+	for (int i = 0; i < published_films.size(); i++)
+		if (published_films[i]->is_in_range(info) && (!published_films[i]->is_deleted()))
+			films_info.push_back(published_films[i]->set_info());
+	return films_info;
+}
 
 void Publisher::send_add_film_notif()
 {
 	stringstream notif;
 	notif << "Publisher " << username << " with id " << id << " register new film.";
 	for (int i = 0; i < followers.size(); i++)
-		followers[i]->add_new_notif(notif);
+		followers[i]->add_new_notif(notif.str());
+}
+
+void Publisher::increase_debt(int film_price, int film_rate)
+{
+	if (film_rate < LOW_RATE)
+		debt_money += 0.8 * film_price;
+	else if (film_rate >= HIGH_RATE)
+		debt_money += 0.95 * film_price;
+	else
+		debt_money += 0.9 * film_price;
+}
+
+int Publisher::get_money_from_network()
+{
+	int temp = debt_money;
+	money_from_films += debt_money;
+	debt_money = 0;
+	return temp;
 }#include "User.h"
+#include "Data.h"
+#include "Recommender.h"
+#include "Film.h"
+
+using namespace std;
+
+Recommender::Recommender(Data* _data)
+{
+	data = _data;
+}
+
+vector<FilmInfo> Recommender::recommend_film(User* user)
+{
+	curr_user = user;
+	films= data->get_films();
+	sort(films.begin(), films.end(), compare_by_rate);
+	return find_recommendation_films();
+}
+
+bool Recommender::compare_by_rate(const Film* num1, const Film* num2)
+{
+	return num1.get_rate() > num2.get_rate();
+}
+
+vector<FilmInfo> Recommender::find_recommendation_films()
+{
+	vector<FilmInfo> recommendation_films;
+	for (int i = films.size(); i >= 0; i--)
+	{
+		if (recommendation_films.size() == NUM_OF_RECOMMENDED_FILMS)
+			return recommendation_films;
+		if (curr_user->find_film(stoi(films[i]->get_id())) == NULL)
+			recommendation_films.push_back(films[i]->set_info());
+	}
+	return recommendation_films;
+}#include <sstream>
+#include "User.h"
 #include "Publisher.h"
 #include "Film.h"
 #include "Comment.h"
-#include "define.h"
 
 using namespace std;
 
@@ -1437,6 +1325,7 @@ User::User(map<string, string> info)
 		publisher = true;
 	else
 		publisher = false;
+	money = 0;
 }
 
 string User::get_username()
@@ -1464,6 +1353,14 @@ bool User::is_publisher()
 	return publisher;
 }
 
+Publisher* User::find_publisher(string publisher_name)
+{
+	for (int i = 0; i < following.size(); i++)
+		if (following[i]->get_username() == publisher_name)
+			return following[i];
+	return NULL;
+}
+
 Film* User::find_film(int id)
 {
 	for (int i = 0; i < bought_films.size(); i++)
@@ -1477,7 +1374,574 @@ void User::add_new_notif(string notif)
 	unread_notifs.push_back(notif);
 }
 
-void User::follow(Publisher* publisher)
+bool User::follow(Publisher* publisher)
 {
-	following.push_back(publisher);
+	if (find_publisher(publisher->get_username()) == NULL)
+	{
+		following.push_back(publisher);
+		return true;
+	}
 }
+
+void User::rate_film(int film_id, int score)
+{
+	stringstream notif;
+	notif << "User " << username << " with id " << id << " rate your film " <<
+		find_film(film_id)->get_name() << " with id " << film_id;
+	string publisher = find_film(film_id)->add_new_rate(score);
+	find_publisher(publisher)->add_new_notif(notif.str());
+}
+
+void User::comment(int film_id, string content)
+{
+	stringstream notif;
+	notif << "User " << username << " with id " << id << " comment on your film" <<
+		find_film(film_id)->get_name() << " with id " << film_id;
+	string publisher_name = find_film(film_id)->add_new_comment(content, username);
+	find_publisher(publisher_name)->add_new_notif(notif.str());
+}
+
+void User::charge_account(int amount)
+{
+	money += amount;
+}
+
+bool User::check_can_buy_film(int film_price)
+{
+	if (film_price > money)
+		return false;
+}
+
+string User::buy_new_film(Film* new_film)
+{
+	if (find_film(new_film->get_id()) == NULL)
+	{
+		bought_films.push_back(new_film);
+		stringstream notif;
+		notif << "User " << username << " with id " << id << " buy your film " << new_film->get_name() <<
+			" with id " << new_film->get_id();
+		return notif.str();
+	}
+	return EMPTY_STRING;
+}
+
+vector<FilmInfo> User::get_bought_films(map<string, string> info)
+{
+	vector<FilmInfo> films_info;
+	for (int i = 0; i < bought_films.size(); i++)
+		if (bought_films[i]->is_in_range(info) && (!bought_films[i]->is_deleted()))
+			films_info.push_back(bought_films[i]->set_info());
+}
+
+vector<string> User::get_notifs()
+{
+	vector<string> temp = unread_notifs;
+	transfer_unread_notifs_to_readen();
+	empty_unread_notifs();
+	return temp;
+}
+
+vector<string> User::get_readen_notifs()
+{
+	return readen_notifs;
+}
+
+void User::transfer_unread_notifs_to_readen()
+{
+	for (int i = 0; i < unread_notifs.size(); i++)
+		readen_notifs.push_back(unread_notifs[i]);
+}
+
+void User::empty_unread_notifs()
+{
+	for (int i = 0; i < unread_notifs.size(); i++)
+		unread_notifs.pop_back();
+}#ifndef COMMANDHANDLER_H
+#define COMMANDHANDLER_H
+
+#include <string>
+#include <map>
+#include <vector>
+#include "define.h"
+
+class Controller;
+class Data;
+class Printer;
+class Recommender;
+
+class CommandHandler
+{
+private:
+	Printer* printer;
+	Data* data;
+	Controller* controller;
+	Recommender* recommender;
+	std::map<std::string, std::string> curr_command;
+	void handle_post_commands();
+	void handle_put_commands();
+	void handle_delete_commands();
+	void handle_get_commands();
+	void handle_post_money_commands();
+	void handle_get_films_commands();
+	void signup();
+	void login();
+	void add_film();
+	void reply();
+	void follow();
+	void rate();
+	void comment();
+	void charge_account();
+	void edit_film();
+	void delete_film();
+	void delete_comment();
+	void buy();
+	void get_money_from_network();
+	std::vector<FollowersInfo> get_followers();
+	std::vector<FilmInfo> get_published_films();
+	std::vector<FilmInfo> get_bought_films();
+	std::vector<std::string> get_notifs();
+	std::vector<std::string> get_readen_notifs();
+	std::vector<FilmInfo> search();
+public:
+	CommandHandler();
+	void handle_command(std::map<std::string, std::string> _curr_command);
+};
+
+#endif#ifndef COMMANDPARSER_H
+#define COMMANDPARSER_H
+
+#include <vector>
+#include <string>
+#include <map>
+
+class CommandParser
+{
+private:
+	std::map<std::string, std::string> change_vector_to_map(std::vector<std::string> vector);
+public:
+	std::map<std::string, std::string> parse_command(std::string command);
+};
+
+
+#endif#ifndef COMMENT_H
+#define COMMENT_H
+
+#include <string>
+#include <vector>
+#include "define.h"
+
+class Comment
+{
+private:
+	int id;
+	std::string writer;
+	std::string content;
+	std::vector<std::string> replies;
+	bool deleted;
+public:
+	Comment(int _id, std::string _writer, std::string _content);
+	int get_id();
+	void add_reply(std::string reply_message);
+	std::string get_writer();
+	void change_delete_stat();
+	bool is_deleted();
+	CommentInfo set_info();
+};
+
+#endif#ifndef CONTROLLER_H
+#define CONTROLLER_H
+
+#include <map>
+#include <string>
+
+class Data;
+
+class Controller
+{
+private:
+	Data* data;
+	void does_user_have_the_film(int film_id);
+	void check_search_films_optional_datas(std::map<std::string, std::string> command);
+	void check_edit_film_optional_datas(std::map<std::string, std::string> command);
+	void check_get_bought_films_optional_datas(std::map<std::string, std::string> command);
+	void check_validataion_of_email(std::string email);
+	void check_if_number(std::string str);
+public:
+	Controller(Data* _data);
+	void control_signup(std::map<std::string, std::string> command);
+	void control_login(std::map<std::string, std::string> command);
+	void control_add_film(std::map<std::string, std::string> command);
+	void control_reply(std::map<std::string, std::string> command);
+	void control_follow(std::map<std::string, std::string> command);
+	void control_rate(std::map<std::string, std::string> command);
+	void control_comment(std::map<std::string, std::string> command);
+	void control_delete_film(std::map<std::string, std::string> command);
+	void control_edit_film(std::map<std::string, std::string> command);
+	void control_delete_comment(std::map<std::string, std::string> command);
+	void control_get_followers(std::map<std::string, std::string> command);
+	void control_get_published_films(std::map<std::string, std::string> command);
+	void control_get_bought_films(std::map<std::string, std::string> command);
+	void control_get_notifs(std::map<std::string, std::string> command);
+	void control_get_readen_notifs(std::map<std::string, std::string> command);
+	void control_get_money_from_network(std::map<std::string, std::string> command);
+	void control_charge_account(std::map<std::string, std::string> command);
+	void control_show_film_details(std::map<std::string, std::string> command);
+	void control_search(std::map<std::string, std::string> command);
+	void control_buy(std::map<std::string, std::string> command);
+};
+
+#endif#ifndef DATA_H
+#define DATA_H
+
+#include <vector>
+#include <string>
+#include <map>
+#include "define.h"
+
+class User;
+class Film;
+class Publisher;
+
+class Data
+{
+private:
+	std::vector<User*> users;
+	std::vector<Film*> films;
+	int user_id;
+	int film_id;
+	User* active_user;
+	int network_money;
+public:
+	Data();
+	User* find_user(std::string username);
+	User* find_user(int id);
+	Film* find_film(int id);
+	User* get_active_user();
+	std::vector<Film*> get_films();
+	void change_active_user(User* new_active_user);
+	void add_new_user(User* new_user);
+	int get_new_user_id();
+	int get_new_film_id();
+	void add_new_film(Film* new_film);
+	User* increase_network_money(int film_id);
+	void decrease_network_money(int money);
+	std::vector<FilmInfo> search(std::map<std::string, std::string> info);
+};
+
+#endif#ifndef DEFINE_H
+#define DEFINE_H
+
+#include <string>
+#include <vector>
+
+struct FollowersInfo
+{
+	int user_id;
+	std::string username;
+	std::string email;
+};
+
+struct FilmInfo
+{
+	int id;
+	std::string name;
+	int length;
+	int price;
+	float rate;
+	int year;
+	std::string director; 
+	std::string summary;
+};
+
+struct  CommentInfo
+{
+	int id;
+	std::string content;
+	std::vector<std::string> replies;
+};
+
+#define NOTFOUND "Not Found"
+#define BADREQUEST "Bad Request"
+#define PERMISSIONDENIED "Permission Denied"
+#define FIRST_ID 0
+#define FIRST_RATE 0
+#define NAME "name"
+#define YEAR "year"
+#define LENGTH "length"
+#define SUMMARY "summary"
+#define DIRECTOR "director"
+#define USERNAME "username"
+#define MINRATE "min_rate"
+#define MINYEAR "min_year"
+#define MAXYEAR "max_year"
+#define PRICE "price"
+#define QUESTION_MARK "?"
+#define SPACE ' '
+#define POST "POST"
+#define PUT "PUT"
+#define DELETE "DELETE"
+#define GET "GET"
+#define READ "read"
+#define NOTIFS "notifications"
+#define OK "OK"
+#define SIGNUP "signup"
+#define LOGIN "login"
+#define FILMS "films"
+#define MONEY "money"
+#define REPLIES "replies"
+#define FOLLOWERS "followers"
+#define BUY "buy"
+#define RATE "rate"
+#define COMMENTS "comments"
+#define PUBLISHED "published"
+#define PURCHASED "purchased"
+#define READEN_NOTIFS "notificationsread"
+#define PASSWORD "password"
+#define EMAIL "email"
+#define AGE "age"
+#define FILM_ID "film_id"
+#define COMMENT_ID "comment_id"
+#define CONTENT "content"
+#define USER_ID "user_id"
+#define SCORE "score"
+#define MIN_SCORE 1
+#define MAX_SCORE 10
+#define LIMIT "limit"
+#define PUBLISHER "publisher"
+#define _TRUE "true"
+#define _FALSE "false"
+#define AT '@'
+#define DOT '.'
+#define AMOUNT "amount"
+#define ASCII_ZERO '0'
+#define ASCII_NINE '9'
+#define HIGH_RATE 8
+#define LOW_RATE 5
+#define EMPTY_STRING ""
+#define NUM_OF_RECOMMENDED_FILMS 4
+
+#endif#ifndef EXCEPTIONS_H
+#define EXCEPTIONS_H
+
+#include <exception>
+
+class NotFound : public std::exception
+{
+public:
+	virtual const char* what() const throw();
+};
+
+class BadRequest : public std::exception
+{
+public:
+	virtual const char* what() const throw();
+};
+
+class PermissionDenied : public std::exception
+{
+public:
+	virtual const char* what() const throw();
+};
+
+#endif#ifndef FILM_H
+#define FILM_H
+
+#include <string>
+#include <vector>
+#include <map>
+#include "define.h"
+
+class Comment;
+
+class Film
+{
+private:
+	std::string name;
+	int year;
+	int length;
+	int price;
+	std::string summary;
+	std::string director;
+	float rate;
+	std::vector<float> scores;
+	std::string publisher_username;
+	std::vector<Comment*> comments;
+	int id;
+	bool deleted;
+	int comment_id;
+public:
+	Film(std::map<std::string, std::string> info);
+	int get_id();
+	std::string get_name();
+	int get_price();
+	int get_rate();
+	std::string get_publisher_username();
+	Comment* find_comment(int id);
+	void delete_comment(int id);
+	void reply_comment(int id, std::string content);
+	void edit_info(std::map<std::string, std::string> info);
+	FilmInfo set_info();
+	bool is_in_range(std::map<std::string, std::string> info);
+	bool is_deleted();
+	int get_new_comment_id();
+	std::string add_new_rate(int score);
+	std::string add_new_comment(std::string content, std::string writer);
+	void change_delete_stat();
+	std::vector<CommentInfo> get_comments_info();
+};
+
+#endif#ifndef MANAGER_H
+#define MANAGER_H
+
+#include <vector>
+#include <string>
+#include <map>
+
+class CommandHandler;
+class Data;
+class CommandParser;
+class Printer;
+
+class Manager
+{
+private:
+	CommandHandler* command_handler;
+	CommandParser* command_parser;
+	std::map<std::string, std::string> curr_command;
+public:
+	Manager();
+	void run();
+};
+
+#endif#ifndef PRINTER_H
+#define PRINTER_H
+
+#include <vector>
+#include <string>
+#include "define.h"
+
+class Film;
+
+class Printer
+{
+private:
+	bool compare_by_user_id(const FollowersInfo& num1, const FollowersInfo& num2);
+	bool compare_by_film_id(const FilmInfo& num1, const FilmInfo& num2);
+public:
+	void print_success_message();
+	void print_followers(std::vector<FollowersInfo> followers);
+	void print_films(std::vector<FilmInfo> films);
+	void print_notifs(std::vector<std::string> notifs);
+	void print_readen_notifs(std::vector<std::string> notifs ,int limit);
+	void print_film_details(Film* film);
+	void print_recommend_films(std::vector<FilmInfo> recommends);
+};
+
+#endif#ifndef PUBLISHER_H
+#define PUBLISHER_H
+
+#include <vector>
+#include <string>
+#include <map>
+#include "User.h"
+#include "define.h"
+
+class Film;
+
+class Publisher : public User
+{
+private:
+	std::vector<Film*> published_films;
+	std::vector<User*> followers;
+	int money_from_films;
+	int debt_money;
+	User* find_follower(std::string username);
+public:
+	Publisher(std::map<std::string, std::string> info);
+	Film* find_published_film(int id);
+	Film* find_published_film(std::string film_name);
+	Film* add_film(std::map<std::string, std::string> info);
+	void edit_film(std::map<std::string, std::string> info);
+	void delete_film(int id);
+	std::vector<FollowersInfo> get_followers();
+	std::vector<FilmInfo> get_published_films(std::map<std::string, std::string> info);
+	void reply_comment(std::map<std::string, std::string> info);
+	void delete_comment(int film_id, int comment_id);
+	void send_add_film_notif();
+	void increase_debt(int film_price, int film_rate);
+	int get_money_from_network();
+};
+
+#endif#ifndef RECOMMENDER_H
+#define RECOMMENDER_H
+
+#include "define.h"
+
+class Data;
+class User;
+class Film;
+
+class Recommender
+{
+private:
+	Data* data;
+	User* curr_user;
+	std::vector<Film*> films;
+	bool compare_by_rate(const Film* num1, const Film* num2);
+	std::vector<FilmInfo> find_recommendation_films();
+public:
+	Recommender(Data* _data);
+	std::vector<FilmInfo> recommend_film(User* user);
+};
+
+#endif#ifndef USER_H
+#define USER_H
+
+#include "define.h"
+#include <string>
+#include <vector>
+#include <map>
+
+class Publisher;
+class Film;
+class Comment;
+
+class User
+{
+protected:
+	std::string username;
+	std::string email;
+	std::string password;
+	int age;
+	int id;
+	bool publisher;
+	std::vector<Publisher*> following;
+	std::vector<Film*> bought_films;
+	int money;
+	std::vector<std::string> readen_notifs;
+	std::vector<std::string> unread_notifs;
+	void transfer_unread_notifs_to_readen();
+	void empty_unread_notifs();
+public:
+	User(std::map<std::string, std::string> info);
+	std::string get_username();
+	std::string get_email();
+	int get_id();
+	int get_new_comment_id();
+	bool check_password(std::string pass);
+	bool check_can_buy_film(int film_price);
+	bool is_publisher();
+	Film* find_film(int id);
+	void add_new_notif(std::string notif);
+	bool follow(Publisher* publisher);
+	Publisher* find_publisher(std::string publisher_name);
+	void comment(int film_id, std::string content);
+	void charge_account(int amount);
+	void rate_film(int film_id, int score);
+	std::string buy_new_film(Film* new_film);
+	std::vector<FilmInfo> get_bought_films(std::map<std::string, std::string> info);
+	std::vector<std::string> get_notifs();
+	std::vector<std::string> get_readen_notifs();
+};
+
+#endif

@@ -13,7 +13,6 @@ private:
 	Data* data;
 	User* curr_user;
 	std::vector<Film*> films;
-	bool compare_by_rate(const Film* num1, const Film* num2);
 	std::vector<FilmInfo> find_recommendation_films();
 public:
 	Recommender(Data* _data);

@@ -10,6 +10,11 @@ void Printer::print_success_message()
 	cout << OK << endl;
 }
 
+bool compare_by_user_id(const FollowersInfo& num1, const FollowersInfo& num2)
+{
+	return num1.user_id < num2.user_id;
+}
+
 void Printer::print_followers(vector<FollowersInfo> followers)
 {
 	sort(followers.begin(), followers.end(), compare_by_user_id);
@@ -22,9 +27,9 @@ void Printer::print_followers(vector<FollowersInfo> followers)
 	}
 }
 
-bool Printer::compare_by_user_id(const FollowersInfo& num1, const FollowersInfo& num2)
+bool compare_by_film_id(const FilmInfo& num1, const FilmInfo& num2)
 {
-	return num1.user_id < num2.user_id;
+	return num1.id < num2.id;
 }
 
 void Printer::print_films(vector<FilmInfo> films)
@@ -39,11 +44,6 @@ void Printer::print_films(vector<FilmInfo> films)
 			" | " << films[i].price << " | " << films[i].rate << " | " << films[i].year << " | " << 
 			films[i].director << endl;
 	}
-}
-
-bool Printer::compare_by_film_id(const FilmInfo& num1, const FilmInfo& num2)
-{
-	return num1.id < num2.id;
 }
 
 void Printer::print_notifs(vector<string> notifs)
