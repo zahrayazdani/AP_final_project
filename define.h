@@ -20,6 +20,7 @@ struct FilmInfo
 	float rate;
 	int year;
 	std::string director; 
+	std::string summary;
 };
 
 struct  CommentInfo
@@ -87,5 +88,6 @@ struct  CommentInfo
 #define HIGH_RATE 8
 #define LOW_RATE 5
 #define EMPTY_STRING ""
+#define NUM_OF_RECOMMENDED_FILMS 4
 
 #endif

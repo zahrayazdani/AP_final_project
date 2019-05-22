@@ -7,6 +7,7 @@
 #include "User.h"
 #include "Publisher.h"
 #include "Film.h"
+#include "Recommender.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ CommandHandler::CommandHandler()
 	data = new Data;
 	controller = new Controller(data);
 	printer = new Printer;
+	recommender = new Recommender(data);
 }
 
 void CommandHandler::handle_command(map<string, string> _curr_command)
@@ -174,7 +176,7 @@ void CommandHandler::handle_get_films_commands()
 	{
 		controller->control_show_film_details(curr_command);
 		printer->print_film_details(data->find_film(stoi(curr_command[FILM_ID])));
-		//recomend
+		printer->print_recommend_films(recommender->recommend_film(data->get_active_user()));
 	}
 }
 

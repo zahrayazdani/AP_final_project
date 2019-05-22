@@ -9,6 +9,7 @@
 class Controller;
 class Data;
 class Printer;
+class Recommender;
 
 class CommandHandler
 {
@@ -16,6 +17,7 @@ private:
 	Printer* printer;
 	Data* data;
 	Controller* controller;
+	Recommender* recommender;
 	std::map<std::string, std::string> curr_command;
 	void handle_post_commands();
 	void handle_put_commands();

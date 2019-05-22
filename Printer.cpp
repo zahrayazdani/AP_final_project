@@ -74,7 +74,16 @@ void Printer::print_film_details(Film* film)
 	{
 		cout << comments[i].id << ". " << comments[i].content << endl;
 		for(int j = 0; j < comments[i].replies.size(); j++)
-			cout << comments[i].id << "." << j + 1 << ". " << replies[j] << endl;
+			cout << comments[i].id << "." << j + 1 << ". " << comments[i].replies[j] << endl;
 	}
 	cout << endl;
+}
+
+void Printer::print_recommend_films(vector<FilmInfo> recommends)
+{
+	cout << "Recommendation Film" << endl <<
+		"#. Film Id | Film Name | Film Length | Film Director" << endl;
+	for (int i = 0; i < recommends.size(); i++)
+		cout << i + 1 << ". " << recommends[i].id << " | " << recommends[i].name << " | " <<
+			recommends[i].length << " | " << recommends[i].director << endl;
 }

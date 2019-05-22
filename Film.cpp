@@ -75,6 +75,7 @@ FilmInfo Film::set_info()
 	film_info.rate = rate;
 	film_info.year = year;
 	film_info.director = director;
+	film_info.summary = summary;
 	return film_info;
 }
 

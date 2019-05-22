@@ -92,3 +92,8 @@ vector<FilmInfo> Data::search(map<string, string> info)
 			films_info.push_back(films[i]->set_info());
 	return films_info;
 }
+
+vector<Film*> Data::get_films()
+{
+	return films;
+}
