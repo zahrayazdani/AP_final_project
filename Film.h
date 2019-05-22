@@ -31,7 +31,7 @@ public:
 	Comment* find_comment(int id);
 	void delete_comment(int id);
 	void reply_comment(int id, std::string content);
-	void edit_info(std::vector<std::string> info);
+	void edit_info(std::map<std::string, std::string> info);
 	FilmInfo set_info();
 	bool is_in_range(std::vector<std::string> info);
 	bool is_deleted();

@@ -106,7 +106,7 @@ void CommandHandler::handle_put_commands()
 	if (curr_command[PUT] == FILMS)
 	{
 		controller->control_edit_film(curr_command);
-		//edit_film;
+		edit_film();
 	}
 	else
 		throw NotFound();
@@ -244,4 +244,9 @@ void CommandHandler::comment()
 void CommandHandler::charge_account()
 {
 	data->get_active_user()->charge_account(stoi(curr_command[AMOUNT]));
+}
+
+void CommandHandler::edit_film()
+{
+	((Publisher*)(data->get_active_user()))->edit_film(curr_command);
 }

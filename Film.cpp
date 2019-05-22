@@ -57,22 +57,22 @@ void Film::reply_comment(int id, string content)
 	find_comment(id)->add_reply(content);
 }
 
-// void Film::edit_info(vector<string> info)
-// {
-// 	for (int i = 4; info.size(); i + 2)
-// 	{
-// 		if (info[i] == NAME)
-// 			name = info[i + 1];
-// 		else if (info[i] == YEAR)
-// 			year = stoi(info[i + 1]);
-// 		else if (info[i] == LENGTH)
-// 			length = stoi(info[i + 1]);
-// 		else if (info[i] == SUMMARY)
-// 			summary = info[i + 1];
-// 		else if (info[i] == DIRECTOR)
-// 			director = info[i + 1];
-// 	}
-// }
+void Film::edit_info(map<string, string> info)
+{
+	for (map<string, string>::iterator it = info.begin(); it != info.end(); ++it)
+	{
+		if (it->first == NAME)
+			name = it->second;
+		else if (it->first == YEAR)
+			year = stoi(it->second);
+		else if (it->first == LENGTH)
+			length = stoi(it->second);
+		else if (it->first == SUMMARY)
+			summary = it->second;
+		else if (it->first == DIRECTOR)
+			director = it->second;
+	}
+}
 
 // FilmInfo Film::set_info()
 // {

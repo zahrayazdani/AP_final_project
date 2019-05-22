@@ -52,7 +52,7 @@ Film* Publisher::find_published_film(int id)
 Film* Publisher::find_published_film(string film_name)
 {
 	for (int i = 0; i < published_films.size(); i++)
-		if (published_films[i]->get_name() == film_name)
+		if ((published_films[i]->get_name() == film_name) && (!published_films[i]->is_deleted()))
 			return published_films[i];
 	return NULL;
 }
@@ -95,19 +95,10 @@ void Publisher::reply_comment(map<string, string> info)
 // 	delete film;
 // }
 
-// void Publisher::edit_film(map<string, string> info)
-// {
-// 	Film* film;
-// 	try
-// 	{
-// 		film = find_published_film(stoi(info[3]));
-// 	}catch (exception& exception)
-// 	{
-// 		cout << exception.what() << endl;
-// 		return;
-// 	}
-// 	film->edit_info(info);
-// }
+void Publisher::edit_film(map<string, string> info)
+{
+	find_published_film(stoi(info[FILM_ID]))->edit_info(info);
+}
 
 // vector<FilmInfo> Publisher::get_published_films(map<string, string> info)
 // {

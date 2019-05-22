@@ -32,7 +32,7 @@ User* Data::find_user(int id)
 Film* Data::find_film(int id)
 {
 	for (int i = 0; i < films.size(); i++)
-		if (films[i]->get_id() == id)
+		if ((films[i]->get_id() == id) && (!films[i]->is_deleted()))
 			return films[i];
 	return NULL;
 }
