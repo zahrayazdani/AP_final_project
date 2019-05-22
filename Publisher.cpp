@@ -101,7 +101,20 @@ void Publisher::send_add_film_notif()
 		followers[i]->add_new_notif(notif.str());
 }
 
-void Publisher::increase_debt(int film_price)
+void Publisher::increase_debt(int film_price, int film_rate)
 {
-	debt_money += film_price;
+	if (film_rate < LOW_RATE)
+		debt_money += 0.8 * film_price;
+	else if (film_rate >= HIGH_RATE)
+		debt_money += 0.95 * film_price;
+	else
+		debt_money += 0.9 * film_price;
+}
+
+int Publisher::get_money_from_network()
+{
+	int temp = debt_money;
+	money_from_films += debt_money;
+	debt_money = 0;
+	return temp;
 }

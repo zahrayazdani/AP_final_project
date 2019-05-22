@@ -29,7 +29,8 @@ public:
 	void reply_comment(std::map<std::string, std::string> info);
 	void delete_comment(int film_id, int comment_id);
 	void send_add_film_notif();
-	void increase_debt(int film_price);
+	void increase_debt(int film_price, int film_rate);
+	int get_money_from_network();
 };
 
 #endif

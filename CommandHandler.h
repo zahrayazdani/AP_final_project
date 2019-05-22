@@ -33,6 +33,7 @@ private:
 	void delete_film();
 	void delete_comment();
 	void buy();
+	void get_money_from_network();
 public:
 	CommandHandler();
 	void handle_command(std::map<std::string, std::string> _curr_command);

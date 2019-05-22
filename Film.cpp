@@ -155,3 +155,8 @@ string Film::get_publisher_username()
 {
 	return publisher_username;
 }
+
+int Film::get_rate()
+{
+	return rate;
+}

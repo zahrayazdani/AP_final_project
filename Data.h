@@ -29,6 +29,7 @@ public:
 	int get_new_film_id();
 	void add_new_film(Film* new_film);
 	User* increase_network_money(int film_id);
+	void decrease_network_money(int money);
 };
 
 #endif

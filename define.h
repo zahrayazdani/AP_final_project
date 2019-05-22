@@ -76,5 +76,7 @@ struct FilmInfo
 #define AMOUNT "amount"
 #define ASCII_ZERO '0'
 #define ASCII_NINE '9'
+#define HIGH_RATE 8
+#define LOW_RATE 5
 
 #endif

@@ -90,7 +90,7 @@ void CommandHandler::handle_post_money_commands()
 	if (curr_command.find(AMOUNT) == curr_command.end())
 	{
 		controller->control_get_money_from_network(curr_command);
-		//get_money
+		get_money_from_network();
 	}
 	else
 	{
@@ -266,4 +266,10 @@ void CommandHandler::buy()
 	string notif = data->get_active_user()->buy_new_film(film);
 	User* publisher = data->increase_network_money(stoi(curr_command[FILM_ID]));
 	publisher->add_new_notif(notif);
+}
+
+void CommandHandler::get_money_from_network()
+{
+	int money = ((Publisher*)(data->get_active_user()))->get_money_from_network();
+	data->decrease_network_money(money);
 }

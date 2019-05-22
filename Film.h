@@ -29,6 +29,7 @@ public:
 	int get_id();
 	std::string get_name();
 	int get_price();
+	int get_rate();
 	std::string get_publisher_username();
 	Comment* find_comment(int id);
 	void delete_comment(int id);
