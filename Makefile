@@ -23,7 +23,7 @@ Publisher.o: Publisher.cpp Publisher.h User.h Film.h Exceptions.h define.h Comme
 Film.o: Film.cpp Film.h Comment.h Exceptions.h define.h
 	$(CC) -c Film.cpp
 
-Comment.o: Comment.cpp Comment.h
+Comment.o: Comment.cpp Comment.h define.h
 	$(CC) -c Comment.cpp
 
 Exceptions.o: Exceptions.cpp Exceptions.h define.h
@@ -35,7 +35,7 @@ Controller.o: Controller.cpp Controller.h Data.h Exceptions.h User.h define.h Pu
 Data.o: Data.cpp Data.h define.h User.h Film.h Publisher.h
 	$(CC) -c Data.cpp
 
-Printer.o: Printer.h Printer.cpp define.h
+Printer.o: Printer.h Printer.cpp define.h Film.h
 	$(CC) -c Printer.cpp
 
 CommandParser.o: CommandParser.cpp CommandParser.h define.h Exceptions.h

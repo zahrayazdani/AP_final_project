@@ -34,3 +34,11 @@ bool Comment::is_deleted()
 {
 	return deleted;
 }
+
+CommentInfo Comment::set_info()
+{
+	CommentInfo info;
+	info.id = id;
+	info.content = content;
+	info.replies = replies;
+}

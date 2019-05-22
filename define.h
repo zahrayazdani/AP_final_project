@@ -2,6 +2,7 @@
 #define DEFINE_H
 
 #include <string>
+#include <vector>
 
 struct FollowersInfo
 {
@@ -19,6 +20,13 @@ struct FilmInfo
 	float rate;
 	int year;
 	std::string director; 
+};
+
+struct  CommentInfo
+{
+	int id;
+	std::string content;
+	std::vector<std::string> replies;
 };
 
 #define NOTFOUND "Not Found"

@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include "Printer.h"
+#include "Film.h"
 
 using namespace std;
 
@@ -57,4 +58,23 @@ void Printer::print_readen_notifs(vector<string> notifs, int limit)
 	cout << "#. Notification Message" << endl;
 	for (int i = notifs.size() - 1; i >= notifs.size() - limit; i--)
 		cout << notifs.size() - i << ". " << notifs[i] << endl;
+}
+
+void Printer::print_film_details(Film* film)
+{
+	FilmInfo info = film->set_info();
+	cout << "Details of Film " << info.name << endl;
+	cout << "Id = "<< info.id << endl << "Director = " << info.director << endl << "Year = " <<
+		info.year << endl << "Summary = " << info.summary << endl << "Rate = " << info.rate <<
+		endl << "Price = " << info.price << endl << endl;
+
+	vector<CommentInfo> comments = film->get_comments_info();
+	cout << "Comments" << endl;
+	for (int i = 0; i < comments.size(); i++)
+	{
+		cout << comments[i].id << ". " << comments[i].content << endl;
+		for(int j = 0; j < comments[i].replies.size(); j++)
+			cout << comments[i].id << "." << j + 1 << ". " << replies[j] << endl;
+	}
+	cout << endl;
 }

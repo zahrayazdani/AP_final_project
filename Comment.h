@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "define.h"
 
 class Comment
 {
@@ -19,6 +20,7 @@ public:
 	std::string get_writer();
 	void change_delete_stat();
 	bool is_deleted();
+	CommentInfo set_info();
 };
 
 #endif

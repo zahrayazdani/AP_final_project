@@ -173,8 +173,7 @@ void CommandHandler::handle_get_films_commands()
 	else
 	{
 		controller->control_show_film_details(curr_command);
-		//show_details;
-		//print
+		printer->print_film_details(data->find_film(stoi(curr_command[FILM_ID])));
 		//recomend
 	}
 }

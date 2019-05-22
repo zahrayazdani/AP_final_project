@@ -42,6 +42,7 @@ public:
 	std::string add_new_rate(int score);
 	std::string add_new_comment(std::string content, std::string writer);
 	void change_delete_stat();
+	std::vector<CommentInfo> get_comments_info();
 };
 
 #endif

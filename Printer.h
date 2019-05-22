@@ -5,6 +5,8 @@
 #include <string>
 #include "define.h"
 
+class Film;
+
 class Printer
 {
 private:
@@ -16,6 +18,7 @@ public:
 	void print_films(std::vector<FilmInfo> films);
 	void print_notifs(std::vector<std::string> notifs);
 	void print_readen_notifs(std::vector<std::string> notifs ,int limit);
+	void print_film_details(Film* film);
 };
 
 #endif

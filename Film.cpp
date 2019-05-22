@@ -160,3 +160,11 @@ int Film::get_rate()
 {
 	return rate;
 }
+
+vector<CommentInfo> Film::get_comments_info()
+{
+	vector<CommentInfo> comments_info;
+	for (int i = 0; i < comments.size(); i++)
+		comments_info.push_back(comments[i]->set_info());
+	return comments_info;
+}
