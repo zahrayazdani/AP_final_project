@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include "define.h"
 
 class User;
 class Film;

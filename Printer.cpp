@@ -52,9 +52,9 @@ void Printer::print_notifs(vector<string> notifs)
 		cout << notifs.size() - i << ". " << notifs[i] << endl;
 }
 
-void Printer::print_readen_notifs(vector<string>)
+void Printer::print_readen_notifs(vector<string> notifs, int limit)
 {
 	cout << "#. Notification Message" << endl;
-	for (int i = notifs.size() - 1; i >= 0; i--)
+	for (int i = notifs.size() - 1; i >= notifs.size() - limit; i--)
 		cout << notifs.size() - i << ". " << notifs[i] << endl;
 }

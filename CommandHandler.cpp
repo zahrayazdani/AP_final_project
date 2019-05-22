@@ -157,7 +157,7 @@ void CommandHandler::handle_get_commands()
 	else if (command == READEN_NOTIFS)
 	{
 		controller->control_get_readen_notifs(curr_command);
-		// printer->print_readen_notifs(get_readen_notifs());
+		printer->print_readen_notifs(get_readen_notifs(), stoi(curr_command[LIMIT]));
 	}
 	else
 		throw NotFound();
@@ -290,12 +290,12 @@ vector<string> CommandHandler::get_notifs()
 	return data->get_active_user()->get_notifs();
 }
 
-vector<vector<string>> CommandHandler::get_readen_notifs()
-{
-	return data->get_active_user()->get_readen_notifs();
-}
-
 vector<FilmInfo> CommandHandler::search()
 {
 	return data->search(curr_command);	
+}
+
+vector<string> CommandHandler::get_readen_notifs()
+{
+	return data->get_active_user()->get_readen_notifs();
 }

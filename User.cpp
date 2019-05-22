@@ -127,13 +127,25 @@ vector<FilmInfo> User::get_bought_films(map<string, string> info)
 
 vector<string> User::get_notifs()
 {
-	readen_notifs.push_back(unread_notifs);
-	for (int i = 0; i < unread_notifs.size(); i++)
-		unread_notifs.pop_back();
-	return readen_notifs[readen_notifs.size() - 1];
+	vector<string> temp = unread_notifs;
+	transfer_unread_notifs_to_readen();
+	empty_unread_notifs();
+	return temp;
 }
 
-vector<vector<string>> get_readen_notifs()
+vector<string> User::get_readen_notifs()
 {
 	return readen_notifs;
+}
+
+void User::transfer_unread_notifs_to_readen()
+{
+	for (int i = 0; i < unread_notifs.size(); i++)
+		readen_notifs.push_back(unread_notifs[i]);
+}
+
+void User::empty_unread_notifs()
+{
+	for (int i = 0; i < unread_notifs.size(); i++)
+		unread_notifs.pop_back();
 }
