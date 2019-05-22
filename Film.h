@@ -36,7 +36,7 @@ public:
 	void reply_comment(int id, std::string content);
 	void edit_info(std::map<std::string, std::string> info);
 	FilmInfo set_info();
-	bool is_in_range(std::vector<std::string> info);
+	bool is_in_range(std::map<std::string, std::string> info);
 	bool is_deleted();
 	int get_new_comment_id();
 	std::string add_new_rate(int score);

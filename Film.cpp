@@ -65,56 +65,56 @@ void Film::edit_info(map<string, string> info)
 	}
 }
 
-// FilmInfo Film::set_info()
-// {
-// 	FilmInfo film_info;
-// 	film_info.id = id;
-// 	film_info.name = name;
-// 	film_info.length = length;
-// 	film_info.price = price;
-// 	film_info.rate = rate;
-// 	film_info.year = year;
-// 	film_info.director = director;
-// 	return film_info;
-// }
+FilmInfo Film::set_info()
+{
+	FilmInfo film_info;
+	film_info.id = id;
+	film_info.name = name;
+	film_info.length = length;
+	film_info.price = price;
+	film_info.rate = rate;
+	film_info.year = year;
+	film_info.director = director;
+	return film_info;
+}
 
-// bool Film::is_in_range(std::vector<std::string> info)
-// {
-// 	for (int i = 2; i < info.size(); i + 2)
-// 	{
-// 		if (info[i] == NAME)
-// 		{
-// 			if (info[i + 1] != name)
-// 				return false;
-// 		}
-// 		else if (info[i] == MINRATE)
-// 		{
-// 			if (rate < stof(info[i + 1]))
-// 				return false;
-// 		}
-// 		else if (info[i] == MINYEAR)
-// 		{
-// 			if (year < stoi(info[i + 1]))
-// 				return false;
-// 		}
-// 		else if (info[i] == MAXYEAR)
-// 		{
-// 			if (year > stoi(info[i + 1]))
-// 				return false;
-// 		}
-// 		else if (info[i] == PRICE)
-// 		{
-// 			if (price != stoi(info[i + 1]))
-// 				return false;
-// 		}
-// 		else if (info[i] == DIRECTOR)
-// 		{
-// 			if (director != info[i + 1])
-// 				return false;
-// 		}
-// 	}
-// 	return true;
-// }
+bool Film::is_in_range(map<string, string> info)
+{
+	for (map<string, string>::iterator it = info.begin(); it != info.end(); ++it)
+	{
+		if (it->first == NAME)
+		{
+			if (it->second != name)
+				return false;
+		}
+		else if (it->first == MINRATE)
+		{
+			if (rate < stof(it->second))
+				return false;
+		}
+		else if (it->first == MINYEAR)
+		{
+			if (year < stoi(it->second))
+				return false;
+		}
+		else if (it->first == MAXYEAR)
+		{
+			if (year > stoi(it->second))
+				return false;
+		}
+		else if (it->first == PRICE)
+		{
+			if (price != stoi(it->second))
+				return false;
+		}
+		else if (it->first == DIRECTOR)
+		{
+			if (director != it->second)
+				return false;
+		}
+	}
+	return true;
+}
 
 bool Film::is_deleted()
 {

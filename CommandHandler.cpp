@@ -138,8 +138,7 @@ void CommandHandler::handle_get_commands()
 	else if (command == PUBLISHED)
 	{
 		controller->control_get_published_films(curr_command);
-		//get_published_films();
-		//print
+		printer->print_published_films(get_published_films());
 	}
 	else if (command == FILMS)
 	{
@@ -278,4 +277,9 @@ void CommandHandler::get_money_from_network()
 vector<FollowersInfo> CommandHandler::get_followers()
 {
 	return ((Publisher*)(data->get_active_user()))->get_followers();
+}
+
+vector<FilmInfo> CommandHandler::get_published_films()
+{
+	return ((Publisher*)(data->get_active_user()))->get_published_films(curr_command);
 }
