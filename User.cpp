@@ -3,13 +3,14 @@
 #include "Publisher.h"
 #include "Film.h"
 #include "Comment.h"
+#include "md5.h"
 
 using namespace std;
 
 User::User(map<string, string> info)
 {
 	username = info[USERNAME];
-	password = info[PASSWORD];
+	password = md5(info[PASSWORD]);
 	email = info[EMAIL];
 	age = stoi(info[AGE]);
 	id = stoi(info[USER_ID]);
@@ -37,7 +38,7 @@ int User::get_id()
 
 bool User::check_password(string pass)
 {
-	return pass == password;
+	return md5(pass) == password;
 }
 
 bool User::is_publisher()
