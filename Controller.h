@@ -16,6 +16,9 @@ private:
 	void check_get_bought_films_optional_datas(std::map<std::string, std::string> command);
 	void check_validataion_of_email(std::string email);
 	void check_if_number(std::string str);
+	void check_if_active_user_is_a_publisher();
+	void does_comment_exist(std::map<std::string, std::string> command);
+	void did_the_publisher_publish_the_film(std::map<std::string, std::string> command);
 public:
 	Controller(Data* _data);
 	void control_signup(std::map<std::string, std::string> command);

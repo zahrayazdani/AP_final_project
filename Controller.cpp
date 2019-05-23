@@ -6,6 +6,7 @@
 #include "Publisher.h"
 #include "Film.h"
 
+//
 using namespace std;
 
 Controller::Controller(Data* _data)
@@ -56,10 +57,7 @@ void Controller::control_login(map<string, string> command)
 
 void Controller::control_add_film(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if ((command.find(NAME) == command.end()) ||
 		(command.find(YEAR) == command.end()) ||
 		(command.find(LENGTH) == command.end()) || 
@@ -78,10 +76,7 @@ void Controller::control_add_film(map<string, string> command)
 
 void Controller::control_reply(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if ((command.find(FILM_ID) == command.end()) ||
 		(command.find(COMMENT_ID) == command.end()) ||
 		(command.find(CONTENT) == command.end()))
@@ -92,11 +87,7 @@ void Controller::control_reply(map<string, string> command)
 	check_if_number(command[COMMENT_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
-	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
-		throw PermissionDenied();
-	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID]))
-		->find_comment(stoi(command[COMMENT_ID])) == NULL)
-		throw NotFound();
+	does_comment_exist(command);
 }
 
 void Controller::control_follow(map<string, string> command)
@@ -153,20 +144,14 @@ void Controller::does_user_have_the_film(int film_id)
 
 void Controller::control_edit_film(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if (command.find(FILM_ID) == command.end())
 		throw BadRequest();
 	if (command.size() > 7)
 		throw BadRequest();
 	check_if_number(command[FILM_ID]);
 	check_edit_film_optional_datas(command);
-	if (data->find_film(stoi(command[FILM_ID])) == NULL)
-		throw NotFound();
-	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
-		throw PermissionDenied();
+	did_the_publisher_publish_the_film(command);
 }
 
 void Controller::check_edit_film_optional_datas(map<string, string> command)
@@ -185,27 +170,18 @@ void Controller::check_edit_film_optional_datas(map<string, string> command)
 
 void Controller::control_delete_film(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if (command.find(FILM_ID) == command.end())
 		throw BadRequest();
 	if (command.size() > 2)
 		throw BadRequest();
 	check_if_number(command[FILM_ID]);
-	if (data->find_film(stoi(command[FILM_ID])) == NULL)
-		throw NotFound();
-	if (((Publisher*)(data->get_active_user()))-> find_published_film(stoi(command[FILM_ID])) == NULL)
-		throw PermissionDenied();
+	did_the_publisher_publish_the_film(command);
 }
 
 void Controller::control_delete_comment(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if ((command.find(FILM_ID) == command.end()) ||
 		(command.find(COMMENT_ID) == command.end()))
 		throw BadRequest();
@@ -215,27 +191,17 @@ void Controller::control_delete_comment(map<string, string> command)
 	check_if_number(command[COMMENT_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
-	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
-		throw PermissionDenied();
-	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID]))
-		->find_comment(stoi(command[COMMENT_ID])) == NULL)
-		throw NotFound();
+	does_comment_exist(command);
 }
 
 void Controller::control_get_followers(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 }
 
 void Controller::control_get_published_films(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if (command.size() > 7)
 		throw BadRequest();
 	check_search_films_optional_datas(command);
@@ -304,10 +270,7 @@ void Controller::control_get_read_notifs(map<string, string> command)
 
 void Controller::control_get_money_from_network(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if (command.size() > 1)
 		throw BadRequest();
 }
@@ -362,4 +325,29 @@ void Controller::check_if_number(string str)
 	for (int i = 0; i < str.size(); i++)
 		if ((str[i] < ASCII_ZERO) || (str[i] > ASCII_NINE))
 			throw BadRequest();
+}
+
+void Controller::check_if_active_user_is_a_publisher()
+{
+	if (data->get_active_user() == NULL)
+		throw PermissionDenied();
+	if (!data->get_active_user()->is_publisher())
+		throw PermissionDenied();
+}
+
+void Controller::does_comment_exist(map<string, string> command)
+{
+	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
+		throw PermissionDenied();
+	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID]))
+		->find_comment(stoi(command[COMMENT_ID])) == NULL)
+		throw NotFound();
+}
+
+void Controller::did_the_publisher_publish_the_film(map<string, string> command)
+{
+	if (data->find_film(stoi(command[FILM_ID])) == NULL)
+		throw NotFound();
+	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
+		throw PermissionDenied();
 }
