@@ -12,11 +12,12 @@ class Recommender
 private:
 	Data* data;
 	User* curr_user;
+	Film* film;
 	std::vector<Film*> films;
 	std::vector<FilmInfo> find_recommendation_films();
 public:
 	Recommender(Data* _data);
-	std::vector<FilmInfo> recommend_film(User* user);
+	std::vector<FilmInfo> recommend_film(User* user, Film* curr_film);
 };
 
 #endif

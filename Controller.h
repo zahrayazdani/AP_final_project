@@ -32,7 +32,7 @@ public:
 	void control_get_published_films(std::map<std::string, std::string> command);
 	void control_get_bought_films(std::map<std::string, std::string> command);
 	void control_get_notifs(std::map<std::string, std::string> command);
-	void control_get_readen_notifs(std::map<std::string, std::string> command);
+	void control_get_read_notifs(std::map<std::string, std::string> command);
 	void control_get_money_from_network(std::map<std::string, std::string> command);
 	void control_charge_account(std::map<std::string, std::string> command);
 	void control_show_film_details(std::map<std::string, std::string> command);

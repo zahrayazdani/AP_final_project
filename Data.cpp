@@ -73,7 +73,7 @@ User* Data::increase_network_money(int film_id)
 {
 	string publisher_username = find_film(film_id)->get_publisher_username();
 	int film_price = find_film(film_id)->get_price();
-	int film_rate = find_film(film_id)->get_rate();
+	float film_rate = find_film(film_id)->get_rate();
 	network_money += film_price;
 	((Publisher*)(find_user(publisher_username)))->increase_debt(film_price, film_rate);
 	return find_user(publisher_username);

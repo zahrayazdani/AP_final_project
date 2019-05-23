@@ -22,6 +22,8 @@ CommandHandler::CommandHandler()
 void CommandHandler::handle_command(map<string, string> _curr_command)
 {
 	curr_command = _curr_command;
+	if (curr_command.size() == 0)
+		return;
 	if (curr_command.find(POST) != curr_command.end())
 		handle_post_commands();
 	else if (curr_command.find(PUT) != curr_command.end()) 
@@ -131,7 +133,7 @@ void CommandHandler::handle_delete_commands()
 
 void CommandHandler::handle_get_commands()
 {
-	string command = curr_command[POST];
+	string command = curr_command[GET];
 	if (command == FOLLOWERS)
 	{
 		controller->control_get_followers(curr_command);
@@ -156,10 +158,10 @@ void CommandHandler::handle_get_commands()
 		controller->control_get_notifs(curr_command);
 		printer->print_notifs(get_notifs());
 	}
-	else if (command == READEN_NOTIFS)
+	else if (command == READ_NOTIFS)
 	{
-		controller->control_get_readen_notifs(curr_command);
-		printer->print_readen_notifs(get_readen_notifs(), stoi(curr_command[LIMIT]));
+		controller->control_get_read_notifs(curr_command);
+		printer->print_read_notifs(get_read_notifs(), stoi(curr_command[LIMIT]));
 	}
 	else
 		throw NotFound();
@@ -176,7 +178,8 @@ void CommandHandler::handle_get_films_commands()
 	{
 		controller->control_show_film_details(curr_command);
 		printer->print_film_details(data->find_film(stoi(curr_command[FILM_ID])));
-		printer->print_recommend_films(recommender->recommend_film(data->get_active_user()));
+		printer->print_recommend_films(recommender->recommend_film(data->get_active_user(), 
+			data->find_film(stoi(curr_command[FILM_ID]))));
 	}
 }
 
@@ -258,7 +261,7 @@ void CommandHandler::buy()
 {
 	Film* film = data->find_film(stoi(curr_command[FILM_ID]));
 	string notif = data->get_active_user()->buy_new_film(film);
-	if (notif == EMPTY_STRING)
+	if (notif != EMPTY_STRING)
 	{
 		User* publisher = data->increase_network_money(stoi(curr_command[FILM_ID]));
 		publisher->add_new_notif(notif);
@@ -296,7 +299,7 @@ vector<FilmInfo> CommandHandler::search()
 	return data->search(curr_command);	
 }
 
-vector<string> CommandHandler::get_readen_notifs()
+vector<string> CommandHandler::get_read_notifs()
 {
-	return data->get_active_user()->get_readen_notifs();
+	return data->get_active_user()->get_read_notifs();
 }

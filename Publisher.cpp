@@ -10,7 +10,7 @@ using namespace std;
 Publisher::Publisher(map<string, string> info)
  : User(info)
  {
- 	money_from_films = debt_money = 0;
+ 	debt_money = 0;
  }
 
 Film* Publisher::add_film(map<string, string> info)
@@ -114,7 +114,12 @@ void Publisher::increase_debt(int film_price, int film_rate)
 int Publisher::get_money_from_network()
 {
 	int temp = debt_money;
-	money_from_films += debt_money;
+	money += debt_money;
 	debt_money = 0;
 	return temp;
+}
+
+void Publisher::add_follower(User* new_follower)
+{
+	followers.push_back(new_follower);
 }

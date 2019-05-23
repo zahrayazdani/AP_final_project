@@ -18,19 +18,22 @@ private:
 	std::string summary;
 	std::string director;
 	float rate;
-	std::vector<float> scores;
-	std::string publisher_username;
-	std::vector<Comment*> comments;
 	int id;
 	bool deleted;
 	int comment_id;
+	std::map<std::string, int> scores;
+	std::string publisher_username;
+	std::vector<Comment*> comments;
+	float calc_rate();
 public:
 	Film(std::map<std::string, std::string> info);
 	int get_id();
 	std::string get_name();
 	int get_price();
-	int get_rate();
+	float get_rate();
+	int get_year();
 	std::string get_publisher_username();
+	int get_new_comment_id();
 	Comment* find_comment(int id);
 	void delete_comment(int id);
 	void reply_comment(int id, std::string content);
@@ -38,8 +41,7 @@ public:
 	FilmInfo set_info();
 	bool is_in_range(std::map<std::string, std::string> info);
 	bool is_deleted();
-	int get_new_comment_id();
-	std::string add_new_rate(int score);
+	std::string add_new_rate(int score, std::string username);
 	std::string add_new_comment(std::string content, std::string writer);
 	void change_delete_stat();
 	std::vector<CommentInfo> get_comments_info();

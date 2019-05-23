@@ -65,7 +65,7 @@ struct  CommentInfo
 #define COMMENTS "comments"
 #define PUBLISHED "published"
 #define PURCHASED "purchased"
-#define READEN_NOTIFS "notificationsread"
+#define READ_NOTIFS "notificationsread"
 #define PASSWORD "password"
 #define EMAIL "email"
 #define AGE "age"

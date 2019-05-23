@@ -92,9 +92,9 @@ void Controller::control_reply(map<string, string> command)
 	check_if_number(command[COMMENT_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
-	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
+	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
 		throw PermissionDenied();
-	if (data->get_active_user()->find_film(stoi(command[FILM_ID]))
+	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID]))
 		->find_comment(stoi(command[COMMENT_ID])) == NULL)
 		throw NotFound();
 }
@@ -165,13 +165,13 @@ void Controller::control_edit_film(map<string, string> command)
 	check_edit_film_optional_datas(command);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
-	if (((Publisher*)(data->get_active_user()))-> find_published_film(stoi(command[FILM_ID])) == NULL)
+	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
 		throw PermissionDenied();
 }
 
 void Controller::check_edit_film_optional_datas(map<string, string> command)
 {
-	for (map<string, string>::iterator it = command.begin(); it != command.end(); ++it)
+	for (map<string, string>::iterator it = next(command.begin(), 2); it != command.end(); ++it)
 	{
 		if ((it->first != NAME) && (it->first != YEAR) && (it->first != LENGTH) &&
 			(it->first != SUMMARY) && (it->first != DIRECTOR))
@@ -215,9 +215,9 @@ void Controller::control_delete_comment(map<string, string> command)
 	check_if_number(command[COMMENT_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
-	if (data->get_active_user()->find_film(stoi(command[FILM_ID])) == NULL)
+	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
 		throw PermissionDenied();
-	if (data->get_active_user()->find_film(stoi(command[FILM_ID]))
+	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID]))
 		->find_comment(stoi(command[COMMENT_ID])) == NULL)
 		throw NotFound();
 }
@@ -243,7 +243,7 @@ void Controller::control_get_published_films(map<string, string> command)
 
 void Controller::check_search_films_optional_datas(map<string, string> command)
 {
-	for (map<string, string>::iterator it = command.begin(); it != command.end(); ++it)
+	for (map<string, string>::iterator it = next(command.begin(), 1); it != command.end(); ++it)
 	{
 		if ((it->first != NAME) && (it->first != MINRATE) && (it->first != MAXYEAR) &&
 			(it->first != MINYEAR) && (it->first != PRICE) && (it->first != DIRECTOR))
@@ -270,7 +270,7 @@ void Controller::control_get_bought_films(map<string, string> command)
 
 void Controller::check_get_bought_films_optional_datas(map<string, string> command)
 {
-	for (map<string, string>::iterator it = command.begin(); it != command.end(); ++it)
+	for (map<string, string>::iterator it = next(command.begin(), 1); it != command.end(); ++it)
 	{
 		if ((it->first != NAME) && (it->first != MAXYEAR) && (it->first != MINYEAR) &&
 			(it->first != PRICE) && (it->first != DIRECTOR))
@@ -288,9 +288,11 @@ void Controller::control_get_notifs(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
 		throw PermissionDenied();
+	if (command.size() > 1)
+		throw BadRequest();
 }
 
-void Controller::control_get_readen_notifs(map<string, string> command)
+void Controller::control_get_read_notifs(map<string, string> command)
 {
 	if (data->get_active_user() == NULL)
 		throw PermissionDenied();

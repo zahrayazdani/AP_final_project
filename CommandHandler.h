@@ -42,7 +42,7 @@ private:
 	std::vector<FilmInfo> get_published_films();
 	std::vector<FilmInfo> get_bought_films();
 	std::vector<std::string> get_notifs();
-	std::vector<std::string> get_readen_notifs();
+	std::vector<std::string> get_read_notifs();
 	std::vector<FilmInfo> search();
 public:
 	CommandHandler();

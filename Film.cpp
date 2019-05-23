@@ -122,10 +122,10 @@ bool Film::is_deleted()
 	return deleted;
 }
 
-string Film::add_new_rate(int score)
+string Film::add_new_rate(int score, string username)
 {
-	scores.push_back(score);
-	rate = (rate + score) / scores.size();
+	scores[username] = score;
+	rate = calc_rate();
 	return publisher_username;
 }
 
@@ -157,7 +157,7 @@ string Film::get_publisher_username()
 	return publisher_username;
 }
 
-int Film::get_rate()
+float Film::get_rate()
 {
 	return rate;
 }
@@ -166,6 +166,21 @@ vector<CommentInfo> Film::get_comments_info()
 {
 	vector<CommentInfo> comments_info;
 	for (int i = 0; i < comments.size(); i++)
-		comments_info.push_back(comments[i]->set_info());
+		if (!comments[i]->is_deleted())
+			comments_info.push_back(comments[i]->set_info());
 	return comments_info;
+}
+
+int Film::get_year()
+{
+	return year;
+}
+
+float Film::calc_rate()
+{
+	int temp_rate = 0;
+	for (map<string, int>::iterator it = scores.begin(); it != scores.end(); ++it)
+		temp_rate += it->second;
+	float _temp = temp_rate;
+	return _temp / scores.size();
 }

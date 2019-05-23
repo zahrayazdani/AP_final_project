@@ -16,10 +16,10 @@ private:
 public:
 	Comment(int _id, std::string _writer, std::string _content);
 	int get_id();
-	void add_reply(std::string reply_message);
 	std::string get_writer();
-	void change_delete_stat();
 	bool is_deleted();
+	void add_reply(std::string reply_message);
+	void change_delete_stat();
 	CommentInfo set_info();
 };
 

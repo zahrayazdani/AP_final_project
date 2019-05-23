@@ -41,4 +41,5 @@ CommentInfo Comment::set_info()
 	info.id = id;
 	info.content = content;
 	info.replies = replies;
+	return info;
 }
