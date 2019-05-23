@@ -13,6 +13,27 @@ Data::Data()
 	active_user = NULL;
 }
 
+Data::~Data()
+{
+	delete_users();
+	delete_films();
+}
+
+void Data::delete_users()
+{
+	for (int i = 0; i < users.size(); i++)
+		delete users[i];
+}
+
+void Data::delete_films()
+{
+	for (int i = 0; i < films.size(); ++i)
+	{
+		films[i]->delete_comments();
+		delete films[i];
+	}
+}
+
 User* Data::find_user(string username)
 {
 	for (int i = 0; i < users.size(); i++)

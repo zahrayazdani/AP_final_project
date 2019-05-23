@@ -184,3 +184,9 @@ float Film::calc_rate()
 	float _temp = temp_rate;
 	return _temp / scores.size();
 }
+
+void Film::delete_comments()
+{
+	for (int i = 0; i < comments.size(); i++)
+		delete comments[i];
+}

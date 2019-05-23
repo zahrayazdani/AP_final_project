@@ -12,6 +12,12 @@ Manager::Manager()
 	command_parser = new CommandParser;
 }
 
+Manager::~Manager()
+{
+	delete command_parser;
+	delete command_handler;
+}
+
 void Manager::run()
 {
 	string input;

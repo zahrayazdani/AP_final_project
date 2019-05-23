@@ -19,6 +19,14 @@ CommandHandler::CommandHandler()
 	recommender = new Recommender(data);
 }
 
+CommandHandler::~CommandHandler()
+{
+	delete data;
+	delete controller;
+	delete printer;
+	delete recommender;
+}
+
 void CommandHandler::handle_command(map<string, string> _curr_command)
 {
 	curr_command = _curr_command;

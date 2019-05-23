@@ -19,8 +19,11 @@ private:
 	int film_id;
 	User* active_user;
 	int network_money;
+	void delete_users();
+	void delete_films();
 public:
 	Data();
+	~Data();
 	User* find_user(std::string username);
 	User* find_user(int id);
 	Film* find_film(int id);

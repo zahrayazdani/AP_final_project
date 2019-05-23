@@ -46,6 +46,7 @@ private:
 	std::vector<FilmInfo> search();
 public:
 	CommandHandler();
+	~CommandHandler();
 	void handle_command(std::map<std::string, std::string> _curr_command);
 };
 

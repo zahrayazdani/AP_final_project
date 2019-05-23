@@ -18,6 +18,7 @@ private:
 	std::map<std::string, std::string> curr_command;
 public:
 	Manager();
+	~Manager();
 	void run();
 };
 
