@@ -26,6 +26,7 @@ private:
 	void handle_get_money();
 	void signup();
 	void login();
+	void logout();
 	void add_film();
 	void reply();
 	void follow();

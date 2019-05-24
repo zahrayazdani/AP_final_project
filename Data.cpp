@@ -11,6 +11,7 @@ Data::Data()
 	film_id = FIRST_ID;
 	network_money = 0;
 	active_user = NULL;
+	admin = false;
 }
 
 Data::~Data()
@@ -117,4 +118,14 @@ vector<FilmInfo> Data::search(map<string, string> info)
 vector<Film*> Data::get_films()
 {
 	return films;
+}
+
+int Data::get_network_money()
+{
+	return network_money;
+}
+
+void Data::logout()
+{
+	active_user = NULL;
 }

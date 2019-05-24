@@ -102,6 +102,11 @@ void CommandHandler::handle_post_commands()
 		controller->control_delete_comment(curr_command);
 		delete_comment();
 	}
+	else if (command == LOGOUT)
+	{
+		controller->control_logout(curr_command, admin->get_active());
+		logout();
+	}
 	else
 		throw NotFound();
 	printer->print_success_message();
@@ -300,5 +305,13 @@ vector<string> CommandHandler::get_read_notifs()
 
 void CommandHandler::handle_get_money()
 {
-	
+
+}
+
+void CommandHandler::logout()
+{
+	if (data->get_active_user() != NULL)
+		data->logout();
+	else
+		admin->logout();
 }

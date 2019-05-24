@@ -350,3 +350,11 @@ void Controller::did_the_publisher_publish_the_film(map<string, string> command)
 	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
 		throw PermissionDenied();
 }
+
+void Controller::control_logout(map<string, string> command, bool is_admin_active)
+{
+	if (command.size() > 1)
+		throw BadRequest();
+	if ((data->get_active_user() == NULL) && (!is_admin_active))
+		throw PermissionDenied();
+}

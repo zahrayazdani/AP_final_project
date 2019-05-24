@@ -41,6 +41,7 @@ public:
 	void control_show_film_details(std::map<std::string, std::string> command);
 	void control_search(std::map<std::string, std::string> command);
 	void control_buy(std::map<std::string, std::string> command);
+	void control_logout(std::map<std::string, std::string> command, bool is_admin_active);
 };
 
 #endif

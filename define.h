@@ -92,5 +92,7 @@ struct  CommentInfo
 #define PUT_FILMS "put_films"
 #define DELETE_FILMS "delete_films"
 #define DELETE_COMMENTS "delete_comments"
+#define ADMIN "admin"
+#define LOGOUT "logout"
 
 #endif

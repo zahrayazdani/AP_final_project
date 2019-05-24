@@ -2,8 +2,8 @@ CC := g++ -g -std=c++11
 
 all: a.out
 
-a.out: main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher.o User.o Controller.o Data.o Printer.o CommandParser.o Recommender.o md5.o
-	$(CC) -o a.out main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher.o User.o Controller.o Data.o Printer.o CommandParser.o Recommender.o md5.o
+a.out: main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher.o User.o Controller.o Data.o Printer.o CommandParser.o Recommender.o md5.o Admin.o
+	$(CC) -o a.out main.o CommandHandler.o Comment.o Exceptions.o Film.o Manager.o Publisher.o User.o Controller.o Data.o Printer.o CommandParser.o Recommender.o md5.o Admin.o
 
 main.o: main.cpp Manager.h
 	$(CC) -c main.cpp
@@ -46,6 +46,9 @@ Recommender.o: Recommender.cpp Recommender.h Data.h User.h define.h Film.h
 
 md5.o: md5.cpp md5.h
 	$(CC) -c md5.cpp
+
+Admin.o: Admin.cpp Admin.h md5.h Data.h
+	$(CC) -c Admin.cpp
 
 .PHONY: clean
 clean:

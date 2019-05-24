@@ -31,12 +31,14 @@ public:
 	std::vector<Film*> get_films();
 	int get_new_user_id();
 	int get_new_film_id();
+	int get_network_money();
 	void change_active_user(User* new_active_user);
 	void add_new_user(User* new_user);
 	void add_new_film(Film* new_film);
 	User* increase_network_money(int film_id);
 	void decrease_network_money(int money);
 	std::vector<FilmInfo> search(std::map<std::string, std::string> info);
+	void logout();
 };
 
 #endif
