@@ -149,3 +149,8 @@ void User::transfer_unread_notifs_to_read()
 		read_notifs.push_back(unread_notifs[i]);
 	unread_notifs.clear();
 }
+
+int User::get_money()
+{
+	return money;
+}

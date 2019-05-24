@@ -92,3 +92,8 @@ void Printer::print_recommend_films(vector<FilmInfo> recommends)
 		cout << i + 1 << ". " << recommends[i].id << " | " << recommends[i].name << " | " <<
 			recommends[i].length << " | " << recommends[i].director << endl;
 }
+
+void Printer::print_amount_of_money(int money)
+{
+	cout << money << endl;
+}

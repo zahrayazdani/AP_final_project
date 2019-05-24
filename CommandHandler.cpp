@@ -163,7 +163,8 @@ void CommandHandler::handle_get_commands()
 	}
 	else if (command == MONEY)
 	{
-		handle_get_money();
+		controller->control_get_money(curr_command, admin->get_active());
+		printer->print_amount_of_money(handle_get_money());
 	}
 	else
 		throw NotFound();
@@ -311,9 +312,12 @@ vector<string> CommandHandler::get_read_notifs()
 	return data->get_active_user()->get_read_notifs();
 }
 
-void CommandHandler::handle_get_money()
+int CommandHandler::handle_get_money()
 {
-
+	if (curr_command[USERNAME] == ADMIN)
+		return admin->get_network_money();
+	else
+		return data->get_active_user()->get_money();
 }
 
 void CommandHandler::logout()

@@ -25,7 +25,7 @@ private:
 	void handle_get_commands();
 	void handle_post_money_commands();
 	void handle_get_films_commands();
-	void handle_get_money();
+	int handle_get_money();
 	void signup();
 	void login();
 	void logout();

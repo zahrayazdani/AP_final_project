@@ -381,3 +381,11 @@ void Controller::check_logout(bool is_admin_active)
 	if ((data->get_active_user() != NULL) || (is_admin_active))
 		throw BadRequest();
 }
+
+void Controller::control_get_money(map<string, string> command, bool is_admin_active)
+{
+	if (command.size() > 1)
+		throw BadRequest();
+	if ((data->get_active_user() == NULL) && (!is_admin_active))
+		throw PermissionDenied();
+}

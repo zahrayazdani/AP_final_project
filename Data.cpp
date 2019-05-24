@@ -11,7 +11,6 @@ Data::Data()
 	film_id = FIRST_ID;
 	network_money = 0;
 	active_user = NULL;
-	admin = false;
 }
 
 Data::~Data()

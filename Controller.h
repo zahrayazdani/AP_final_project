@@ -46,6 +46,7 @@ public:
 	void control_search(std::map<std::string, std::string> command);
 	void control_buy(std::map<std::string, std::string> command);
 	void control_logout(std::map<std::string, std::string> command, bool is_admin_active);
+	void control_get_money(std::map<std::string, std::string> command, bool is_admin_active);
 };
 
 #endif

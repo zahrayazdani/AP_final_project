@@ -47,7 +47,7 @@ Recommender.o: Recommender.cpp Recommender.h Data.h User.h define.h Film.h
 md5.o: md5.cpp md5.h
 	$(CC) -c md5.cpp
 
-Admin.o: Admin.cpp Admin.h md5.h Data.h
+Admin.o: Admin.cpp Admin.h md5.h Data.h define.h
 	$(CC) -c Admin.cpp
 
 .PHONY: clean

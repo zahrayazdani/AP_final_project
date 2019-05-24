@@ -3,6 +3,7 @@
 
 #include <string>
 #include "md5.h"
+#include "define.h"
 
 class Data;
 
