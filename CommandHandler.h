@@ -20,11 +20,10 @@ private:
 	Recommender* recommender;
 	std::map<std::string, std::string> curr_command;
 	void handle_post_commands();
-	void handle_put_commands();
-	void handle_delete_commands();
 	void handle_get_commands();
 	void handle_post_money_commands();
 	void handle_get_films_commands();
+	void handle_get_money();
 	void signup();
 	void login();
 	void add_film();

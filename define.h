@@ -89,5 +89,8 @@ struct  CommentInfo
 #define LOW_RATE 5
 #define EMPTY_STRING ""
 #define NUM_OF_RECOMMENDED_FILMS 4
+#define PUT_FILMS "put_films"
+#define DELETE_FILMS "delete_films"
+#define DELETE_COMMENTS "delete_comments"
 
 #endif

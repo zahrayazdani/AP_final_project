@@ -6,7 +6,6 @@
 #include "Publisher.h"
 #include "Film.h"
 
-//
 using namespace std;
 
 Controller::Controller(Data* _data)
