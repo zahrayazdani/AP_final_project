@@ -5,6 +5,7 @@
 #include <string>
 
 class Data;
+class Admin;
 
 class Controller
 {
@@ -19,10 +20,13 @@ private:
 	void check_if_active_user_is_a_publisher();
 	void does_comment_exist(std::map<std::string, std::string> command);
 	void did_the_publisher_publish_the_film(std::map<std::string, std::string> command);
+	void check_logout(bool is_admin_active);
+	void check_login_admin(std::map<std::string, std::string> command, Admin* admin);
+	void check_login_user(std::map<std::string, std::string> command);
 public:
 	Controller(Data* _data);
-	void control_signup(std::map<std::string, std::string> command);
-	void control_login(std::map<std::string, std::string> command);
+	void control_signup(std::map<std::string, std::string> command, bool is_admin_active);
+	void control_login(std::map<std::string, std::string> command, Admin* admin);
 	void control_add_film(std::map<std::string, std::string> command);
 	void control_reply(std::map<std::string, std::string> command);
 	void control_follow(std::map<std::string, std::string> command);

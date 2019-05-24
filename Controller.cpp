@@ -5,6 +5,7 @@
 #include "define.h"
 #include "Publisher.h"
 #include "Film.h"
+#include "Admin.h"
 
 using namespace std;
 
@@ -13,15 +14,16 @@ Controller::Controller(Data* _data)
 	data = _data;
 }
 
-void Controller::control_signup(map<string, string> command)
+void Controller::control_signup(map<string, string> command, bool is_admin_active)
 {
+	check_logout(is_admin_active);
 	if ((command.find(USERNAME) == command.end()) ||
 		(command.find(PASSWORD) == command.end()) ||
 		(command.find(EMAIL) == command.end()) || 
 		(command.find(AGE) == command.end()))
 		throw BadRequest();
 	check_if_number(command[AGE]);
-	if (data->find_user(command[USERNAME]) != NULL)
+	if ((data->find_user(command[USERNAME]) != NULL) || (command[USERNAME] == ADMIN))
 		throw BadRequest();
 	if (command.size() > 6)
 		throw BadRequest();
@@ -41,16 +43,31 @@ void Controller::check_validataion_of_email(string email)
 		throw BadRequest();
 }
 
-void Controller::control_login(map<string, string> command)
+void Controller::control_login(map<string, string> command, Admin* admin)
 {
+	check_logout(admin->get_active());
 	if ((command.find(USERNAME) == command.end()) ||
 		(command.find(PASSWORD) == command.end()))
 		throw BadRequest();
-	if (!data->find_user(command[USERNAME]))
-		throw NotFound();
 	if (command.size() > 3)
 		throw BadRequest();
+	if (command[USERNAME] == ADMIN)
+		check_login_admin(command, admin);
+	else
+		check_login_user(command);
+}
+
+void Controller::check_login_user(map<string, string> command)
+{
+	if (!data->find_user(command[USERNAME]))
+		throw NotFound();
 	if (!data->find_user(command[USERNAME])->check_password(command[PASSWORD]))
+		throw BadRequest();
+}
+
+void Controller::check_login_admin(map<string, string> command, Admin* admin)
+{
+	if (!admin->check_password(command[PASSWORD]))
 		throw BadRequest();
 }
 
@@ -356,5 +373,11 @@ void Controller::control_logout(map<string, string> command, bool is_admin_activ
 	if (command.size() > 1)
 		throw BadRequest();
 	if ((data->get_active_user() == NULL) && (!is_admin_active))
-		throw PermissionDenied();
+		throw BadRequest();
+}
+
+void Controller::check_logout(bool is_admin_active)
+{
+	if ((data->get_active_user() != NULL) || (is_admin_active))
+		throw BadRequest();
 }

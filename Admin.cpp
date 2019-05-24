@@ -28,3 +28,8 @@ void Admin::logout()
 {
 	active = false;
 }
+
+void Admin::login()
+{
+	active = true;
+}

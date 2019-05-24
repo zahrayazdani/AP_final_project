@@ -10,6 +10,7 @@ class Controller;
 class Data;
 class Printer;
 class Recommender;
+class Admin;
 
 class CommandHandler
 {
@@ -18,6 +19,7 @@ private:
 	Data* data;
 	Controller* controller;
 	Recommender* recommender;
+	Admin* admin;
 	std::map<std::string, std::string> curr_command;
 	void handle_post_commands();
 	void handle_get_commands();

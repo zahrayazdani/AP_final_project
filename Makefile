@@ -11,7 +11,7 @@ main.o: main.cpp Manager.h
 Manager.o: Manager.cpp Manager.h CommandHandler.h Exceptions.h CommandParser.h
 	$(CC) -c Manager.cpp
 
-CommandHandler.o: CommandHandler.cpp CommandHandler.h Controller.h Data.h define.h Printer.h Exceptions.h User.h Publisher.h Film.h Recommender.h
+CommandHandler.o: CommandHandler.cpp CommandHandler.h Controller.h Data.h define.h Printer.h Exceptions.h User.h Publisher.h Film.h Recommender.h Admin.h
 	$(CC) -c CommandHandler.cpp
 
 User.o: User.cpp User.h Publisher.h Film.h Comment.h define.h md5.h
@@ -29,7 +29,7 @@ Comment.o: Comment.cpp Comment.h define.h
 Exceptions.o: Exceptions.cpp Exceptions.h define.h
 	$(CC) -c Exceptions.cpp
 
-Controller.o: Controller.cpp Controller.h Data.h Exceptions.h User.h define.h Publisher.h Film.h
+Controller.o: Controller.cpp Controller.h Data.h Exceptions.h User.h define.h Publisher.h Film.h Admin.h
 	$(CC) -c Controller.cpp
 
 Data.o: Data.cpp Data.h define.h User.h Film.h Publisher.h

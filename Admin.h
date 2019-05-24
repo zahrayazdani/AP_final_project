@@ -19,6 +19,7 @@ public:
 	bool get_active();
 	int get_network_money();
 	void logout();
+	void login();
 };
 
 #endif

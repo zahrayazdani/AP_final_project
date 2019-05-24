@@ -8,6 +8,7 @@
 #include "Publisher.h"
 #include "Film.h"
 #include "Recommender.h"
+#include "Admin.h"
 
 using namespace std;
 
@@ -17,6 +18,7 @@ CommandHandler::CommandHandler()
 	controller = new Controller(data);
 	printer = new Printer;
 	recommender = new Recommender(data);
+	admin = new Admin(data);
 }
 
 CommandHandler::~CommandHandler()
@@ -25,6 +27,7 @@ CommandHandler::~CommandHandler()
 	delete controller;
 	delete printer;
 	delete recommender;
+	delete admin;
 }
 
 void CommandHandler::handle_command(map<string, string> _curr_command)
@@ -45,12 +48,12 @@ void CommandHandler::handle_post_commands()
 	string command = curr_command[POST];
 	if (command == SIGNUP)
 	{
-		controller->control_signup(curr_command);
+		controller->control_signup(curr_command, admin->get_active());
 		signup();
 	}
 	else if (command == LOGIN)
 	{
-		controller->control_login(curr_command);
+		controller->control_login(curr_command, admin);
 		login();
 	}
 	else if (command == FILMS)
@@ -199,8 +202,13 @@ void CommandHandler::signup()
 
 void CommandHandler::login()
 {
-	User* new_login = data->find_user(curr_command[USERNAME]);
-	data->change_active_user(new_login);
+	if (curr_command[USERNAME] == ADMIN)
+		admin->login();
+	else
+	{
+		User* new_login = data->find_user(curr_command[USERNAME]);
+		data->change_active_user(new_login);
+	}
 }
 
 void CommandHandler::add_film()
