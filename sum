@@ -1,4 +1,38 @@
-#include <sstream>
+#include "Admin.h"
+#include "Data.h"
+
+using namespace std;
+
+Admin::Admin(Data* _data)
+{
+	data = _data;
+	active = false;
+}
+
+bool Admin::check_password(string pass)
+{
+	return md5(pass) == password;
+}
+
+bool Admin::get_active()
+{
+	return active;
+}
+
+int Admin::get_network_money()
+{
+	return data->get_network_money();
+}
+
+void Admin::logout()
+{
+	active = false;
+}
+
+void Admin::login()
+{
+	active = true;
+}#include <sstream>
 #include "CommandHandler.h"
 #include "Controller.h"
 #include "Data.h"
@@ -8,6 +42,7 @@
 #include "Publisher.h"
 #include "Film.h"
 #include "Recommender.h"
+#include "Admin.h"
 
 using namespace std;
 
@@ -17,6 +52,16 @@ CommandHandler::CommandHandler()
 	controller = new Controller(data);
 	printer = new Printer;
 	recommender = new Recommender(data);
+	admin = new Admin(data);
+}
+
+CommandHandler::~CommandHandler()
+{
+	delete data;
+	delete controller;
+	delete printer;
+	delete recommender;
+	delete admin;
 }
 
 void CommandHandler::handle_command(map<string, string> _curr_command)
@@ -26,10 +71,6 @@ void CommandHandler::handle_command(map<string, string> _curr_command)
 		return;
 	if (curr_command.find(POST) != curr_command.end())
 		handle_post_commands();
-	else if (curr_command.find(PUT) != curr_command.end()) 
-		handle_put_commands();
-	else if (curr_command.find(DELETE) != curr_command.end()) 
-		handle_delete_commands();
 	else if (curr_command.find(GET) != curr_command.end()) 
 		handle_get_commands();
 	else
@@ -41,12 +82,12 @@ void CommandHandler::handle_post_commands()
 	string command = curr_command[POST];
 	if (command == SIGNUP)
 	{
-		controller->control_signup(curr_command);
+		controller->control_signup(curr_command, admin->get_active());
 		signup();
 	}
 	else if (command == LOGIN)
 	{
-		controller->control_login(curr_command);
+		controller->control_login(curr_command, admin);
 		login();
 	}
 	else if (command == FILMS)
@@ -83,6 +124,26 @@ void CommandHandler::handle_post_commands()
 		controller->control_comment(curr_command);
 		comment();
 	}
+	else if (command == PUT_FILMS)
+	{
+		controller->control_edit_film(curr_command);
+		edit_film();
+	}
+	else if (command == DELETE_FILMS)
+	{
+		controller->control_delete_film(curr_command);
+		delete_film();
+	}
+	else if (command == DELETE_COMMENTS)
+	{
+		controller->control_delete_comment(curr_command);
+		delete_comment();
+	}
+	else if (command == LOGOUT)
+	{
+		controller->control_logout(curr_command, admin->get_active());
+		logout();
+	}
 	else
 		throw NotFound();
 	printer->print_success_message();
@@ -100,35 +161,6 @@ void CommandHandler::handle_post_money_commands()
 		controller->control_charge_account(curr_command);
 		charge_account();
 	}
-}
-
-void CommandHandler::handle_put_commands()
-{
-	if (curr_command[PUT] == FILMS)
-	{
-		controller->control_edit_film(curr_command);
-		edit_film();
-	}
-	else
-		throw NotFound();
-	printer->print_success_message();
-}
-
-void CommandHandler::handle_delete_commands()
-{
-	if (curr_command[DELETE] == FILMS)
-	{
-		controller->control_delete_film(curr_command);
-		delete_film();
-	}
-	else if (curr_command[DELETE] == COMMENTS)
-	{
-		controller->control_delete_comment(curr_command);
-		delete_comment();
-	}
-	else
-		throw NotFound();
-	printer->print_success_message();
 }
 
 void CommandHandler::handle_get_commands()
@@ -162,6 +194,11 @@ void CommandHandler::handle_get_commands()
 	{
 		controller->control_get_read_notifs(curr_command);
 		printer->print_read_notifs(get_read_notifs(), stoi(curr_command[LIMIT]));
+	}
+	else if (command == MONEY)
+	{
+		controller->control_get_money(curr_command, admin->get_active());
+		printer->print_amount_of_money(handle_get_money());
 	}
 	else
 		throw NotFound();
@@ -200,8 +237,13 @@ void CommandHandler::signup()
 
 void CommandHandler::login()
 {
-	User* new_login = data->find_user(curr_command[USERNAME]);
-	data->change_active_user(new_login);
+	if (curr_command[USERNAME] == ADMIN)
+		admin->login();
+	else
+	{
+		User* new_login = data->find_user(curr_command[USERNAME]);
+		data->change_active_user(new_login);
+	}
 }
 
 void CommandHandler::add_film()
@@ -302,6 +344,22 @@ vector<FilmInfo> CommandHandler::search()
 vector<string> CommandHandler::get_read_notifs()
 {
 	return data->get_active_user()->get_read_notifs();
+}
+
+int CommandHandler::handle_get_money()
+{
+	if (admin->get_active())
+		return admin->get_network_money();
+	else
+		return data->get_active_user()->get_money();
+}
+
+void CommandHandler::logout()
+{
+	if (data->get_active_user() != NULL)
+		data->logout();
+	else
+		admin->logout();
 }#include "CommandParser.h"
 #include "define.h"
 #include "Exceptions.h"
@@ -391,6 +449,7 @@ CommentInfo Comment::set_info()
 #include "define.h"
 #include "Publisher.h"
 #include "Film.h"
+#include "Admin.h"
 
 using namespace std;
 
@@ -399,15 +458,16 @@ Controller::Controller(Data* _data)
 	data = _data;
 }
 
-void Controller::control_signup(map<string, string> command)
+void Controller::control_signup(map<string, string> command, bool is_admin_active)
 {
+	check_logout(is_admin_active);
 	if ((command.find(USERNAME) == command.end()) ||
 		(command.find(PASSWORD) == command.end()) ||
 		(command.find(EMAIL) == command.end()) || 
 		(command.find(AGE) == command.end()))
 		throw BadRequest();
 	check_if_number(command[AGE]);
-	if (data->find_user(command[USERNAME]) != NULL)
+	if ((data->find_user(command[USERNAME]) != NULL) || (command[USERNAME] == ADMIN))
 		throw BadRequest();
 	if (command.size() > 6)
 		throw BadRequest();
@@ -427,25 +487,37 @@ void Controller::check_validataion_of_email(string email)
 		throw BadRequest();
 }
 
-void Controller::control_login(map<string, string> command)
+void Controller::control_login(map<string, string> command, Admin* admin)
 {
+	check_logout(admin->get_active());
 	if ((command.find(USERNAME) == command.end()) ||
 		(command.find(PASSWORD) == command.end()))
 		throw BadRequest();
-	if (!data->find_user(command[USERNAME]))
-		throw NotFound();
 	if (command.size() > 3)
 		throw BadRequest();
+	if (command[USERNAME] == ADMIN)
+		check_login_admin(command, admin);
+	else
+		check_login_user(command);
+}
+
+void Controller::check_login_user(map<string, string> command)
+{
+	if (!data->find_user(command[USERNAME]))
+		throw NotFound();
 	if (!data->find_user(command[USERNAME])->check_password(command[PASSWORD]))
+		throw BadRequest();
+}
+
+void Controller::check_login_admin(map<string, string> command, Admin* admin)
+{
+	if (!admin->check_password(command[PASSWORD]))
 		throw BadRequest();
 }
 
 void Controller::control_add_film(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if ((command.find(NAME) == command.end()) ||
 		(command.find(YEAR) == command.end()) ||
 		(command.find(LENGTH) == command.end()) || 
@@ -464,10 +536,7 @@ void Controller::control_add_film(map<string, string> command)
 
 void Controller::control_reply(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if ((command.find(FILM_ID) == command.end()) ||
 		(command.find(COMMENT_ID) == command.end()) ||
 		(command.find(CONTENT) == command.end()))
@@ -478,11 +547,7 @@ void Controller::control_reply(map<string, string> command)
 	check_if_number(command[COMMENT_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
-	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
-		throw PermissionDenied();
-	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID]))
-		->find_comment(stoi(command[COMMENT_ID])) == NULL)
-		throw NotFound();
+	does_comment_exist(command);
 }
 
 void Controller::control_follow(map<string, string> command)
@@ -539,20 +604,14 @@ void Controller::does_user_have_the_film(int film_id)
 
 void Controller::control_edit_film(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if (command.find(FILM_ID) == command.end())
 		throw BadRequest();
 	if (command.size() > 7)
 		throw BadRequest();
 	check_if_number(command[FILM_ID]);
 	check_edit_film_optional_datas(command);
-	if (data->find_film(stoi(command[FILM_ID])) == NULL)
-		throw NotFound();
-	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
-		throw PermissionDenied();
+	did_the_publisher_publish_the_film(command);
 }
 
 void Controller::check_edit_film_optional_datas(map<string, string> command)
@@ -571,27 +630,18 @@ void Controller::check_edit_film_optional_datas(map<string, string> command)
 
 void Controller::control_delete_film(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if (command.find(FILM_ID) == command.end())
 		throw BadRequest();
 	if (command.size() > 2)
 		throw BadRequest();
 	check_if_number(command[FILM_ID]);
-	if (data->find_film(stoi(command[FILM_ID])) == NULL)
-		throw NotFound();
-	if (((Publisher*)(data->get_active_user()))-> find_published_film(stoi(command[FILM_ID])) == NULL)
-		throw PermissionDenied();
+	did_the_publisher_publish_the_film(command);
 }
 
 void Controller::control_delete_comment(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if ((command.find(FILM_ID) == command.end()) ||
 		(command.find(COMMENT_ID) == command.end()))
 		throw BadRequest();
@@ -601,27 +651,17 @@ void Controller::control_delete_comment(map<string, string> command)
 	check_if_number(command[COMMENT_ID]);
 	if (data->find_film(stoi(command[FILM_ID])) == NULL)
 		throw NotFound();
-	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
-		throw PermissionDenied();
-	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID]))
-		->find_comment(stoi(command[COMMENT_ID])) == NULL)
-		throw NotFound();
+	does_comment_exist(command);
 }
 
 void Controller::control_get_followers(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 }
 
 void Controller::control_get_published_films(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if (command.size() > 7)
 		throw BadRequest();
 	check_search_films_optional_datas(command);
@@ -690,10 +730,7 @@ void Controller::control_get_read_notifs(map<string, string> command)
 
 void Controller::control_get_money_from_network(map<string, string> command)
 {
-	if (data->get_active_user() == NULL)
-		throw PermissionDenied();
-	if (!data->get_active_user()->is_publisher())
-		throw PermissionDenied();
+	check_if_active_user_is_a_publisher();
 	if (command.size() > 1)
 		throw BadRequest();
 }
@@ -748,6 +785,53 @@ void Controller::check_if_number(string str)
 	for (int i = 0; i < str.size(); i++)
 		if ((str[i] < ASCII_ZERO) || (str[i] > ASCII_NINE))
 			throw BadRequest();
+}
+
+void Controller::check_if_active_user_is_a_publisher()
+{
+	if (data->get_active_user() == NULL)
+		throw PermissionDenied();
+	if (!data->get_active_user()->is_publisher())
+		throw PermissionDenied();
+}
+
+void Controller::does_comment_exist(map<string, string> command)
+{
+	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
+		throw PermissionDenied();
+	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID]))
+		->find_comment(stoi(command[COMMENT_ID])) == NULL)
+		throw NotFound();
+}
+
+void Controller::did_the_publisher_publish_the_film(map<string, string> command)
+{
+	if (data->find_film(stoi(command[FILM_ID])) == NULL)
+		throw NotFound();
+	if (((Publisher*)(data->get_active_user()))->find_published_film(stoi(command[FILM_ID])) == NULL)
+		throw PermissionDenied();
+}
+
+void Controller::control_logout(map<string, string> command, bool is_admin_active)
+{
+	if (command.size() > 1)
+		throw BadRequest();
+	if ((data->get_active_user() == NULL) && (!is_admin_active))
+		throw BadRequest();
+}
+
+void Controller::check_logout(bool is_admin_active)
+{
+	if ((data->get_active_user() != NULL) || (is_admin_active))
+		throw BadRequest();
+}
+
+void Controller::control_get_money(map<string, string> command, bool is_admin_active)
+{
+	if (command.size() > 1)
+		throw BadRequest();
+	if ((data->get_active_user() == NULL) && (!is_admin_active))
+		throw PermissionDenied();
 }#include "Data.h"
 #include "User.h"
 #include "Film.h"
@@ -761,6 +845,27 @@ Data::Data()
 	film_id = FIRST_ID;
 	network_money = 0;
 	active_user = NULL;
+}
+
+Data::~Data()
+{
+	delete_users();
+	delete_films();
+}
+
+void Data::delete_users()
+{
+	for (int i = 0; i < users.size(); i++)
+		delete users[i];
+}
+
+void Data::delete_films()
+{
+	for (int i = 0; i < films.size(); ++i)
+	{
+		films[i]->delete_comments();
+		delete films[i];
+	}
 }
 
 User* Data::find_user(string username)
@@ -846,6 +951,16 @@ vector<FilmInfo> Data::search(map<string, string> info)
 vector<Film*> Data::get_films()
 {
 	return films;
+}
+
+int Data::get_network_money()
+{
+	return network_money;
+}
+
+void Data::logout()
+{
+	active_user = NULL;
 }#include <iostream>
 #include "Exceptions.h"
 #include "define.h"
@@ -1050,6 +1165,12 @@ float Film::calc_rate()
 		temp_rate += it->second;
 	float _temp = temp_rate;
 	return _temp / scores.size();
+}
+
+void Film::delete_comments()
+{
+	for (int i = 0; i < comments.size(); i++)
+		delete comments[i];
 }#include "Manager.h"
 
 int main()
@@ -1070,6 +1191,12 @@ Manager::Manager()
 	command_parser = new CommandParser;
 }
 
+Manager::~Manager()
+{
+	delete command_parser;
+	delete command_handler;
+}
+
 void Manager::run()
 {
 	string input;
@@ -1084,6 +1211,334 @@ void Manager::run()
 			cout << exception.what() << endl;
 		}
 	}
+}#include "md5.h"
+ 
+/* system implementation headers */
+#include <cstdio>
+ 
+ 
+// Constants for MD5Transform routine.
+#define S11 7
+#define S12 12
+#define S13 17
+#define S14 22
+#define S21 5
+#define S22 9
+#define S23 14
+#define S24 20
+#define S31 4
+#define S32 11
+#define S33 16
+#define S34 23
+#define S41 6
+#define S42 10
+#define S43 15
+#define S44 21
+ 
+///////////////////////////////////////////////
+ 
+// F, G, H and I are basic MD5 functions.
+inline MD5::uint4 MD5::F(uint4 x, uint4 y, uint4 z) {
+  return x&y | ~x&z;
+}
+ 
+inline MD5::uint4 MD5::G(uint4 x, uint4 y, uint4 z) {
+  return x&z | y&~z;
+}
+ 
+inline MD5::uint4 MD5::H(uint4 x, uint4 y, uint4 z) {
+  return x^y^z;
+}
+ 
+inline MD5::uint4 MD5::I(uint4 x, uint4 y, uint4 z) {
+  return y ^ (x | ~z);
+}
+ 
+// rotate_left rotates x left n bits.
+inline MD5::uint4 MD5::rotate_left(uint4 x, int n) {
+  return (x << n) | (x >> (32-n));
+}
+ 
+// FF, GG, HH, and II transformations for rounds 1, 2, 3, and 4.
+// Rotation is separate from addition to prevent recomputation.
+inline void MD5::FF(uint4 &a, uint4 b, uint4 c, uint4 d, uint4 x, uint4 s, uint4 ac) {
+  a = rotate_left(a+ F(b,c,d) + x + ac, s) + b;
+}
+ 
+inline void MD5::GG(uint4 &a, uint4 b, uint4 c, uint4 d, uint4 x, uint4 s, uint4 ac) {
+  a = rotate_left(a + G(b,c,d) + x + ac, s) + b;
+}
+ 
+inline void MD5::HH(uint4 &a, uint4 b, uint4 c, uint4 d, uint4 x, uint4 s, uint4 ac) {
+  a = rotate_left(a + H(b,c,d) + x + ac, s) + b;
+}
+ 
+inline void MD5::II(uint4 &a, uint4 b, uint4 c, uint4 d, uint4 x, uint4 s, uint4 ac) {
+  a = rotate_left(a + I(b,c,d) + x + ac, s) + b;
+}
+ 
+//////////////////////////////////////////////
+ 
+// default ctor, just initailize
+MD5::MD5()
+{
+  init();
+}
+ 
+//////////////////////////////////////////////
+ 
+// nifty shortcut ctor, compute MD5 for string and finalize it right away
+MD5::MD5(const std::string &text)
+{
+  init();
+  update(text.c_str(), text.length());
+  finalize();
+}
+ 
+//////////////////////////////
+ 
+void MD5::init()
+{
+  finalized=false;
+ 
+  count[0] = 0;
+  count[1] = 0;
+ 
+  // load magic initialization constants.
+  state[0] = 0x67452301;
+  state[1] = 0xefcdab89;
+  state[2] = 0x98badcfe;
+  state[3] = 0x10325476;
+}
+ 
+//////////////////////////////
+ 
+// decodes input (unsigned char) into output (uint4). Assumes len is a multiple of 4.
+void MD5::decode(uint4 output[], const uint1 input[], size_type len)
+{
+  for (unsigned int i = 0, j = 0; j < len; i++, j += 4)
+    output[i] = ((uint4)input[j]) | (((uint4)input[j+1]) << 8) |
+      (((uint4)input[j+2]) << 16) | (((uint4)input[j+3]) << 24);
+}
+ 
+//////////////////////////////
+ 
+// encodes input (uint4) into output (unsigned char). Assumes len is
+// a multiple of 4.
+void MD5::encode(uint1 output[], const uint4 input[], size_type len)
+{
+  for (size_type i = 0, j = 0; j < len; i++, j += 4) {
+    output[j] = input[i] & 0xff;
+    output[j+1] = (input[i] >> 8) & 0xff;
+    output[j+2] = (input[i] >> 16) & 0xff;
+    output[j+3] = (input[i] >> 24) & 0xff;
+  }
+}
+ 
+//////////////////////////////
+ 
+// apply MD5 algo on a block
+void MD5::transform(const uint1 block[blocksize])
+{
+  uint4 a = state[0], b = state[1], c = state[2], d = state[3], x[16];
+  decode (x, block, blocksize);
+ 
+  /* Round 1 */
+  FF (a, b, c, d, x[ 0], S11, 0xd76aa478); /* 1 */
+  FF (d, a, b, c, x[ 1], S12, 0xe8c7b756); /* 2 */
+  FF (c, d, a, b, x[ 2], S13, 0x242070db); /* 3 */
+  FF (b, c, d, a, x[ 3], S14, 0xc1bdceee); /* 4 */
+  FF (a, b, c, d, x[ 4], S11, 0xf57c0faf); /* 5 */
+  FF (d, a, b, c, x[ 5], S12, 0x4787c62a); /* 6 */
+  FF (c, d, a, b, x[ 6], S13, 0xa8304613); /* 7 */
+  FF (b, c, d, a, x[ 7], S14, 0xfd469501); /* 8 */
+  FF (a, b, c, d, x[ 8], S11, 0x698098d8); /* 9 */
+  FF (d, a, b, c, x[ 9], S12, 0x8b44f7af); /* 10 */
+  FF (c, d, a, b, x[10], S13, 0xffff5bb1); /* 11 */
+  FF (b, c, d, a, x[11], S14, 0x895cd7be); /* 12 */
+  FF (a, b, c, d, x[12], S11, 0x6b901122); /* 13 */
+  FF (d, a, b, c, x[13], S12, 0xfd987193); /* 14 */
+  FF (c, d, a, b, x[14], S13, 0xa679438e); /* 15 */
+  FF (b, c, d, a, x[15], S14, 0x49b40821); /* 16 */
+ 
+  /* Round 2 */
+  GG (a, b, c, d, x[ 1], S21, 0xf61e2562); /* 17 */
+  GG (d, a, b, c, x[ 6], S22, 0xc040b340); /* 18 */
+  GG (c, d, a, b, x[11], S23, 0x265e5a51); /* 19 */
+  GG (b, c, d, a, x[ 0], S24, 0xe9b6c7aa); /* 20 */
+  GG (a, b, c, d, x[ 5], S21, 0xd62f105d); /* 21 */
+  GG (d, a, b, c, x[10], S22,  0x2441453); /* 22 */
+  GG (c, d, a, b, x[15], S23, 0xd8a1e681); /* 23 */
+  GG (b, c, d, a, x[ 4], S24, 0xe7d3fbc8); /* 24 */
+  GG (a, b, c, d, x[ 9], S21, 0x21e1cde6); /* 25 */
+  GG (d, a, b, c, x[14], S22, 0xc33707d6); /* 26 */
+  GG (c, d, a, b, x[ 3], S23, 0xf4d50d87); /* 27 */
+  GG (b, c, d, a, x[ 8], S24, 0x455a14ed); /* 28 */
+  GG (a, b, c, d, x[13], S21, 0xa9e3e905); /* 29 */
+  GG (d, a, b, c, x[ 2], S22, 0xfcefa3f8); /* 30 */
+  GG (c, d, a, b, x[ 7], S23, 0x676f02d9); /* 31 */
+  GG (b, c, d, a, x[12], S24, 0x8d2a4c8a); /* 32 */
+ 
+  /* Round 3 */
+  HH (a, b, c, d, x[ 5], S31, 0xfffa3942); /* 33 */
+  HH (d, a, b, c, x[ 8], S32, 0x8771f681); /* 34 */
+  HH (c, d, a, b, x[11], S33, 0x6d9d6122); /* 35 */
+  HH (b, c, d, a, x[14], S34, 0xfde5380c); /* 36 */
+  HH (a, b, c, d, x[ 1], S31, 0xa4beea44); /* 37 */
+  HH (d, a, b, c, x[ 4], S32, 0x4bdecfa9); /* 38 */
+  HH (c, d, a, b, x[ 7], S33, 0xf6bb4b60); /* 39 */
+  HH (b, c, d, a, x[10], S34, 0xbebfbc70); /* 40 */
+  HH (a, b, c, d, x[13], S31, 0x289b7ec6); /* 41 */
+  HH (d, a, b, c, x[ 0], S32, 0xeaa127fa); /* 42 */
+  HH (c, d, a, b, x[ 3], S33, 0xd4ef3085); /* 43 */
+  HH (b, c, d, a, x[ 6], S34,  0x4881d05); /* 44 */
+  HH (a, b, c, d, x[ 9], S31, 0xd9d4d039); /* 45 */
+  HH (d, a, b, c, x[12], S32, 0xe6db99e5); /* 46 */
+  HH (c, d, a, b, x[15], S33, 0x1fa27cf8); /* 47 */
+  HH (b, c, d, a, x[ 2], S34, 0xc4ac5665); /* 48 */
+ 
+  /* Round 4 */
+  II (a, b, c, d, x[ 0], S41, 0xf4292244); /* 49 */
+  II (d, a, b, c, x[ 7], S42, 0x432aff97); /* 50 */
+  II (c, d, a, b, x[14], S43, 0xab9423a7); /* 51 */
+  II (b, c, d, a, x[ 5], S44, 0xfc93a039); /* 52 */
+  II (a, b, c, d, x[12], S41, 0x655b59c3); /* 53 */
+  II (d, a, b, c, x[ 3], S42, 0x8f0ccc92); /* 54 */
+  II (c, d, a, b, x[10], S43, 0xffeff47d); /* 55 */
+  II (b, c, d, a, x[ 1], S44, 0x85845dd1); /* 56 */
+  II (a, b, c, d, x[ 8], S41, 0x6fa87e4f); /* 57 */
+  II (d, a, b, c, x[15], S42, 0xfe2ce6e0); /* 58 */
+  II (c, d, a, b, x[ 6], S43, 0xa3014314); /* 59 */
+  II (b, c, d, a, x[13], S44, 0x4e0811a1); /* 60 */
+  II (a, b, c, d, x[ 4], S41, 0xf7537e82); /* 61 */
+  II (d, a, b, c, x[11], S42, 0xbd3af235); /* 62 */
+  II (c, d, a, b, x[ 2], S43, 0x2ad7d2bb); /* 63 */
+  II (b, c, d, a, x[ 9], S44, 0xeb86d391); /* 64 */
+ 
+  state[0] += a;
+  state[1] += b;
+  state[2] += c;
+  state[3] += d;
+ 
+  // Zeroize sensitive information.
+  memset(x, 0, sizeof x);
+}
+ 
+//////////////////////////////
+ 
+// MD5 block update operation. Continues an MD5 message-digest
+// operation, processing another message block
+void MD5::update(const unsigned char input[], size_type length)
+{
+  // compute number of bytes mod 64
+  size_type index = count[0] / 8 % blocksize;
+ 
+  // Update number of bits
+  if ((count[0] += (length << 3)) < (length << 3))
+    count[1]++;
+  count[1] += (length >> 29);
+ 
+  // number of bytes we need to fill in buffer
+  size_type firstpart = 64 - index;
+ 
+  size_type i;
+ 
+  // transform as many times as possible.
+  if (length >= firstpart)
+  {
+    // fill buffer first, transform
+    memcpy(&buffer[index], input, firstpart);
+    transform(buffer);
+ 
+    // transform chunks of blocksize (64 bytes)
+    for (i = firstpart; i + blocksize <= length; i += blocksize)
+      transform(&input[i]);
+ 
+    index = 0;
+  }
+  else
+    i = 0;
+ 
+  // buffer remaining input
+  memcpy(&buffer[index], &input[i], length-i);
+}
+ 
+//////////////////////////////
+ 
+// for convenience provide a verson with signed char
+void MD5::update(const char input[], size_type length)
+{
+  update((const unsigned char*)input, length);
+}
+ 
+//////////////////////////////
+ 
+// MD5 finalization. Ends an MD5 message-digest operation, writing the
+// the message digest and zeroizing the context.
+MD5& MD5::finalize()
+{
+  static unsigned char padding[64] = {
+    0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+  };
+ 
+  if (!finalized) {
+    // Save number of bits
+    unsigned char bits[8];
+    encode(bits, count, 8);
+ 
+    // pad out to 56 mod 64.
+    size_type index = count[0] / 8 % 64;
+    size_type padLen = (index < 56) ? (56 - index) : (120 - index);
+    update(padding, padLen);
+ 
+    // Append length (before padding)
+    update(bits, 8);
+ 
+    // Store state in digest
+    encode(digest, state, 16);
+ 
+    // Zeroize sensitive information.
+    memset(buffer, 0, sizeof buffer);
+    memset(count, 0, sizeof count);
+ 
+    finalized=true;
+  }
+ 
+  return *this;
+}
+ 
+//////////////////////////////
+ 
+// return hex representation of digest as string
+std::string MD5::hexdigest() const
+{
+  if (!finalized)
+    return "";
+ 
+  char buf[33];
+  for (int i=0; i<16; i++)
+    sprintf(buf+i*2, "%02x", digest[i]);
+  buf[32]=0;
+ 
+  return std::string(buf);
+}
+ 
+//////////////////////////////
+ 
+std::ostream& operator<<(std::ostream& out, MD5 md5)
+{
+  return out << md5.hexdigest();
+}
+ 
+//////////////////////////////
+ 
+std::string md5(const std::string str)
+{
+    MD5 md5 = MD5(str);
+ 
+    return md5.hexdigest();
 }#include <algorithm>
 #include <iostream>
 #include <iomanip>
@@ -1177,6 +1632,11 @@ void Printer::print_recommend_films(vector<FilmInfo> recommends)
 	for (int i = 0; i < recommends.size(); i++)
 		cout << i + 1 << ". " << recommends[i].id << " | " << recommends[i].name << " | " <<
 			recommends[i].length << " | " << recommends[i].director << endl;
+}
+
+void Printer::print_amount_of_money(int money)
+{
+	cout << money << endl;
 }#include <iostream>
 #include <sstream>
 #include "Exceptions.h"
@@ -1347,13 +1807,14 @@ vector<FilmInfo> Recommender::find_recommendation_films()
 #include "Publisher.h"
 #include "Film.h"
 #include "Comment.h"
+#include "md5.h"
 
 using namespace std;
 
 User::User(map<string, string> info)
 {
 	username = info[USERNAME];
-	password = info[PASSWORD];
+	password = md5(info[PASSWORD]);
 	email = info[EMAIL];
 	age = stoi(info[AGE]);
 	id = stoi(info[USER_ID]);
@@ -1381,7 +1842,7 @@ int User::get_id()
 
 bool User::check_password(string pass)
 {
-	return pass == password;
+	return md5(pass) == password;
 }
 
 bool User::is_publisher()
@@ -1491,7 +1952,37 @@ void User::transfer_unread_notifs_to_read()
 	for (int i = 0; i < unread_notifs.size(); i++)
 		read_notifs.push_back(unread_notifs[i]);
 	unread_notifs.clear();
-}#ifndef COMMANDHANDLER_H
+}
+
+int User::get_money()
+{
+	return money;
+}#ifndef ADMIN_H
+#define ADMIN_H
+
+#include <string>
+#include "md5.h"
+#include "define.h"
+
+class Data;
+
+class Admin
+{
+private:
+	const std::string username = ADMIN;
+	const std::string password = md5(ADMIN);
+	Data* data;
+	bool active;
+public:
+	Admin(Data* _data);
+	bool check_password(std::string pass);
+	bool get_active();
+	int get_network_money();
+	void logout();
+	void login();
+};
+
+#endif#ifndef COMMANDHANDLER_H
 #define COMMANDHANDLER_H
 
 #include <string>
@@ -1503,6 +1994,7 @@ class Controller;
 class Data;
 class Printer;
 class Recommender;
+class Admin;
 
 class CommandHandler
 {
@@ -1511,15 +2003,16 @@ private:
 	Data* data;
 	Controller* controller;
 	Recommender* recommender;
+	Admin* admin;
 	std::map<std::string, std::string> curr_command;
 	void handle_post_commands();
-	void handle_put_commands();
-	void handle_delete_commands();
 	void handle_get_commands();
 	void handle_post_money_commands();
 	void handle_get_films_commands();
+	int handle_get_money();
 	void signup();
 	void login();
+	void logout();
 	void add_film();
 	void reply();
 	void follow();
@@ -1539,6 +2032,7 @@ private:
 	std::vector<FilmInfo> search();
 public:
 	CommandHandler();
+	~CommandHandler();
 	void handle_command(std::map<std::string, std::string> _curr_command);
 };
 
@@ -1590,6 +2084,7 @@ public:
 #include <string>
 
 class Data;
+class Admin;
 
 class Controller
 {
@@ -1601,10 +2096,16 @@ private:
 	void check_get_bought_films_optional_datas(std::map<std::string, std::string> command);
 	void check_validataion_of_email(std::string email);
 	void check_if_number(std::string str);
+	void check_if_active_user_is_a_publisher();
+	void does_comment_exist(std::map<std::string, std::string> command);
+	void did_the_publisher_publish_the_film(std::map<std::string, std::string> command);
+	void check_logout(bool is_admin_active);
+	void check_login_admin(std::map<std::string, std::string> command, Admin* admin);
+	void check_login_user(std::map<std::string, std::string> command);
 public:
 	Controller(Data* _data);
-	void control_signup(std::map<std::string, std::string> command);
-	void control_login(std::map<std::string, std::string> command);
+	void control_signup(std::map<std::string, std::string> command, bool is_admin_active);
+	void control_login(std::map<std::string, std::string> command, Admin* admin);
 	void control_add_film(std::map<std::string, std::string> command);
 	void control_reply(std::map<std::string, std::string> command);
 	void control_follow(std::map<std::string, std::string> command);
@@ -1623,6 +2124,8 @@ public:
 	void control_show_film_details(std::map<std::string, std::string> command);
 	void control_search(std::map<std::string, std::string> command);
 	void control_buy(std::map<std::string, std::string> command);
+	void control_logout(std::map<std::string, std::string> command, bool is_admin_active);
+	void control_get_money(std::map<std::string, std::string> command, bool is_admin_active);
 };
 
 #endif#ifndef DATA_H
@@ -1646,8 +2149,11 @@ private:
 	int film_id;
 	User* active_user;
 	int network_money;
+	void delete_users();
+	void delete_films();
 public:
 	Data();
+	~Data();
 	User* find_user(std::string username);
 	User* find_user(int id);
 	Film* find_film(int id);
@@ -1655,12 +2161,14 @@ public:
 	std::vector<Film*> get_films();
 	int get_new_user_id();
 	int get_new_film_id();
+	int get_network_money();
 	void change_active_user(User* new_active_user);
 	void add_new_user(User* new_user);
 	void add_new_film(Film* new_film);
 	User* increase_network_money(int film_id);
 	void decrease_network_money(int money);
 	std::vector<FilmInfo> search(std::map<std::string, std::string> info);
+	void logout();
 };
 
 #endif#ifndef DEFINE_H
@@ -1754,6 +2262,11 @@ struct  CommentInfo
 #define LOW_RATE 5
 #define EMPTY_STRING ""
 #define NUM_OF_RECOMMENDED_FILMS 4
+#define PUT_FILMS "put_films"
+#define DELETE_FILMS "delete_films"
+#define DELETE_COMMENTS "delete_comments"
+#define ADMIN "admin"
+#define LOGOUT "logout"
 
 #endif#ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
@@ -1825,6 +2338,7 @@ public:
 	std::string add_new_comment(std::string content, std::string writer);
 	void change_delete_stat();
 	std::vector<CommentInfo> get_comments_info();
+	void delete_comments();
 };
 
 #endif#ifndef MANAGER_H
@@ -1847,9 +2361,70 @@ private:
 	std::map<std::string, std::string> curr_command;
 public:
 	Manager();
+	~Manager();
 	void run();
 };
 
+#endif#ifndef BZF_MD5_H
+#define BZF_MD5_H
+ 
+#include <cstring>
+#include <iostream>
+ 
+ 
+// a small class for calculating MD5 hashes of strings or byte arrays
+// it is not meant to be fast or secure
+//
+// usage: 1) feed it blocks of uchars with update()
+//      2) finalize()
+//      3) get hexdigest() string
+//      or
+//      MD5(std::string).hexdigest()
+//
+// assumes that char is 8 bit and int is 32 bit
+class MD5
+{
+public:
+  typedef unsigned int size_type; // must be 32bit
+ 
+  MD5();
+  MD5(const std::string& text);
+  void update(const unsigned char *buf, size_type length);
+  void update(const char *buf, size_type length);
+  MD5& finalize();
+  std::string hexdigest() const;
+  friend std::ostream& operator<<(std::ostream&, MD5 md5);
+ 
+private:
+  void init();
+  typedef unsigned char uint1; //  8bit
+  typedef unsigned int uint4;  // 32bit
+  enum {blocksize = 64}; // VC6 won't eat a const static int here
+ 
+  void transform(const uint1 block[blocksize]);
+  static void decode(uint4 output[], const uint1 input[], size_type len);
+  static void encode(uint1 output[], const uint4 input[], size_type len);
+ 
+  bool finalized;
+  uint1 buffer[blocksize]; // bytes that didn't fit in last 64 byte chunk
+  uint4 count[2];   // 64bit counter for number of bits (lo, hi)
+  uint4 state[4];   // digest so far
+  uint1 digest[16]; // the result
+ 
+  // low level logic operations
+  static inline uint4 F(uint4 x, uint4 y, uint4 z);
+  static inline uint4 G(uint4 x, uint4 y, uint4 z);
+  static inline uint4 H(uint4 x, uint4 y, uint4 z);
+  static inline uint4 I(uint4 x, uint4 y, uint4 z);
+  static inline uint4 rotate_left(uint4 x, int n);
+  static inline void FF(uint4 &a, uint4 b, uint4 c, uint4 d, uint4 x, uint4 s, uint4 ac);
+  static inline void GG(uint4 &a, uint4 b, uint4 c, uint4 d, uint4 x, uint4 s, uint4 ac);
+  static inline void HH(uint4 &a, uint4 b, uint4 c, uint4 d, uint4 x, uint4 s, uint4 ac);
+  static inline void II(uint4 &a, uint4 b, uint4 c, uint4 d, uint4 x, uint4 s, uint4 ac);
+};
+ 
+std::string md5(const std::string str);
+ 
 #endif#ifndef PRINTER_H
 #define PRINTER_H
 
@@ -1869,6 +2444,7 @@ public:
 	void print_read_notifs(std::vector<std::string> notifs ,int limit);
 	void print_film_details(Film* film);
 	void print_recommend_films(std::vector<FilmInfo> recommends);
+	void print_amount_of_money(int money);
 };
 
 #endif#ifndef PUBLISHER_H
@@ -1960,6 +2536,7 @@ public:
 	std::string get_username();
 	std::string get_email();
 	int get_id();
+	int get_money();
 	bool check_password(std::string pass);
 	bool check_can_buy_film(int film_price);
 	bool is_publisher();

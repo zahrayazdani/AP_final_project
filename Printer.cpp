@@ -84,7 +84,7 @@ void Printer::print_film_details(Film* film)
 	cout << endl;
 }
 
-void Printer::print_recommend_films(vector<FilmInfo> recommends)
+void Printer::print_recommended_films(vector<FilmInfo> recommends)
 {
 	cout << "Recommendation Film" << endl <<
 		"#. Film Id | Film Name | Film Length | Film Director" << endl;

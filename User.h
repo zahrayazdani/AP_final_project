@@ -31,6 +31,7 @@ public:
 	std::string get_email();
 	int get_id();
 	int get_money();
+	std::vector<Film*> get_films();
 	bool check_password(std::string pass);
 	bool check_can_buy_film(int film_price);
 	bool is_publisher();

@@ -16,7 +16,7 @@ public:
 	void print_notifs(std::vector<std::string> notifs);
 	void print_read_notifs(std::vector<std::string> notifs ,int limit);
 	void print_film_details(Film* film);
-	void print_recommend_films(std::vector<FilmInfo> recommends);
+	void print_recommended_films(std::vector<FilmInfo> recommends);
 	void print_amount_of_money(int money);
 };
 

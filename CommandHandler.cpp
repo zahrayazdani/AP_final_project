@@ -181,7 +181,7 @@ void CommandHandler::handle_get_films_commands()
 	{
 		controller->control_show_film_details(curr_command);
 		printer->print_film_details(data->find_film(stoi(curr_command[FILM_ID])));
-		printer->print_recommend_films(recommender->recommend_film(data->get_active_user(), 
+		printer->print_recommended_films(recommender->recommend_film(data->get_active_user(), 
 			data->find_film(stoi(curr_command[FILM_ID]))));
 	}
 }
@@ -217,6 +217,7 @@ void CommandHandler::add_film()
 	curr_command[FILM_ID] = to_string(data->get_new_film_id());
 	Film* new_film = ((Publisher*)(data->get_active_user()))->add_film(curr_command);
 	data->add_new_film(new_film);
+	recommender->add_new_element_to_graph();
 }
 
 void CommandHandler::reply()
@@ -271,6 +272,7 @@ void CommandHandler::buy()
 	string notif = data->get_active_user()->buy_new_film(film);
 	if (notif != EMPTY_STRING)
 	{
+		recommender->update_graph_after_buy_a_film(film, data->get_active_user());
 		User* publisher = data->increase_network_money(stoi(curr_command[FILM_ID]));
 		publisher->add_new_notif(notif);
 	}
@@ -314,7 +316,7 @@ vector<string> CommandHandler::get_read_notifs()
 
 int CommandHandler::handle_get_money()
 {
-	if (curr_command[USERNAME] == ADMIN)
+	if (admin->get_active())
 		return admin->get_network_money();
 	else
 		return data->get_active_user()->get_money();

@@ -126,7 +126,7 @@ vector<FilmInfo> User::get_bought_films(map<string, string> info)
 {
 	vector<FilmInfo> films_info;
 	for (int i = 0; i < bought_films.size(); i++)
-		if (bought_films[i]->is_in_range(info) && (!bought_films[i]->is_deleted()))
+		if (bought_films[i]->is_in_range(info))
 			films_info.push_back(bought_films[i]->set_info());
 	return films_info;
 }
@@ -153,4 +153,9 @@ void User::transfer_unread_notifs_to_read()
 int User::get_money()
 {
 	return money;
+}
+
+vector<Film*> User::get_films()
+{
+	return bought_films;
 }
