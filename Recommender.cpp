@@ -1,3 +1,4 @@
+#include <iostream>
 #include <algorithm>
 #include "User.h"
 #include "Data.h"
@@ -32,7 +33,7 @@ vector<FilmInfo> Recommender::find_recommendation_films(User* user, Film* film)
 		if (recommendation_films.size() == NUM_OF_RECOMMENDED_FILMS)
 			return recommendation_films;
 		if ((user->find_film(id_and_weights[i].first) == NULL) &&
-			(!data->find_film(id_and_weights[i].first)->is_deleted()) &&
+			(data->find_film(id_and_weights[i].first) != NULL) &&
 			(id_and_weights[i].first != film->get_id()))
 			recommendation_films.push_back(data->find_film(id_and_weights[i].first)->set_info());
 	}
@@ -63,11 +64,10 @@ void Recommender::update_graph_after_buy_a_film(Film* film, User* user)
 	int curr_film_index;
 	for (int i = 0; i < bought_films.size(); i++)
 	{
-		curr_film_index = bought_films[i]->get_id() - 1;
+		curr_film_index = (bought_films[i]->get_id()) - 1;
 		films_graph[film_index][curr_film_index]++;
 		films_graph[curr_film_index][film_index]++;
 	}
-
 }
 
 vector<pair<int, int>> Recommender::construct_vector_of_pairs(Film* film)

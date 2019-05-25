@@ -1,10 +1,11 @@
 #ifndef USER_H
 #define USER_H
 
-#include "define.h"
 #include <string>
 #include <vector>
 #include <map>
+#include <utility>
+#include "define.h"
 
 class Publisher;
 class Film;
@@ -39,9 +40,9 @@ public:
 	Publisher* find_publisher(std::string publisher_name);
 	void add_new_notif(std::string notif);
 	bool follow(Publisher* publisher);
-	void comment(int film_id, std::string content);
+	std::pair<std::string, std::string> comment(int film_id, std::string content);
 	void charge_account(int amount);
-	void rate_film(int film_id, int score);
+	std::pair<std::string, std::string> rate_film(int film_id, int score);
 	std::string buy_new_film(Film* new_film);
 	std::vector<FilmInfo> get_bought_films(std::map<std::string, std::string> info);
 	std::vector<std::string> get_notifs();

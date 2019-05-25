@@ -1,4 +1,5 @@
 #include <sstream>
+#include <utility>
 #include "CommandHandler.h"
 #include "Controller.h"
 #include "Data.h"
@@ -237,12 +238,16 @@ void CommandHandler::follow()
 
 void CommandHandler::rate()
 {
-	data->get_active_user()->rate_film(stoi(curr_command[FILM_ID]), stoi(curr_command[SCORE]));	
+	pair<string, string> info = data->get_active_user()->
+		rate_film(stoi(curr_command[FILM_ID]), stoi(curr_command[SCORE]));
+	data->find_user(info.first)->add_new_notif(info.second);	
 }
 
 void CommandHandler::comment()
 {
-	data->get_active_user()->comment(stoi(curr_command[FILM_ID]), curr_command[CONTENT]);
+	pair<string, string> info = data->get_active_user()->
+		comment(stoi(curr_command[FILM_ID]), curr_command[CONTENT]);
+	data->find_user(info.first)->add_new_notif(info.second);
 }
 
 void CommandHandler::charge_account()
