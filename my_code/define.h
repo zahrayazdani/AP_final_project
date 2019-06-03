@@ -4,31 +4,33 @@
 #include <string>
 #include <vector>
 
-struct FollowersInfo
-{
-	int user_id;
-	std::string username;
-	std::string email;
-};
+enum signupErr {username, pass, ok};
 
-struct FilmInfo
-{
-	int id;
-	std::string name;
-	int length;
-	int price;
-	float rate;
-	int year;
-	std::string director; 
-	std::string summary;
-};
+// struct FollowersInfo
+// {
+// 	int user_id;
+// 	std::string username;
+// 	std::string email;
+// };
 
-struct  CommentInfo
-{
-	int id;
-	std::string content;
-	std::vector<std::string> replies;
-};
+// struct FilmInfo
+// {
+// 	int id;
+// 	std::string name;
+// 	int length;
+// 	int price;
+// 	float rate;
+// 	int year;
+// 	std::string director; 
+// 	std::string summary;
+// };
+
+// struct  CommentInfo
+// {
+// 	int id;
+// 	std::string content;
+// 	std::vector<std::string> replies;
+// };
 
 #define NOTFOUND "Not Found"
 #define BADREQUEST "Bad Request"
@@ -66,6 +68,7 @@ struct  CommentInfo
 #define PUBLISHED "published"
 #define PURCHASED "purchased"
 #define READ_NOTIFS "notificationsread"
+#define PASSCONFIRM "passwordConfirmation"
 #define PASSWORD "password"
 #define EMAIL "email"
 #define AGE "age"

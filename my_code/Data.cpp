@@ -2,6 +2,7 @@
 #include "User.h"
 #include "Film.h"
 #include "Publisher.h"
+#include "define.h"
 
 using namespace std;
 
@@ -9,30 +10,28 @@ Data::Data()
 {
 	user_id = FIRST_ID;
 	film_id = FIRST_ID;
-	network_money = 0;
-	active_user = NULL;
 }
 
-Data::~Data()
-{
-	delete_users();
-	delete_films();
-}
+// Data::~Data()
+// {
+// 	delete_users();
+// 	delete_films();
+// }
 
-void Data::delete_users()
-{
-	for (int i = 0; i < users.size(); i++)
-		delete users[i];
-}
+// void Data::delete_users()
+// {
+// 	for (int i = 0; i < users.size(); i++)
+// 		delete users[i];
+// }
 
-void Data::delete_films()
-{
-	for (int i = 0; i < films.size(); ++i)
-	{
-		films[i]->delete_comments();
-		delete films[i];
-	}
-}
+// void Data::delete_films()
+// {
+// 	for (int i = 0; i < films.size(); ++i)
+// 	{
+// 		films[i]->delete_comments();
+// 		delete films[i];
+// 	}
+// }
 
 User* Data::find_user(string username)
 {
@@ -42,31 +41,31 @@ User* Data::find_user(string username)
 	return NULL;
 }
 
-User* Data::find_user(int id)
-{
-	for (int i = 0; i < users.size(); i++)
-		if (users[i]->get_id() == id)
-			return users[i];
-	return NULL;
-}
+// User* Data::find_user(int id)
+// {
+// 	for (int i = 0; i < users.size(); i++)
+// 		if (users[i]->get_id() == id)
+// 			return users[i];
+// 	return NULL;
+// }
 
-Film* Data::find_film(int id)
-{
-	for (int i = 0; i < films.size(); i++)
-		if ((films[i]->get_id() == id) && (!films[i]->is_deleted()))
-			return films[i];
-	return NULL;
-}
+// Film* Data::find_film(int id)
+// {
+// 	for (int i = 0; i < films.size(); i++)
+// 		if ((films[i]->get_id() == id) && (!films[i]->is_deleted()))
+// 			return films[i];
+// 	return NULL;
+// }
 
-User* Data::get_active_user()
-{
-	return active_user;
-}
+// User* Data::get_active_user()
+// {
+// 	return active_user;
+// }
 
-void Data::change_active_user(User* new_active_user)
-{
-	active_user = new_active_user;
-}
+// void Data::change_active_user(User* new_active_user)
+// {
+// 	active_user = new_active_user;
+// }
 
 void Data::add_new_user(User* new_user)
 {
@@ -79,52 +78,52 @@ int Data::get_new_user_id()
 	return user_id;
 }
 
-int Data::get_new_film_id()
-{
-	film_id++;
-	return film_id;
-}
+// int Data::get_new_film_id()
+// {
+// 	film_id++;
+// 	return film_id;
+// }
 
-void Data::add_new_film(Film* new_film)
-{
-	films.push_back(new_film);
-}
+// void Data::add_new_film(Film* new_film)
+// {
+// 	films.push_back(new_film);
+// }
 
-User* Data::increase_network_money(int film_id)
-{
-	string publisher_username = find_film(film_id)->get_publisher_username();
-	int film_price = find_film(film_id)->get_price();
-	float film_rate = find_film(film_id)->get_rate();
-	network_money += film_price;
-	((Publisher*)(find_user(publisher_username)))->increase_debt(film_price, film_rate);
-	return find_user(publisher_username);
-}
+// User* Data::increase_network_money(int film_id)
+// {
+// 	string publisher_username = find_film(film_id)->get_publisher_username();
+// 	int film_price = find_film(film_id)->get_price();
+// 	float film_rate = find_film(film_id)->get_rate();
+// 	network_money += film_price;
+// 	((Publisher*)(find_user(publisher_username)))->increase_debt(film_price, film_rate);
+// 	return find_user(publisher_username);
+// }
 
-void Data::decrease_network_money(int money)
-{
-	network_money -= money;
-}
+// void Data::decrease_network_money(int money)
+// {
+// 	network_money -= money;
+// }
 
-vector<FilmInfo> Data::search(map<string, string> info)
-{
-	vector<FilmInfo> films_info;
-	for (int i = 0; i < films.size(); i++)
-		if (films[i]->is_in_range(info) && (!films[i]->is_deleted()))
-			films_info.push_back(films[i]->set_info());
-	return films_info;
-}
+// vector<FilmInfo> Data::search(map<string, string> info)
+// {
+// 	vector<FilmInfo> films_info;
+// 	for (int i = 0; i < films.size(); i++)
+// 		if (films[i]->is_in_range(info) && (!films[i]->is_deleted()))
+// 			films_info.push_back(films[i]->set_info());
+// 	return films_info;
+// }
 
-vector<Film*> Data::get_films()
-{
-	return films;
-}
+// vector<Film*> Data::get_films()
+// {
+// 	return films;
+// }
 
-int Data::get_network_money()
-{
-	return network_money;
-}
+// int Data::get_network_money()
+// {
+// 	return network_money;
+// }
 
-void Data::logout()
-{
-	active_user = NULL;
-}
+// void Data::logout()
+// {
+// 	active_user = NULL;
+// }

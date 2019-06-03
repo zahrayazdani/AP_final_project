@@ -2,44 +2,7 @@
 
 using namespace std;
 
-Comment::Comment(int _id, string _writer, string _content)
+Comment::Comment(string _content)
 {
-	id = _id;
-	writer = _writer;
 	content = _content;
-	deleted = false;
-}
-
-int Comment::get_id()
-{
-	return id;
-}
-
-void Comment::add_reply(string reply_message)
-{
-	replies.push_back(reply_message);
-}
-
-string Comment::get_writer()
-{
-	return writer;
-}
-
-void Comment::change_delete_stat()
-{
-	deleted = true;
-}
-
-bool Comment::is_deleted()
-{
-	return deleted;
-}
-
-CommentInfo Comment::set_info()
-{
-	CommentInfo info;
-	info.id = id;
-	info.content = content;
-	info.replies = replies;
-	return info;
 }
