@@ -6,7 +6,75 @@
     	<input type="submit" value="Profile" />
 	</form><br>
 
-	
+	<form action="/">
+    	<input type="submit" value="Logout" />
+	</form><br>
+
+	<%
+		if (context["publisher"] == "true")
+		{
+	%>
+
+	<form action="/addFilm">
+    	<input type="submit" value="addFilm" />
+	</form><br>
+
+	<form>
+	search by director: 
+	<input type = "text" name = "director">
+	</form>
+
+	<form action="/filterFilms">
+    	<input type="submit" value="filter" />
+	</form><br>
+
+	<%
+		int num_of_films = context["size"];
+		int film_num;
+		cout << "Name  " << "length  " << "price  " << "rate  " << "year  " << "director" << endl; 
+		for (int i = 0; i < num_of_films; i++)
+		{
+			film_num = to_string(i);
+			cout << context["name" + film_num] << " ";
+			cout << context["length" + film_num] << " ";
+			cout << context["price" + film_num] << " ";
+			cout << context["rate" + film_num] << " ";
+			cout << context["year" + film_num] << " ";
+			cout << context["director" + film_num] << " ";
+	%>
+		<form action="/deleteFilm">
+    	<input type="submit" value="delete" />
+		</form><br>
+	<%
+		}
+	}
+	else
+	{
+		int num_of_films = context["size"];
+		int film_num;
+		cout << "Name  " << "length  " << "price  " << "rate  " << "year  " << "director" << endl; 
+		for (int i = 0; i < num_of_films; i++)
+		{
+			film_num = to_string(i);
+			cout << context["name" + film_num] << " ";
+			cout << context["length" + film_num] << " ";
+			cout << context["price" + film_num] << " ";
+			cout << context["rate" + film_num] << " ";
+			cout << context["year" + film_num] << " ";
+			cout << context["director" + film_num] << " ";
+	%>
+
+		<form action="/buy">
+    	<input type="submit" value="Buy" />
+		</form>
+		<form action="/showDetails">
+    	<input type="submit" value="Details" />
+		</form><br>
+
+	<%
+		}
+	}
+	%>
 		
   </body>
 </html>
