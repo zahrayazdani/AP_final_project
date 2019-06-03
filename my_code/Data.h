@@ -14,7 +14,7 @@ class Data
 {
 private:
 	std::vector<User*> users;
-	// std::vector<Film*> films;
+	std::vector<Film*> films;
 	int user_id;
 	int film_id;
 	// int network_money;
@@ -33,7 +33,7 @@ public:
 	// int get_network_money();
 	// void change_active_user(User* new_active_user);
 	void add_new_user(User* new_user);
-	// void add_new_film(Film* new_film);
+	void add_new_film(Film* new_film);
 	// User* increase_network_money(int film_id);
 	// void decrease_network_money(int money);
 	// std::vector<FilmInfo> search(std::map<std::string, std::string> info);

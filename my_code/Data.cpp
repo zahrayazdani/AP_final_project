@@ -84,10 +84,10 @@ int Data::get_new_user_id()
 // 	return film_id;
 // }
 
-// void Data::add_new_film(Film* new_film)
-// {
-// 	films.push_back(new_film);
-// }
+void Data::add_new_film(Film* new_film)
+{
+	films.push_back(new_film);
+}
 
 // User* Data::increase_network_money(int film_id)
 // {

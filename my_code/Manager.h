@@ -2,11 +2,13 @@
 #define MANAGER_H
 
 class Data;
+class Recommender;
 
 class Manager
 {
 private:
 	Data* data;
+	Recommender* recommender;
 public:
 	Manager();
 	// ~Manager();

@@ -3,6 +3,7 @@
 #include "User.h"
 #include "Publisher.h"
 #include "Film.h"
+#include "Recommender.h"
 
 using namespace std;
 
@@ -124,10 +125,42 @@ inline deleteFilmHandler::deleteFilmHandler(Data* _data)
 Response* deleteFilmHandler::callback(Request* req)
 {
 	userId = req->getSessionId(); 
-	if (userId == EMPTY_SESSION_ID)
+	if ((userId == EMPTY_SESSION_ID) || (!data->find_user(userId)->is_publisher()))
 		throw server::Exception("You have to login first!");
 	((Publisher*)(data->find_user(userId)))->delete_film(stoi(req->getBodyParam(FILM_ID)));
   	Response* res = Response::redirect("/home");
   	res->setSessionId(userId);
   	return res;
+}
+
+inline addFilmHandler::addFilmHandler(Data* _data, Recommender* _recommender)
+{
+	data = _data;
+	recommender = _recommender;
+}
+
+Response* addFilmHandler::callback(Request* req)
+{
+	userId = req->getSessionId(); 
+	if ((userId == EMPTY_SESSION_ID) || (!data->find_user(userId)->is_publisher()))
+		throw server::Exception("You have to login first!");
+	addFilm(req);
+  	Response* res = Response::redirect("/home");
+  	res->setSessionId(userId);
+  	return res;
+}
+
+void addFilmHandler::addFilm(Request* req)
+{
+	map<string, string> filmInfo;
+	filmInfo[NAME] = request->getBodyParam(NAME);
+	filmInfo[LENGTH] = request->getBodyParam(LENGTH);
+	filmInfo[PRICE] = request->getBodyParam(PRICE);
+	filmInfo[YEAR] = request->getBodyParam(YEAR);
+	filmInfo[DIRECTOR] = request->getBodyParam(DIRECTOR);
+	filmInfo[SUMMARY] = request->getBodyParam(YEAR);
+	filmInfo[FILM_ID] = to_string(data->get_new_film_id());
+	Film* new_film = ((Publisher*)(data->find_user(req->getSessionId())))->add_film(filmInfo);
+	data->add_new_film(new_film);
+	recommender->add_new_element_to_graph();
 }

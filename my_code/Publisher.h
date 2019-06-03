@@ -21,7 +21,7 @@ public:
 	Film* find_published_film(int id);
 	// Film* find_published_film(std::string film_name);
 	// void add_follower(User* new_follower);
-	// Film* add_film(std::map<std::string, std::string> info);
+	Film* add_film(std::map<std::string, std::string> info);
 	// void edit_film(std::map<std::string, std::string> info);
 	void delete_film(int id);
 	// void reply_comment(std::map<std::string, std::string> info);

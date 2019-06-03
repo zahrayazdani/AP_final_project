@@ -3,12 +3,14 @@
 #include "../server/server.hpp"
 #include "Data.h"
 #include "Handlers.h"
+#include "Recommender.h"
 
 using namespace std;
 
 Manager::Manager()
 {
     data = new Data;
+    recommender = new Recommender(data);
 }
 
 //argc va argv
@@ -33,8 +35,9 @@ void Manager::run(int argc, char** argv)
     server.post("/logout", new logoutHandler());
     server.get("/home", new homeHandler("template/home.html", data));
     server.post("/delete_films", new deleteFilmHandler(data));
-    // server.get("/films", new ShowPage("static/add_filmcss.html"));
-    // server.post("/films", new loginHandler());
+    server.post("/addFilm", new addFilmHandler(data, recommender));
+    // server.post("/filterFilms", new filterFilmsHandler());
+    // server.get("/filterFilms", new ShowPage("static/signup.html"));
     // server.get("/money", new ShowPage("static/increse_creditcss.html"));
     // server.post("/money", new loginHandler());
     // server.get("/films", new ShowPage("static/film_detailcss.html"));

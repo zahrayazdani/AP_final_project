@@ -13,7 +13,6 @@ Film::Film(map<string, string> info)
 	summary = info[SUMMARY];
 	director = info[DIRECTOR];
 	id = stoi(info[FILM_ID]);
-	publisher_username = info[PUBLISHER];
 	rate = FIRST_RATE;
 	deleted = false;
 }

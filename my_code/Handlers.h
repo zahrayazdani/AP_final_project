@@ -9,6 +9,7 @@
 #include "define.h"
 
 class Data;
+class Recommender;
 
 class signupHandler : public RequestHandler
 {
@@ -53,6 +54,23 @@ private:
 	Data* data;
 public:
 	deleteFilmHandler(Data* _data);
+ 	Response* callback(Request* req);	
+};
+
+class addFilmHandler : public RequestHandler
+{
+private:
+	Data* data;
+	Recommender* recommender;
+	void addFilm(Request* req);
+public:
+	addFilmHandler(Data* _data, Recommender* _recommender);
+ 	Response* callback(Request* req);	
+};
+
+class filterFilmsHandler : public RequestHandler
+{
+public:
  	Response* callback(Request* req);	
 };
 

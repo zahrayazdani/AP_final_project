@@ -10,14 +10,12 @@ using namespace std;
 Publisher::Publisher(map<string, string> info)
  : User(info) {}
 
-// Film* Publisher::add_film(map<string, string> info)
-// {
-// 	info[PUBLISHER] = username;
-// 	Film* new_film = new Film(info);
-// 	published_films.push_back(new_film);
-// 	send_add_film_notif();
-// 	return new_film;
-// }
+Film* Publisher::add_film(map<string, string> info)
+{
+	Film* new_film = new Film(info);
+	published_films.push_back(new_film);
+	return new_film;
+}
 
 // User* Publisher::find_follower(string username)
 // {

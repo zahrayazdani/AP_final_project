@@ -30,10 +30,10 @@ $(BUILD_DIR)/route.o: server/route.cpp server/route.hpp utils/utilities.hpp util
 $(BUILD_DIR)/main.o: my_code/main.cpp my_code/Manager.h
 	$(CC) $(CF) -c my_code/main.cpp -o $(BUILD_DIR)/main.o
 
-$(BUILD_DIR)/Manager.o: my_code/Manager.cpp my_code/Manager.h my_code/Data.h my_code/Handlers.h
+$(BUILD_DIR)/Manager.o: my_code/Manager.cpp my_code/Manager.h my_code/Data.h my_code/Handlers.h my_code/Recommender.h
 	$(CC) $(CF) -c my_code/Manager.cpp -o $(BUILD_DIR)/Manager.o
 
-$(BUILD_DIR)/Handlers.o: my_code/Handlers.cpp my_code/Handlers.h server/server.hpp my_code/Data.h my_code/define.h my_code/User.h my_code/Publisher.h my_code/Film.h
+$(BUILD_DIR)/Handlers.o: my_code/Handlers.cpp my_code/Handlers.h server/server.hpp my_code/Data.h my_code/define.h my_code/User.h my_code/Publisher.h my_code/Film.h my_code/Recommender..h
 	$(CC) $(CF) -c my_code/Handlers.cpp -o $(BUILD_DIR)/Handlers.o
 
 $(BUILD_DIR)/Comment.o: my_code/Comment.cpp my_code/Comment.h

@@ -7,10 +7,10 @@
 
 using namespace std;
 
-// Recommender::Recommender(Data* _data)
-// {
-// 	data = _data;
-// }
+Recommender::Recommender(Data* _data)
+{
+	data = _data;
+}
 
 // bool compare_by_weight(pair<int, int> pair1, pair<int, int> pair2)
 // {
@@ -40,22 +40,22 @@ using namespace std;
 // 	return recommendation_films;
 // }
 
-// void Recommender::add_new_element_to_graph()
-// {
+void Recommender::add_new_element_to_graph()
+{
 
-// 	vector<int> new_line;
-// 	if (films_graph.size() == 0)
-// 	{
-// 		new_line.push_back(0);
-// 		films_graph.push_back(new_line);
-// 		return;
-// 	}
-// 	for (int i = 0; i < films_graph.size(); i++)
-// 		films_graph[i].push_back(0);
-// 	for (int i = 0; i < films_graph[0].size(); i++)
-// 		new_line.push_back(0);
-// 	films_graph.push_back(new_line);
-// }
+	vector<int> new_line;
+	if (films_graph.size() == 0)
+	{
+		new_line.push_back(0);
+		films_graph.push_back(new_line);
+		return;
+	}
+	for (int i = 0; i < films_graph.size(); i++)
+		films_graph[i].push_back(0);
+	for (int i = 0; i < films_graph[0].size(); i++)
+		new_line.push_back(0);
+	films_graph.push_back(new_line);
+}
 
 // void Recommender::update_graph_after_buy_a_film(Film* film, User* user)
 // {
