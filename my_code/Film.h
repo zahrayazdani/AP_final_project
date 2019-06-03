@@ -26,7 +26,7 @@ private:
 	float calc_rate();
 public:
 	Film(std::map<std::string, std::string> info);
-	// int get_id();
+	int get_id();
 	// std::string get_name();
 	int get_price();
 	// float get_rate();
@@ -40,7 +40,7 @@ public:
 	FilmInfo set_info();
 	// bool is_in_range(std::map<std::string, std::string> info);
 	// bool is_deleted();
-	// std::string add_new_rate(int score, std::string username);
+	void add_new_rate(int score, std::string username);
 	// std::string add_new_comment(std::string content, std::string writer);
 	void change_delete_stat();
 	// std::vector<CommentInfo> get_comments_info();

@@ -44,10 +44,8 @@ void Manager::run(int argc, char** argv)
     // server.post("/films", new loginHandler());
     // server.get("/comments", new ShowPage("static/commentscss.html"));
     // server.post("/comments", new loginHandler());
-    // server.get("/buy", new ShowPage("static/buycss.html"));
-    // server.post("/buy", new loginHandler());
-    // server.get("/rate", new ShowPage("static/ratecss.html"));
-    // server.post("/rate", new loginHandler());
+    server.post("/buy", new buyHandler(data, recommender));
+    server.post("/rate", new rateHandler(data));
     server.run();
   } catch (Server::Exception e) {
     cerr << e.getMessage() << endl;

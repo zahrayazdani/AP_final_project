@@ -43,7 +43,7 @@
 			cout << context["director" + film_num] << " ";
 	%>
 		<form action="/deleteFilm">
-    	<input type="submit" value="delete" />
+    	<input type="submit" value="Delete" name=context["id" + film_num]/>
 		</form><br>
 	<%
 		}

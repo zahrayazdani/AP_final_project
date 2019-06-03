@@ -75,4 +75,23 @@ public:
  	Response* callback(Request* req);	
 };
 
+class buyHandler : public RequestHandler
+{
+private:
+	Data* data;
+	Recommender* recommender;
+public:
+	buyHandler(Data* _data, Recommender* _recommender);
+ 	Response* callback(Request* req);	
+};
+
+class rateHandler : public RequestHandler
+{
+private:
+	Data* data;
+public:
+	rateHandler(Data* _data);
+ 	Response* callback(Request* req);		
+};
+
 #endif

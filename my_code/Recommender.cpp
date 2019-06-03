@@ -57,18 +57,18 @@ void Recommender::add_new_element_to_graph()
 	films_graph.push_back(new_line);
 }
 
-// void Recommender::update_graph_after_buy_a_film(Film* film, User* user)
-// {
-// 	vector<Film*> bought_films = user->get_films();
-// 	int film_index = film->get_id() - 1;
-// 	int curr_film_index;
-// 	for (int i = 0; i < bought_films.size(); i++)
-// 	{
-// 		curr_film_index = (bought_films[i]->get_id()) - 1;
-// 		films_graph[film_index][curr_film_index]++;
-// 		films_graph[curr_film_index][film_index]++;
-// 	}
-// }
+void Recommender::update_graph_after_buy_a_film(Film* film, User* user)
+{
+	vector<Film*> bought_films = user->get_films();
+	int film_index = film->get_id() - 1;
+	int curr_film_index;
+	for (int i = 0; i < bought_films.size(); i++)
+	{
+		curr_film_index = (bought_films[i]->get_id()) - 1;
+		films_graph[film_index][curr_film_index]++;
+		films_graph[curr_film_index][film_index]++;
+	}
+}
 
 // vector<pair<int, int>> Recommender::construct_vector_of_pairs(Film* film)
 // {

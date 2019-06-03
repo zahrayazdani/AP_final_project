@@ -17,10 +17,10 @@ Film::Film(map<string, string> info)
 	deleted = false;
 }
 
-// int Film::get_id()
-// {
-// 	return id;
-// }
+int Film::get_id()
+{
+	return id;
+}
 
 // string Film::get_name()
 // {
@@ -119,12 +119,11 @@ FilmInfo Film::set_info()
 // 	return deleted;
 // }
 
-// string Film::add_new_rate(int score, string username)
-// {
-// 	scores[username] = score;
-// 	rate = calc_rate();
-// 	return publisher_username;
-// }
+void Film::add_new_rate(int score, string username)
+{
+	scores[username] = score;
+	rate = calc_rate();
+}
 
 // int Film::get_new_comment_id()
 // {
