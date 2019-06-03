@@ -30,12 +30,12 @@ public:
 	User(std::map<std::string, std::string> info);
 	std::string get_username();
 	// std::string get_email();
-	// int get_id();
+	int get_id();
 	// int get_money();
 	// std::vector<Film*> get_films();
 	bool check_password(std::string pass);
-	// bool check_can_buy_film(int film_price);
-	// bool is_publisher();
+	bool check_can_buy_film(int film_price);
+	bool is_publisher();
 	// Film* find_film(int id);
 	// Publisher* find_publisher(std::string publisher_name);
 	// void add_new_notif(std::string notif);

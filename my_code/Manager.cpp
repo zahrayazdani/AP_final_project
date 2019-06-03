@@ -31,8 +31,8 @@ void Manager::run(int argc, char** argv)
     server.post("/login", new loginHandler());
     server.get("/loginPassErr", new ShowPage("static/loginPassErr.html"));
     server.post("/logout", new logoutHandler());
-    // server.get("/delete_films", new ShowPage("static/delete_filmscss.html"));
-    // server.post("/delete_films", new loginHandler());
+    server.get("/home", new homeHandler("template/home.html", data));
+    server.post("/delete_films", new deleteFilmHandler(data));
     // server.get("/films", new ShowPage("static/add_filmcss.html"));
     // server.post("/films", new loginHandler());
     // server.get("/money", new ShowPage("static/increse_creditcss.html"));

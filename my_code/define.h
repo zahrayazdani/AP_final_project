@@ -13,17 +13,17 @@ enum signupErr {username, pass, ok};
 // 	std::string email;
 // };
 
-// struct FilmInfo
-// {
-// 	int id;
-// 	std::string name;
-// 	int length;
-// 	int price;
-// 	float rate;
-// 	int year;
-// 	std::string director; 
-// 	std::string summary;
-// };
+struct FilmInfo
+{
+	int id;
+	std::string name;
+	int length;
+	int price;
+	float rate;
+	int year;
+	std::string director; 
+	std::string summary;
+};
 
 // struct  CommentInfo
 // {

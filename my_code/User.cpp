@@ -30,20 +30,20 @@ string User::get_username()
 // 	return email;
 // }
 
-// int User::get_id()
-// {
-// 	return id;
-// }
+int User::get_id()
+{
+	return id;
+}
 
 bool User::check_password(string pass)
 {
 	return pass == password;
 }
 
-// bool User::is_publisher()
-// {
-// 	return publisher;
-// }
+bool User::is_publisher()
+{
+	return publisher;
+}
 
 // Publisher* User::find_publisher(string publisher_name)
 // {
@@ -106,12 +106,12 @@ bool User::check_password(string pass)
 // 	money += amount;
 // }
 
-// bool User::check_can_buy_film(int film_price)
-// {
-// 	if (film_price > money)
-// 		return false;
-// 	return true;
-// }
+bool User::check_can_buy_film(int film_price)
+{
+	if (film_price > money)
+		return false;
+	return true;
+}
 
 // string User::buy_new_film(Film* new_film)
 // {

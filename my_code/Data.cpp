@@ -41,21 +41,21 @@ User* Data::find_user(string username)
 	return NULL;
 }
 
-// User* Data::find_user(int id)
-// {
-// 	for (int i = 0; i < users.size(); i++)
-// 		if (users[i]->get_id() == id)
-// 			return users[i];
-// 	return NULL;
-// }
+User* Data::find_user(int id)
+{
+	for (int i = 0; i < users.size(); i++)
+		if (users[i]->get_id() == id)
+			return users[i];
+	return NULL;
+}
 
-// Film* Data::find_film(int id)
-// {
-// 	for (int i = 0; i < films.size(); i++)
-// 		if ((films[i]->get_id() == id) && (!films[i]->is_deleted()))
-// 			return films[i];
-// 	return NULL;
-// }
+Film* Data::find_film(int id)
+{
+	for (int i = 0; i < films.size(); i++)
+		if ((films[i]->get_id() == id) && (!films[i]->is_deleted()))
+			return films[i];
+	return NULL;
+}
 
 // User* Data::get_active_user()
 // {
@@ -113,10 +113,10 @@ int Data::get_new_user_id()
 // 	return films_info;
 // }
 
-// vector<Film*> Data::get_films()
-// {
-// 	return films;
-// }
+vector<Film*> Data::get_films()
+{
+	return films;
+}
 
 // int Data::get_network_money()
 // {

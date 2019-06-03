@@ -63,19 +63,19 @@ Film::Film(map<string, string> info)
 // 	}
 // }
 
-// FilmInfo Film::set_info()
-// {
-// 	FilmInfo film_info;
-// 	film_info.id = id;
-// 	film_info.name = name;
-// 	film_info.length = length;
-// 	film_info.price = price;
-// 	film_info.rate = rate;
-// 	film_info.year = year;
-// 	film_info.director = director;
-// 	film_info.summary = summary;
-// 	return film_info;
-// }
+FilmInfo Film::set_info()
+{
+	FilmInfo film_info;
+	film_info.id = id;
+	film_info.name = name;
+	film_info.length = length;
+	film_info.price = price;
+	film_info.rate = rate;
+	film_info.year = year;
+	film_info.director = director;
+	film_info.summary = summary;
+	return film_info;
+}
 
 // bool Film::is_in_range(map<string, string> info)
 // {
@@ -140,15 +140,15 @@ Film::Film(map<string, string> info)
 // 	return publisher_username;
 // }
 
-// void Film::change_delete_stat()
-// {
-// 	deleted = true;
-// }
+void Film::change_delete_stat()
+{
+	deleted = true;
+}
 
-// int Film::get_price()
-// {
-// 	return price;
-// }
+int Film::get_price()
+{
+	return price;
+}
 
 // string Film::get_publisher_username()
 // {

@@ -24,10 +24,10 @@ public:
 	Data();
 	// ~Data();
 	User* find_user(std::string username);
-	// User* find_user(int id);
-	// Film* find_film(int id);
+	User* find_user(int id);
+	Film* find_film(int id);
 	// User* get_active_user();
-	// std::vector<Film*> get_films();
+	std::vector<Film*> get_films();
 	int get_new_user_id();
 	// int get_new_film_id();
 	// int get_network_money();
