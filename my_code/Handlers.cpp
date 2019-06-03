@@ -83,39 +83,58 @@ Response* logoutHandler::callback(Request* req)
   	return res;
 }
 
-// inline homeHandler::homeHandler(string filePath) : TemplateHandler(filePath), data(_data) {}
+inline homeHandler::homeHandler(string filePath) : TemplateHandler(filePath), data(_data) {}
 
-// map<string, string> homeHandler::handle(Request *req) 
-// {
-//  	int userId = req->getSessionId();
-//   	if (!data->find_user(userId)->is_publisher())
-//   	{
-//   		pair.first = false;
-//   		pair.second = getHomeFilms(userId);
-//   	}
-//   	context = getHomeFilms(userId);
-//   	else
-//   	{
-//   		pair.first = true;
-//   		pair.second = getPublishedFilms(userId);
-//   	}
-//   	return pair;
-// }
+map<string, string> homeHandler::handle(Request *req) 
+{
+ 	int userId = req->getSessionId();
+ 	map<string, string> context;
+  	if (!data->find_user(userId)->is_publisher())
+  	{
+  		context = getHomeFilms(userId);
+  		context[PUBLISHER] = _FALSE;
+  	}
+  	else
+  	{
+  		context = getPublishedFilms(userId);
+  		context[PUBLISHER] = _TRUE;
+  	}
+  	return context;
+}
 
-// vector<FilmInfo> homeHandler::getPublishedFilms(int userId)
-// {
-// 	return (Publisher*)(data->find_user(userId))->get_published_films();
-// }
+map<string, string> homeHandler::getPublishedFilms(int userId)
+{
+	return changeVectorToMap((Publisher*)(data->find_user(userId))->get_published_films());
+}
 
-// vector<FilmInfo> homeHandler::getHomeFilms(int userId)
-// {
-// 	vector<FilmInfo> filmsInfo;
-// 	vector<Film*> films = data->get_films();
-// 	for (int i = 0; i <films.size(); i++)
-// 		if ((!films[i]->is_deleted()) && (data->find_user(userId)->check_can_buy_film(films[i]->get_price())))
-// 			filmsInfo.push_back(films[i]->set_info());
-// 	return filmsInfo;
-// }
+map<string, string> homeHandler::getHomeFilms(int userId)
+{
+	vector<FilmInfo> filmsInfo;
+	vector<Film*> films = data->get_films();
+	for (int i = 0; i <films.size(); i++)
+		if ((!films[i]->is_deleted()) && (data->find_user(userId)->check_can_buy_film(films[i]->get_price())))
+			filmsInfo.push_back(films[i]->set_info());
+	return changeVectorToMap(filmsInfo);
+}
+
+map<string, string> homeHandler::changeVectorToMap(vector<filmInfo>)
+{
+	map<string, string> info;
+	info[SIZE] = to_string(filmsInfo.size());
+	for (int i = 0; i < filmsInfo.size(); i++)
+	{
+		string num = to_string(i);
+		info[NAME + num] = filmsInfo[i].name;
+		info[FILM_ID + num] = to_string(filmsInfo[i].id);
+		info[LENGTH + num] = to_string(filmsInfo[i].length);
+		info[PRICE + num] = to_string(filmsInfo[i].price);
+		info[RATE + num] = to_string(filmsInfo[i].rate);
+		info[YEAR + num] = to_string(filmsInfo[i].year);
+		info[DIRECTOR + num] = filmsInfo[i].id;
+		info[SUMMARY + num] = filmsInfo[i].id;
+	}
+	return info;
+}
 
 inline deleteFilmHandler::deleteFilmHandler(Data* _data)
 {

@@ -41,8 +41,9 @@ public:
 class homeHandler : public TemplateHandler {
 private:
 	Data* data;
-	std::vector<FilmInfo> getHomeFilms(int userId);
-	std::vector<FilmInfo> getPublishedFilms(int userId);
+	std::map<std::string, std::string> getHomeFilms(int userId);
+	std::map<std::string, std::string> getPublishedFilms(int userId);
+	std::map<std::string, std::string> changeVectorToMap(std::vector<filmInfo>)
 public:
   homeHandler(std::string filePath, Data* _data);
   std::map<std::string, std::string> handle(Request *req);

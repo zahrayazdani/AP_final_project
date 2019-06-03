@@ -98,5 +98,6 @@ struct FilmInfo
 #define ADMIN "admin"
 #define LOGOUT "logout"
 #define EMPTY_SESSION_ID ""
+#define SIZE "size"
 
 #endif
