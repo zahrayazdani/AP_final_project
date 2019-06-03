@@ -5,7 +5,7 @@
 #include "Publisher.h"
 
 using namespace std;
-
+//
 Response* signupHandler::callback(Request* req)
 {
 	Response* res;
