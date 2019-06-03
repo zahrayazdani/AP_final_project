@@ -27,4 +27,11 @@ public:
 	loginHandler(Data* _data);
  	Response* callback(Request* req);	
 }
+
+class logoutHandler : public RequestHandler
+{
+public:
+ 	Response* callback(Request* req);	
+}
+
 #endif

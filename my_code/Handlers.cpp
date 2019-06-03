@@ -52,22 +52,31 @@ string signupHandler::signup()
 	return userInfo[USER_ID];
 }
 
-signupHandler::signupHandler(Data* _data)
+inline signupHandler::signupHandler(Data* _data)
 {
 	data = _data;
 }
 
-loginHandler::loginHandler(Data* _data)
+inline loginHandler::loginHandler(Data* _data)
 {
 	data = _data;
 }
 
-Response* signupHandler::callback(Request* req)
+Response* loginHandler::callback(Request* req)
 {
 	Response* res;
 	if (!data->find_user(req->getBodyParam(USERNAME))->check_password(req->getBodyParam(PASSWORD)))
 		res = Response::redirect("/loginPassErr");
   	res = Response::redirect("/home");
   	res->setSessionId(sessionId);
+  	return res;
+}
+
+Response* signupHandler::callback(Request* req)
+{
+	if (req->getSessionId() == EMPTY_SESSION_ID)
+		throw server::Exception("You have to login first!");
+  	Response* res = Response::redirect("/");
+  	res->setSessionId(EMPTY_SESSION_ID);
   	return res;
 }

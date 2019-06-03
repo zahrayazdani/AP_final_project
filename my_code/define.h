@@ -97,5 +97,6 @@ enum signupErr {username, pass, ok};
 #define DELETE_COMMENTS "delete_comments"
 #define ADMIN "admin"
 #define LOGOUT "logout"
+#define EMPTY_SESSION_ID ""
 
 #endif
