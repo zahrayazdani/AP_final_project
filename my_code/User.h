@@ -40,7 +40,7 @@ public:
 	// Publisher* find_publisher(std::string publisher_name);
 	// void add_new_notif(std::string notif);
 	// bool follow(Publisher* publisher);
-	// std::pair<std::string, std::string> comment(int film_id, std::string content);
+	void comment(int film_id, std::string content);
 	void charge_account(int amount);
 	void rate_film(int film_id, int score);
 	bool buy_new_film(Film* new_film);

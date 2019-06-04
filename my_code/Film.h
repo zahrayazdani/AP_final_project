@@ -21,7 +21,6 @@ private:
 	int id;
 	bool deleted;
 	std::map<std::string, int> scores;
-	std::string publisher_username;
 	std::vector<Comment*> comments;
 	float calc_rate();
 public:
@@ -41,7 +40,7 @@ public:
 	// bool is_in_range(std::map<std::string, std::string> info);
 	// bool is_deleted();
 	void add_new_rate(int score, std::string username);
-	// std::string add_new_comment(std::string content, std::string writer);
+	void add_new_comment(std::string content);
 	void change_delete_stat();
 	// std::vector<CommentInfo> get_comments_info();
 	// void delete_comments();

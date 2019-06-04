@@ -131,12 +131,11 @@ void Film::add_new_rate(int score, string username)
 // 	return comment_id;
 // }
 
-// string Film::add_new_comment(string content, string writer)
-// {
-// 	Comment* new_comment = new Comment(get_new_comment_id(), writer, content);
-// 	comments.push_back(new_comment);
-// 	return publisher_username;
-// }
+void Film::add_new_comment(string content)
+{
+	Comment* new_comment = new Comment(content);
+	comments.push_back(new_comment);
+}
 
 void Film::change_delete_stat()
 {

@@ -214,7 +214,7 @@ Response* increaseMoneyHandler::callback(Request* req)
 	userId = req->getSessionId(); 
 	if (userId == EMPTY_SESSION_ID)
 		throw server::Exception("You have to login first!");
-	data->find_user(stoi(userId))->charge_account(req->getBodyParam(AMOUNT));
+	data->find_user(stoi(userId))->charge_account(stoi(req->getBodyParam(AMOUNT)));
 	Response* res = Response::redirect("/profile");
   	res->setSessionId(userId);
   	return res;
@@ -230,7 +230,7 @@ Response* commentHandler::callback(Request* req)
 	userId = req->getSessionId(); 
 	if (userId == EMPTY_SESSION_ID)
 		throw server::Exception("You have to login first!");
-	data->find_user(stoi(userId))->charge_account(req->getBodyParam(AMOUNT));
+	data->find_user(stoi(userId))->comment(stoi(req->getBodyParam(FILM_ID), req->getBodyParam(CONTENT)));
 	Response* res = Response::redirect("/profile");
   	res->setSessionId(userId);
   	return res;

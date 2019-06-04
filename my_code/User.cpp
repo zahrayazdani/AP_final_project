@@ -82,17 +82,10 @@ void User::rate_film(int film_id, int score)
 	find_film(film_id)->add_new_rate(score, username);
 }
 
-// pair<string, string> User::comment(int film_id, string content)
-// {
-// 	stringstream notif;
-// 	notif << "User " << username << " with id " << id << " comment on your film " <<
-// 		find_film(film_id)->get_name() << " with id " << film_id << ".";
-// 	string publisher_name = find_film(film_id)->add_new_comment(content, username);
-// 	pair<string, string> new_pair;
-// 	new_pair.first = publisher_name;
-// 	new_pair.second = notif.str();
-// 	return new_pair;
-// }
+void User::comment(int film_id, string content)
+{
+	find_film(film_id)->add_new_comment(content);
+}
 
 void User::charge_account(int amount)
 {
