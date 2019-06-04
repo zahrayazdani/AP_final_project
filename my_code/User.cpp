@@ -94,10 +94,10 @@ void User::rate_film(int film_id, int score)
 // 	return new_pair;
 // }
 
-// void User::charge_account(int amount)
-// {
-// 	money += amount;
-// }
+void User::charge_account(int amount)
+{
+	money += amount;
+}
 
 bool User::check_can_buy_film(Film* film)
 {
@@ -106,10 +106,13 @@ bool User::check_can_buy_film(Film* film)
 	return true;
 }
 
-void User::buy_new_film(Film* new_film)
+bool User::buy_new_film(Film* new_film)
 {
+	if (!check_can_buy_film(new_film))
+		return false;
 	bought_films.push_back(new_film);
 	money -= new_film->get_price();
+	return true;
 }
 
 // vector<FilmInfo> User::get_bought_films(map<string, string> info)

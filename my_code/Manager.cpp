@@ -36,14 +36,11 @@ void Manager::run(int argc, char** argv)
     server.get("/home", new homeHandler("template/home.html", data));
     server.post("/delete_films", new deleteFilmHandler(data));
     server.post("/addFilm", new addFilmHandler(data, recommender));
-    // server.post("/filterFilms", new filterFilmsHandler());
+    // server.get("/profile", new homeHandler("template/home.html", data));
     // server.get("/filterFilms", new ShowPage("static/signup.html"));
-    // server.get("/money", new ShowPage("static/increse_creditcss.html"));
-    // server.post("/money", new loginHandler());
-    // server.get("/films", new ShowPage("static/film_detailcss.html"));
-    // server.post("/films", new loginHandler());
-    // server.get("/comments", new ShowPage("static/commentscss.html"));
-    // server.post("/comments", new loginHandler());
+    // server.get("/showDetails", new ShowPage("static/film_detailcss.html"));
+    server.post("/increaseMoney", new increaseMoneyHandler(data));
+    server.post("/addComment", new commentHandler(data));
     server.post("/buy", new buyHandler(data, recommender));
     server.post("/rate", new rateHandler(data));
     server.run();

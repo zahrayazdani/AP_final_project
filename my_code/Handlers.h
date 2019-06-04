@@ -94,4 +94,22 @@ public:
  	Response* callback(Request* req);		
 };
 
+class increaseMoneyHandler : public RequestHandler
+{
+private:
+	Data* data;
+public:
+	increaseMoneyHandler(Data* _data);
+ 	Response* callback(Request* req);		
+};
+
+class commentHandler : public RequestHandler
+{
+private:
+	Data* data;
+public:
+	commentHandler(Data* _data);
+ 	Response* callback(Request* req);		
+};
+
 #endif

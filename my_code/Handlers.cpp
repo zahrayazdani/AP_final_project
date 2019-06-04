@@ -196,25 +196,42 @@ Response* buyHandler::callback(Request* req)
 	if (userId == EMPTY_SESSION_ID)
 		throw server::Exception("You have to login first!");
 	Film* film = data->find_film(stoi(req->getBodyParam(FILM_ID)));
-	data->find_user(stoi(userId))->buy_new_film(film);
+	if (!data->find_user(stoi(userId))->buy_new_film(film))
+		throw server::Exception("Not enough money!");
 	recommender->update_graph_after_buy_a_film(film, data->find_user(stoi(userId)));
   	Response* res = Response::redirect("/home");
   	res->setSessionId(userId);
   	return res;
 }
 
-inline rateHandler::rateHandler(Data* _data)
+inline increaseMoneyHandler::increaseMoneyHandler(Data* _data)
 {
 	data = _data;
 }
 
-Response* rateHandler::callback(Request* req)
+Response* increaseMoneyHandler::callback(Request* req)
 {
 	userId = req->getSessionId(); 
 	if (userId == EMPTY_SESSION_ID)
 		throw server::Exception("You have to login first!");
-	data->find_user(stoi(userId))->rate_film(stoi(req->getBodyParam(FILM_ID)), stoi(req->getBodyParam(SCORE)));
-  	Response* res = Response::redirect("/profile");
+	data->find_user(stoi(userId))->charge_account(req->getBodyParam(AMOUNT));
+	Response* res = Response::redirect("/profile");
+  	res->setSessionId(userId);
+  	return res;
+}
+
+inline commentHandler::commentHandler(Data* _data)
+{
+	data = _data;
+}
+
+Response* commentHandler::callback(Request* req)
+{
+	userId = req->getSessionId(); 
+	if (userId == EMPTY_SESSION_ID)
+		throw server::Exception("You have to login first!");
+	data->find_user(stoi(userId))->charge_account(req->getBodyParam(AMOUNT));
+	Response* res = Response::redirect("/profile");
   	res->setSessionId(userId);
   	return res;
 }
