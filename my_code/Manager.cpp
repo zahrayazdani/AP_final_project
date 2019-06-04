@@ -36,7 +36,8 @@ void Manager::run(int argc, char** argv)
     server.get("/home", new HomeHandler("template/home.html", data));
     server.post("/delete_films", new DeleteFilmHandler(data));
     server.post("/addFilm", new AddFilmHandler(data, recommender));
-    // server.get("/profile", new homeHandler("template/home.html", data));
+    server.get("/addFilm", new ShowPage("static/loginPassErr.html"));
+    server.get("/profile", new ProfileHandler("template/profile.html", data));
     // server.get("/filterFilms", new ShowPage("static/signup.html"));
     // server.get("/showDetails", new ShowPage("static/film_detailcss.html"));
     server.post("/increaseMoney", new IncreaseMoneyHandler(data));

@@ -44,7 +44,7 @@ public:
 	void charge_account(int amount);
 	void rate_film(int film_id, int score);
 	bool buy_new_film(Film* new_film);
-	// std::vector<FilmInfo> get_bought_films(std::map<std::string, std::string> info);
+	std::vector<FilmInfo> get_bought_films();
 	// std::vector<std::string> get_notifs();
 	// std::vector<std::string> get_read_notifs();
 };

@@ -109,14 +109,14 @@ bool User::buy_new_film(Film* new_film)
 	return true;
 }
 
-// vector<FilmInfo> User::get_bought_films(map<string, string> info)
-// {
-// 	vector<FilmInfo> films_info;
-// 	for (int i = 0; i < bought_films.size(); i++)
-// 		if (bought_films[i]->is_in_range(info))
-// 			films_info.push_back(bought_films[i]->set_info());
-// 	return films_info;
-// }
+vector<FilmInfo> User::get_bought_films()
+{
+	vector<FilmInfo> films_info;
+	int size = bought_films.size();
+	for (int i = 0; i < size; i++)
+		films_info.push_back(bought_films[i]->set_info());
+	return films_info;
+}
 
 // vector<string> User::get_notifs()
 // {

@@ -88,6 +88,8 @@ inline HomeHandler::HomeHandler(string filePath, Data* _data) : TemplateHandler(
 map<string, string> HomeHandler::handle(Request *req) 
 {
  	int userId = stoi(req->getSessionId());
+ 	if (req->getSessionId() == EMPTY_SESSION_ID)
+ 		throw Server::Exception("You have to login first!");
  	map<string, string> context;
   	if (!data->find_user(userId)->is_publisher())
   	{
@@ -102,23 +104,7 @@ map<string, string> HomeHandler::handle(Request *req)
   	return context;
 }
 
-map<string, string> HomeHandler::getPublishedFilms(int userId)
-{
-	return changeVectorToMap(((Publisher*)(data->find_user(userId)))->get_published_films());
-}
-
-map<string, string> HomeHandler::getHomeFilms(int userId)
-{
-	vector<FilmInfo> filmsInfo;
-	vector<Film*> films = data->get_films();
-	int size = films.size();
-	for (int i = 0; i < size; i++)
-		if ((!films[i]->is_deleted()) && (data->find_user(userId)->check_can_buy_film(films[i])))
-			filmsInfo.push_back(films[i]->set_info());
-	return changeVectorToMap(filmsInfo);
-}
-
-map<string, string> HomeHandler::changeVectorToMap(vector<FilmInfo> filmsInfo)
+map<string, string> changeVectorToMap(vector<FilmInfo> filmsInfo)
 {
 	map<string, string> info;
 	info[SIZE] = to_string(filmsInfo.size());
@@ -136,6 +122,22 @@ map<string, string> HomeHandler::changeVectorToMap(vector<FilmInfo> filmsInfo)
 		info[SUMMARY + num] = filmsInfo[i].id;
 	}
 	return info;
+}
+
+map<string, string> HomeHandler::getPublishedFilms(int userId)
+{
+	return changeVectorToMap(((Publisher*)(data->find_user(userId)))->get_published_films());
+}
+
+map<string, string> HomeHandler::getHomeFilms(int userId)
+{
+	vector<FilmInfo> filmsInfo;
+	vector<Film*> films = data->get_films();
+	int size = films.size();
+	for (int i = 0; i < size; i++)
+		if ((!films[i]->is_deleted()) && (data->find_user(userId)->check_can_buy_film(films[i])))
+			filmsInfo.push_back(films[i]->set_info());
+	return changeVectorToMap(filmsInfo);
 }
 
 inline DeleteFilmHandler::DeleteFilmHandler(Data* _data)
@@ -233,6 +235,33 @@ Response* CommentHandler::callback(Request* req)
 	if (userId == EMPTY_SESSION_ID)
 		throw Server::Exception("You have to login first!");
 	data->find_user(stoi(userId))->comment(stoi(req->getBodyParam(FILM_ID)), req->getBodyParam(CONTENT));
+	Response* res = Response::redirect("/profile");
+  	res->setSessionId(userId);
+  	return res;
+}
+
+inline ProfileHandler::ProfileHandler(string filePath, Data* _data) : TemplateHandler(filePath), data(_data) {}
+
+map<string, string> ProfileHandler::handle(Request *req) 
+{
+ 	int userId = stoi(req->getSessionId());
+ 	if (req->getSessionId() == EMPTY_SESSION_ID)
+ 		throw Server::Exception("You have to login first!");
+ 	map<string, string> context = changeVectorToMap(data->find_user(userId)->get_bought_films());
+   	return context;
+}
+
+inline RateHandler::RateHandler(Data* _data)
+{
+	data = _data;
+}
+
+Response* RateHandler::callback(Request* req)
+{
+	string userId = req->getSessionId(); 
+	if (userId == EMPTY_SESSION_ID)
+		throw Server::Exception("You have to login first!");
+	data->find_user(stoi(userId))->rate_film(stoi(req->getBodyParam(FILM_ID)), stoi(req->getBodyParam(SCORE)));
 	Response* res = Response::redirect("/profile");
   	res->setSessionId(userId);
   	return res;

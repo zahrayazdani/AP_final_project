@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Profile</h2>
+	<form action="/home">
+    	<input type="submit" value="Home" />
+	</form><br>
+
+	<form action="/logout">
+    	<input type="submit" value="Logout" />
+	</form><br>
+
+	<form>
+	Charge Acount: 
+	<input type = "number" name = "amount">
+	</form>
+
+	<form action="/increaseMoney">
+    	<input type="submit" value="Charge" />
+	</form><br>
+
+	<%
+		int num_of_films = context["size"];
+		string film_num;
+		cout << "Name  " << "length  " << "price  " << "rate  " << "year  " << "director" << endl; 
+		for (int i = 0; i < num_of_films; i++)
+		{
+			film_num = to_string(i);
+			cout << context["name" + film_num] << " ";
+			cout << context["length" + film_num] << " ";
+			cout << context["price" + film_num] << " ";
+			cout << context["rate" + film_num] << " ";
+			cout << context["year" + film_num] << " ";
+			cout << context["director" + film_num] << " ";
+	%>
+		<form action="/rate">
+    	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
+    	<button type="submit"> Rate </button>
+		</form><br>
+
+	<form>
+	Rate: 
+	<input type = "number" name = "score">
+	</form>
+
+	<form action="/rate">
+    	<input type="submit" value="Post" />
+	</form><br>
+
+	<form>
+	Comment: 
+	<input type = "text" name = "content">
+	</form>
+
+	<form action="/comment">
+    	<input type="submit" value="Post" />
+	</form><br>
+
+	<%
+		}
+	%>
+		
+  </body>
+</html>

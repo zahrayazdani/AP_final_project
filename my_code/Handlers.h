@@ -43,7 +43,6 @@ private:
 	Data* data;
 	std::map<std::string, std::string> getHomeFilms(int userId);
 	std::map<std::string, std::string> getPublishedFilms(int userId);
-	std::map<std::string, std::string> changeVectorToMap(std::vector<FilmInfo> filmsInfo);
 public:
   HomeHandler(std::string filePath, Data* _data);
   std::map<std::string, std::string> handle(Request *req);
@@ -110,6 +109,14 @@ private:
 public:
 	CommentHandler(Data* _data);
  	Response* callback(Request* req);		
+};
+
+class ProfileHandler : public TemplateHandler {
+private:
+	Data* data;
+public:
+  ProfileHandler(std::string filePath, Data* _data);
+  std::map<std::string, std::string> handle(Request *req);
 };
 
 #endif
