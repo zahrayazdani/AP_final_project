@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Response* signupHandler::callback(Request* req)
+Response* SignupHandler::callback(Request* req)
 {
 	Response* res;
   	request = req;
@@ -21,7 +21,7 @@ Response* signupHandler::callback(Request* req)
   	return res;
 }
 
-signupErr signupHandler::checkSignupInfo()
+signupErr SignupHandler::checkSignupInfo()
 {
 	if (request->getBodyParam(PASSWORD) != request->getBodyParam(PASSCONFIRM))
 		return pass;
@@ -30,7 +30,7 @@ signupErr signupHandler::checkSignupInfo()
 	return ok;
 }
 
-string signupHandler::signup()
+string SignupHandler::signup()
 {
 	User* new_user;
 	map<string, string> userInfo;
@@ -53,17 +53,17 @@ string signupHandler::signup()
 	return userInfo[USER_ID];
 }
 
-inline signupHandler::signupHandler(Data* _data)
+inline SignupHandler::SignupHandler(Data* _data)
 {
 	data = _data;
 }
 
-inline loginHandler::loginHandler(Data* _data)
+inline LoginHandler::LoginHandler(Data* _data)
 {
 	data = _data;
 }
 
-Response* loginHandler::callback(Request* req)
+Response* LoginHandler::callback(Request* req)
 {
 	Response* res;
 	if (!data->find_user(req->getBodyParam(USERNAME))->check_password(req->getBodyParam(PASSWORD)))
@@ -74,22 +74,22 @@ Response* loginHandler::callback(Request* req)
   	return res;
 }
 
-Response* logoutHandler::callback(Request* req)
+Response* LogoutHandler::callback(Request* req)
 {
 	if (req->getSessionId() == EMPTY_SESSION_ID)
-		throw server::Exception("You have to login first!");
+		throw Server::Exception("You have to login first!");
   	Response* res = Response::redirect("/");
   	res->setSessionId(EMPTY_SESSION_ID);
   	return res;
 }
 
-inline homeHandler::homeHandler(string filePath) : TemplateHandler(filePath), data(_data) {}
+inline HomeHandler::HomeHandler(string filePath, Data* _data) : TemplateHandler(filePath), data(_data) {}
 
-map<string, string> homeHandler::handle(Request *req) 
+map<string, string> HomeHandler::handle(Request *req) 
 {
- 	int userId = req->getSessionId();
+ 	int userId = stoi(req->getSessionId());
  	map<string, string> context;
-  	if (!data->find_user(stoi(userId))->is_publisher())
+  	if (!data->find_user(userId)->is_publisher())
   	{
   		context = getHomeFilms(userId);
   		context[PUBLISHER] = _FALSE;
@@ -102,26 +102,28 @@ map<string, string> homeHandler::handle(Request *req)
   	return context;
 }
 
-map<string, string> homeHandler::getPublishedFilms(int userId)
+map<string, string> HomeHandler::getPublishedFilms(int userId)
 {
-	return changeVectorToMap((Publisher*)(data->find_user(stoi(userId)))->get_published_films());
+	return changeVectorToMap(((Publisher*)(data->find_user(userId)))->get_published_films());
 }
 
-map<string, string> homeHandler::getHomeFilms(int userId)
+map<string, string> HomeHandler::getHomeFilms(int userId)
 {
 	vector<FilmInfo> filmsInfo;
 	vector<Film*> films = data->get_films();
-	for (int i = 0; i <films.size(); i++)
-		if ((!films[i]->is_deleted()) && (data->find_user(stoi(userId))->check_can_buy_film(films[i])))
+	int size = films.size();
+	for (int i = 0; i < size; i++)
+		if ((!films[i]->is_deleted()) && (data->find_user(userId)->check_can_buy_film(films[i])))
 			filmsInfo.push_back(films[i]->set_info());
 	return changeVectorToMap(filmsInfo);
 }
 
-map<string, string> homeHandler::changeVectorToMap(vector<filmInfo>)
+map<string, string> HomeHandler::changeVectorToMap(vector<FilmInfo> filmsInfo)
 {
 	map<string, string> info;
 	info[SIZE] = to_string(filmsInfo.size());
-	for (int i = 0; i < filmsInfo.size(); i++)
+	int size = filmsInfo.size();
+	for (int i = 0; i < size; i++)
 	{
 		string num = to_string(i);
 		info[NAME + num] = filmsInfo[i].name;
@@ -136,101 +138,101 @@ map<string, string> homeHandler::changeVectorToMap(vector<filmInfo>)
 	return info;
 }
 
-inline deleteFilmHandler::deleteFilmHandler(Data* _data)
+inline DeleteFilmHandler::DeleteFilmHandler(Data* _data)
 {
 	data = _data;
 }
 
-Response* deleteFilmHandler::callback(Request* req)
+Response* DeleteFilmHandler::callback(Request* req)
 {
-	userId = req->getSessionId(); 
+	string userId = req->getSessionId();
 	if ((userId == EMPTY_SESSION_ID) || (!data->find_user(stoi(userId))->is_publisher()))
-		throw server::Exception("You have to login first!");
+		throw Server::Exception("You have to login first!");
 	((Publisher*)(data->find_user(stoi(userId))))->delete_film(stoi(req->getBodyParam(FILM_ID)));
   	Response* res = Response::redirect("/home");
   	res->setSessionId(userId);
   	return res;
 }
 
-inline addFilmHandler::addFilmHandler(Data* _data, Recommender* _recommender)
+inline AddFilmHandler::AddFilmHandler(Data* _data, Recommender* _recommender)
 {
 	data = _data;
 	recommender = _recommender;
 }
 
-Response* addFilmHandler::callback(Request* req)
+Response* AddFilmHandler::callback(Request* req)
 {
-	userId = req->getSessionId(); 
+	string userId = req->getSessionId();
 	if ((userId == EMPTY_SESSION_ID) || (!data->find_user(stoi(userId))->is_publisher()))
-		throw server::Exception("You have to login first!");
+		throw Server::Exception("You have to login first!");
 	addFilm(req);
   	Response* res = Response::redirect("/home");
   	res->setSessionId(userId);
   	return res;
 }
 
-void addFilmHandler::addFilm(Request* req)
+void AddFilmHandler::addFilm(Request* req)
 {
-	map<string, string> filmInfo;
-	filmInfo[NAME] = request->getBodyParam(NAME);
-	filmInfo[LENGTH] = request->getBodyParam(LENGTH);
-	filmInfo[PRICE] = request->getBodyParam(PRICE);
-	filmInfo[YEAR] = request->getBodyParam(YEAR);
-	filmInfo[DIRECTOR] = request->getBodyParam(DIRECTOR);
-	filmInfo[SUMMARY] = request->getBodyParam(YEAR);
-	filmInfo[FILM_ID] = to_string(data->get_new_film_id());
-	Film* new_film = ((Publisher*)(data->find_user(stoi(req->getSessionId()))))->add_film(filmInfo);
+	map<string, string> FilmInfo;
+	FilmInfo[NAME] = req->getBodyParam(NAME);
+	FilmInfo[LENGTH] = req->getBodyParam(LENGTH);
+	FilmInfo[PRICE] = req->getBodyParam(PRICE);
+	FilmInfo[YEAR] = req->getBodyParam(YEAR);
+	FilmInfo[DIRECTOR] = req->getBodyParam(DIRECTOR);
+	FilmInfo[SUMMARY] = req->getBodyParam(YEAR);
+	FilmInfo[FILM_ID] = to_string(data->get_new_film_id());
+	Film* new_film = ((Publisher*)(data->find_user(stoi(req->getSessionId()))))->add_film(FilmInfo);
 	data->add_new_film(new_film);
 	recommender->add_new_element_to_graph();
 }
 
-inline buyHandler::buyHandler(Data* _data, Recommender* _recommender)
+inline BuyHandler::BuyHandler(Data* _data, Recommender* _recommender)
 {
 	data = _data;
 	recommender = _recommender;
 }
 
-Response* buyHandler::callback(Request* req)
+Response* BuyHandler::callback(Request* req)
 {
-	userId = req->getSessionId(); 
+	string userId = req->getSessionId();
 	if (userId == EMPTY_SESSION_ID)
-		throw server::Exception("You have to login first!");
+		throw Server::Exception("You have to login first!");
 	Film* film = data->find_film(stoi(req->getBodyParam(FILM_ID)));
 	if (!data->find_user(stoi(userId))->buy_new_film(film))
-		throw server::Exception("Not enough money!");
+		throw Server::Exception("Not enough money!");
 	recommender->update_graph_after_buy_a_film(film, data->find_user(stoi(userId)));
   	Response* res = Response::redirect("/home");
   	res->setSessionId(userId);
   	return res;
 }
 
-inline increaseMoneyHandler::increaseMoneyHandler(Data* _data)
+inline IncreaseMoneyHandler::IncreaseMoneyHandler(Data* _data)
 {
 	data = _data;
 }
 
-Response* increaseMoneyHandler::callback(Request* req)
+Response* IncreaseMoneyHandler::callback(Request* req)
 {
-	userId = req->getSessionId(); 
+	string userId = req->getSessionId(); 
 	if (userId == EMPTY_SESSION_ID)
-		throw server::Exception("You have to login first!");
+		throw Server::Exception("You have to login first!");
 	data->find_user(stoi(userId))->charge_account(stoi(req->getBodyParam(AMOUNT)));
 	Response* res = Response::redirect("/profile");
   	res->setSessionId(userId);
   	return res;
 }
 
-inline commentHandler::commentHandler(Data* _data)
+inline CommentHandler::CommentHandler(Data* _data)
 {
 	data = _data;
 }
 
-Response* commentHandler::callback(Request* req)
+Response* CommentHandler::callback(Request* req)
 {
-	userId = req->getSessionId(); 
+	string userId = req->getSessionId(); 
 	if (userId == EMPTY_SESSION_ID)
-		throw server::Exception("You have to login first!");
-	data->find_user(stoi(userId))->comment(stoi(req->getBodyParam(FILM_ID), req->getBodyParam(CONTENT)));
+		throw Server::Exception("You have to login first!");
+	data->find_user(stoi(userId))->comment(stoi(req->getBodyParam(FILM_ID)), req->getBodyParam(CONTENT));
 	Response* res = Response::redirect("/profile");
   	res->setSessionId(userId);
   	return res;

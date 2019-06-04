@@ -38,21 +38,22 @@ Film* Publisher::add_film(map<string, string> info)
 // 	return followers_info;
 // }
 
-// Film* Publisher::find_published_film(int id)
-// {
-// 	for (int i = 0; i < published_films.size(); i++)
-// 		if ((published_films[i]->get_id() == id) && (!published_films[i]->is_deleted()))
-// 			return published_films[i];
-// 	return NULL;
-// }
-
-Film* Publisher::find_published_film(string film_name)
+Film* Publisher::find_published_film(int id)
 {
-	for (int i = 0; i < published_films.size(); i++)
-		if ((published_films[i]->get_name() == film_name) && (!published_films[i]->is_deleted()))
+	int size = published_films.size();
+	for (int i = 0; i < size; i++)
+		if ((published_films[i]->get_id() == id) && (!published_films[i]->is_deleted()))
 			return published_films[i];
 	return NULL;
 }
+
+// Film* Publisher::find_published_film(string film_name)
+// {
+// 	for (int i = 0; i < published_films.size(); i++)
+// 		if ((published_films[i]->get_name() == film_name) && (!published_films[i]->is_deleted()))
+// 			return published_films[i];
+// 	return NULL;
+// }
 
 // void Publisher::delete_comment(int film_id, int comment_id)
 // {
@@ -82,7 +83,8 @@ void Publisher::delete_film(int id)
 vector<FilmInfo> Publisher::get_published_films()
 {
 	vector<FilmInfo> films_info;
-	for (int i = 0; i < published_films.size(); i++)
+	int size = published_films.size();
+	for (int i = 0; i < size; i++)
 		if (!published_films[i]->is_deleted())
 			films_info.push_back(published_films[i]->set_info());
 	return films_info;

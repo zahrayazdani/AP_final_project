@@ -7,7 +7,7 @@
 // #include "define.h"
 
 class User;
-// class Film;
+class Film;
 // class Publisher;
 
 class Data
@@ -29,7 +29,7 @@ public:
 	// User* get_active_user();
 	std::vector<Film*> get_films();
 	int get_new_user_id();
-	// int get_new_film_id();
+	int get_new_film_id();
 	// int get_network_money();
 	// void change_active_user(User* new_active_user);
 	void add_new_user(User* new_user);

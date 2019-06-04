@@ -42,17 +42,18 @@ Recommender::Recommender(Data* _data)
 
 void Recommender::add_new_element_to_graph()
 {
-
+	int size = films_graph.size();
 	vector<int> new_line;
-	if (films_graph.size() == 0)
+	if (size == 0)
 	{
 		new_line.push_back(0);
 		films_graph.push_back(new_line);
 		return;
 	}
-	for (int i = 0; i < films_graph.size(); i++)
+	for (int i = 0; i < size; i++)
 		films_graph[i].push_back(0);
-	for (int i = 0; i < films_graph[0].size(); i++)
+	int line_size = films_graph[0].size();
+	for (int i = 0; i < line_size; i++)
 		new_line.push_back(0);
 	films_graph.push_back(new_line);
 }
@@ -62,7 +63,8 @@ void Recommender::update_graph_after_buy_a_film(Film* film, User* user)
 	vector<Film*> bought_films = user->get_films();
 	int film_index = film->get_id() - 1;
 	int curr_film_index;
-	for (int i = 0; i < bought_films.size(); i++)
+	int size = bought_films.size();
+	for (int i = 0; i < size; i++)
 	{
 		curr_film_index = (bought_films[i]->get_id()) - 1;
 		films_graph[film_index][curr_film_index]++;

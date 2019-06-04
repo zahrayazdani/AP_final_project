@@ -21,7 +21,7 @@ protected:
 	int id;
 	bool publisher;
 	// std::vector<Publisher*> following;
-	// std::vector<Film*> bought_films;
+	std::vector<Film*> bought_films;
 	int money;
 	// std::vector<std::string> read_notifs;
 	// std::vector<std::string> unread_notifs;

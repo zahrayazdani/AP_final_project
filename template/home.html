@@ -43,7 +43,8 @@
 			cout << context["director" + film_num] << " ";
 	%>
 		<form action="/deleteFilm">
-    	<input type="submit" value="Delete" name=context["id" + film_num]/>
+    	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
+    	<button type="submit"> Delete </button>
 		</form><br>
 	<%
 		}
@@ -51,7 +52,7 @@
 	else
 	{
 		int num_of_films = context["size"];
-		int film_num;
+		string film_num;
 		cout << "Name  " << "length  " << "price  " << "rate  " << "year  " << "director" << endl; 
 		for (int i = 0; i < num_of_films; i++)
 		{
@@ -63,14 +64,14 @@
 			cout << context["year" + film_num] << " ";
 			cout << context["director" + film_num] << " ";
 	%>
-
 		<form action="/buy">
-    	<input type="submit" value="Buy" />
-		</form>
-		<form action="/showDetails">
-    	<input type="submit" value="Details" />
+    	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
+    	<button type="submit"> Buy </button>
 		</form><br>
-
+		<form action="/showDetails">
+    	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
+    	<button type="submit"> Details </button>
+		</form><br>
 	<%
 		}
 	}

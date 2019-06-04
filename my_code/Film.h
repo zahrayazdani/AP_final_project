@@ -38,7 +38,7 @@ public:
 	// void edit_info(std::map<std::string, std::string> info);
 	FilmInfo set_info();
 	// bool is_in_range(std::map<std::string, std::string> info);
-	// bool is_deleted();
+	bool is_deleted();
 	void add_new_rate(int score, std::string username);
 	void add_new_comment(std::string content);
 	void change_delete_stat();

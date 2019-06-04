@@ -35,7 +35,8 @@ Data::Data()
 
 User* Data::find_user(string username)
 {
-	for (int i = 0; i < users.size(); i++)
+	int size = users.size();
+	for (int i = 0; i < size; i++)
 		if (users[i]->get_username() == username)
 			return users[i];
 	return NULL;
@@ -43,7 +44,8 @@ User* Data::find_user(string username)
 
 User* Data::find_user(int id)
 {
-	for (int i = 0; i < users.size(); i++)
+	int size = users.size();
+	for (int i = 0; i < size; i++)
 		if (users[i]->get_id() == id)
 			return users[i];
 	return NULL;
@@ -51,7 +53,8 @@ User* Data::find_user(int id)
 
 Film* Data::find_film(int id)
 {
-	for (int i = 0; i < films.size(); i++)
+	int size = films.size();
+	for (int i = 0; i < size; i++)
 		if ((films[i]->get_id() == id) && (!films[i]->is_deleted()))
 			return films[i];
 	return NULL;
@@ -78,11 +81,11 @@ int Data::get_new_user_id()
 	return user_id;
 }
 
-// int Data::get_new_film_id()
-// {
-// 	film_id++;
-// 	return film_id;
-// }
+int Data::get_new_film_id()
+{
+	film_id++;
+	return film_id;
+}
 
 void Data::add_new_film(Film* new_film)
 {

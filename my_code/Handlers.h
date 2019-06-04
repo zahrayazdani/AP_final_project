@@ -11,7 +11,7 @@
 class Data;
 class Recommender;
 
-class signupHandler : public RequestHandler
+class SignupHandler : public RequestHandler
 {
 private:
 	Request* request;
@@ -19,53 +19,53 @@ private:
 	signupErr checkSignupInfo();
 	std::string signup();
 public:
-	signupHandler(Data* _data);
+	SignupHandler(Data* _data);
  	Response* callback(Request* req);
 };
 
-class loginHandler : public RequestHandler
+class LoginHandler : public RequestHandler
 {
 private:
 	Data* data;
 public:
-	loginHandler(Data* _data);
+	LoginHandler(Data* _data);
  	Response* callback(Request* req);	
 };
 
-class logoutHandler : public RequestHandler
+class LogoutHandler : public RequestHandler
 {
 public:
  	Response* callback(Request* req);	
 };
 
-class homeHandler : public TemplateHandler {
+class HomeHandler : public TemplateHandler {
 private:
 	Data* data;
 	std::map<std::string, std::string> getHomeFilms(int userId);
 	std::map<std::string, std::string> getPublishedFilms(int userId);
-	std::map<std::string, std::string> changeVectorToMap(std::vector<filmInfo>)
+	std::map<std::string, std::string> changeVectorToMap(std::vector<FilmInfo> filmsInfo);
 public:
-  homeHandler(std::string filePath, Data* _data);
+  HomeHandler(std::string filePath, Data* _data);
   std::map<std::string, std::string> handle(Request *req);
 };
 
-class deleteFilmHandler : public RequestHandler
+class DeleteFilmHandler : public RequestHandler
 {
 private:
 	Data* data;
 public:
-	deleteFilmHandler(Data* _data);
+	DeleteFilmHandler(Data* _data);
  	Response* callback(Request* req);	
 };
 
-class addFilmHandler : public RequestHandler
+class AddFilmHandler : public RequestHandler
 {
 private:
 	Data* data;
 	Recommender* recommender;
 	void addFilm(Request* req);
 public:
-	addFilmHandler(Data* _data, Recommender* _recommender);
+	AddFilmHandler(Data* _data, Recommender* _recommender);
  	Response* callback(Request* req);	
 };
 
@@ -75,40 +75,40 @@ public:
  	Response* callback(Request* req);	
 };
 
-class buyHandler : public RequestHandler
+class BuyHandler : public RequestHandler
 {
 private:
 	Data* data;
 	Recommender* recommender;
 public:
-	buyHandler(Data* _data, Recommender* _recommender);
+	BuyHandler(Data* _data, Recommender* _recommender);
  	Response* callback(Request* req);	
 };
 
-class rateHandler : public RequestHandler
+class RateHandler : public RequestHandler
 {
 private:
 	Data* data;
 public:
-	rateHandler(Data* _data);
+	RateHandler(Data* _data);
  	Response* callback(Request* req);		
 };
 
-class increaseMoneyHandler : public RequestHandler
+class IncreaseMoneyHandler : public RequestHandler
 {
 private:
 	Data* data;
 public:
-	increaseMoneyHandler(Data* _data);
+	IncreaseMoneyHandler(Data* _data);
  	Response* callback(Request* req);		
 };
 
-class commentHandler : public RequestHandler
+class CommentHandler : public RequestHandler
 {
 private:
 	Data* data;
 public:
-	commentHandler(Data* _data);
+	CommentHandler(Data* _data);
  	Response* callback(Request* req);		
 };
 

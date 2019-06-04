@@ -114,10 +114,10 @@ FilmInfo Film::set_info()
 // 	return true;
 // }
 
-// bool Film::is_deleted()
-// {
-// 	return deleted;
-// }
+bool Film::is_deleted()
+{
+	return deleted;
+}
 
 void Film::add_new_rate(int score, string username)
 {
@@ -171,14 +171,14 @@ int Film::get_price()
 // 	return year;
 // }
 
-// float Film::calc_rate()
-// {
-// 	int temp_rate = 0;
-// 	for (map<string, int>::iterator it = scores.begin(); it != scores.end(); ++it)
-// 		temp_rate += it->second;
-// 	float _temp = temp_rate;
-// 	return _temp / scores.size();
-// }
+float Film::calc_rate()
+{
+	int temp_rate = 0;
+	for (map<string, int>::iterator it = scores.begin(); it != scores.end(); ++it)
+		temp_rate += it->second;
+	float _temp = temp_rate;
+	return _temp / scores.size();
+}
 
 // void Film::delete_comments()
 // {
