@@ -13,12 +13,6 @@ Manager::Manager()
     recommender = new Recommender(data);
 }
 
-//argc va argv
-//not foundm toush benevise chi shode
-//controller
-//template pass va signup
-//buttonam bkhan bran y ja
-
 void Manager::run(int argc, char** argv)
 {
 	try {
@@ -38,7 +32,7 @@ void Manager::run(int argc, char** argv)
     server.post("/addFilm", new AddFilmHandler(data, recommender));
     server.get("/addFilm", new ShowPage("static/loginPassErr.html"));
     server.get("/profile", new ProfileHandler("template/profile.html", data));
-    // server.get("/filterFilms", new ShowPage("static/signup.html"));
+    server.get("/filterFilms", new FilterFilmsHandler("template/filterFilms.html", data));
     // server.get("/showDetails", new ShowPage("static/film_detailcss.html"));
     server.post("/increaseMoney", new IncreaseMoneyHandler(data));
     server.post("/addComment", new CommentHandler(data));

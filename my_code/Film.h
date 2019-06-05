@@ -26,7 +26,7 @@ private:
 public:
 	Film(std::map<std::string, std::string> info);
 	int get_id();
-	// std::string get_name();
+	std::string get_director();
 	int get_price();
 	// float get_rate();
 	// int get_year();

@@ -119,4 +119,12 @@ public:
   std::map<std::string, std::string> handle(Request *req);
 };
 
+class FilterFilmsHandler : public TemplateHandler {
+private:
+	Data* data;
+public:
+  FilterFilmsHandler(std::string filePath, Data* _data);
+  std::map<std::string, std::string> handle(Request *req);
+};
+
 #endif

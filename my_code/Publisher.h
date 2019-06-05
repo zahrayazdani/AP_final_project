@@ -31,6 +31,7 @@ public:
 	// int get_money_from_network();
 	// std::vector<FollowersInfo> get_followers();
 	std::vector<FilmInfo> get_published_films();
+	std::vector<FilmInfo> get_filtered_films(std::string director_name);
 };
 
 #endif

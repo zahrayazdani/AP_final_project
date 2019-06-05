@@ -22,10 +22,10 @@ int Film::get_id()
 	return id;
 }
 
-// string Film::get_name()
-// {
-// 	return name;
-// }
+string Film::get_director()
+{
+	return director;
+}
 
 // Comment* Film::find_comment(int id)
 // {

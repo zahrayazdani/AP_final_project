@@ -120,3 +120,13 @@ vector<FilmInfo> Publisher::get_published_films()
 // {
 // 	followers.push_back(new_follower);
 // }
+
+vector<FilmInfo> get_filtered_films(string director_name)
+{
+	vector<FilmInfo> films_info;
+	int size = published_films.size();
+	for (int i = 0; i < size; i++)
+		if ((!published_films[i]->is_deleted()) && (published_films[i]->get_director() == director_name))
+			films_info.push_back(published_films[i]->set_info());
+	return films_info;
+}

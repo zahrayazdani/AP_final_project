@@ -240,7 +240,8 @@ Response* CommentHandler::callback(Request* req)
   	return res;
 }
 
-inline ProfileHandler::ProfileHandler(string filePath, Data* _data) : TemplateHandler(filePath), data(_data) {}
+inline ProfileHandler::ProfileHandler(string filePath, Data* _data) : TemplateHandler(filePath), data(_data) 
+{}
 
 map<string, string> ProfileHandler::handle(Request *req) 
 {
@@ -261,8 +262,22 @@ Response* RateHandler::callback(Request* req)
 	string userId = req->getSessionId(); 
 	if (userId == EMPTY_SESSION_ID)
 		throw Server::Exception("You have to login first!");
-	data->find_user(stoi(userId))->rate_film(stoi(req->getBodyParam(FILM_ID)), stoi(req->getBodyParam(SCORE)));
+	data->find_user(stoi(userId))->
+		rate_film(stoi(req->getBodyParam(FILM_ID)), stoi(req->getBodyParam(SCORE)));
 	Response* res = Response::redirect("/profile");
   	res->setSessionId(userId);
   	return res;
+}
+
+inline FilterFilmsHandler::FilterFilmsHandler(string filePath, Data* _data)
+ : TemplateHandler(filePath), data(_data) {}
+
+map<string, string> FilterFilmsHandler::handle(Request *req) 
+{
+ 	string userId = req->getSessionId();
+ if ((userId == EMPTY_SESSION_ID) || (!data->find_user(stoi(userId))->is_publisher()))
+ 		throw Server::Exception("You have to login first!");
+ 	map<string, string> context = changeVectorToMap((Publisher*)(data->find_user(stoi(userId)))->
+ 		get_filtered_films(req->getBodyParam(DIRECTOR)));
+   	return context;
 }
