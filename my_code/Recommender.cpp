@@ -77,7 +77,8 @@ vector<pair<int, int>> Recommender::construct_vector_of_pairs(Film* film)
 	vector<pair<int, int>> pairs;
 	pair<int, int> new_pair;
 	int line_number = film->get_id() - 1;
-	for (int i = 0; i < films_graph.size(); i++)
+	int size = films_graph.size();
+	for (int i = 0; i < size; i++)
 	{
 		new_pair.first = i + 1;
 		new_pair.second = films_graph[line_number][i];

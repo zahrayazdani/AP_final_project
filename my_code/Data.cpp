@@ -20,13 +20,15 @@ Data::~Data()
 
 void Data::delete_users()
 {
-	for (int i = 0; i < users.size(); i++)
+	int size = users.size();
+	for (int i = 0; i < size; i++)
 		delete users[i];
 }
 
 void Data::delete_films()
 {
-	for (int i = 0; i < films.size(); ++i)
+	int size = films.size();
+	for (int i = 0; i < size; ++i)
 	{
 		films[i]->delete_comments();
 		delete films[i];

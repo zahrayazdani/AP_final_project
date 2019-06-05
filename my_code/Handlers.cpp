@@ -53,12 +53,12 @@ string SignupHandler::signup()
 	return userInfo[USER_ID];
 }
 
-inline SignupHandler::SignupHandler(Data* _data)
+SignupHandler::SignupHandler(Data* _data)
 {
 	data = _data;
 }
 
-inline LoginHandler::LoginHandler(Data* _data)
+LoginHandler::LoginHandler(Data* _data)
 {
 	data = _data;
 }
@@ -83,7 +83,7 @@ Response* LogoutHandler::callback(Request* req)
   	return res;
 }
 
-inline HomeHandler::HomeHandler(string filePath, Data* _data) : TemplateHandler(filePath), data(_data) {}
+HomeHandler::HomeHandler(string filePath, Data* _data) : TemplateHandler(filePath), data(_data) {}
 
 map<string, string> HomeHandler::handle(Request *req) 
 {
@@ -140,7 +140,7 @@ map<string, string> HomeHandler::getHomeFilms(int userId)
 	return changeVectorToMap(filmsInfo);
 }
 
-inline DeleteFilmHandler::DeleteFilmHandler(Data* _data)
+DeleteFilmHandler::DeleteFilmHandler(Data* _data)
 {
 	data = _data;
 }
@@ -156,7 +156,7 @@ Response* DeleteFilmHandler::callback(Request* req)
   	return res;
 }
 
-inline AddFilmHandler::AddFilmHandler(Data* _data, Recommender* _recommender)
+AddFilmHandler::AddFilmHandler(Data* _data, Recommender* _recommender)
 {
 	data = _data;
 	recommender = _recommender;
@@ -188,7 +188,7 @@ void AddFilmHandler::addFilm(Request* req)
 	recommender->add_new_element_to_graph();
 }
 
-inline BuyHandler::BuyHandler(Data* _data, Recommender* _recommender)
+BuyHandler::BuyHandler(Data* _data, Recommender* _recommender)
 {
 	data = _data;
 	recommender = _recommender;
@@ -208,7 +208,7 @@ Response* BuyHandler::callback(Request* req)
   	return res;
 }
 
-inline IncreaseMoneyHandler::IncreaseMoneyHandler(Data* _data)
+IncreaseMoneyHandler::IncreaseMoneyHandler(Data* _data)
 {
 	data = _data;
 }
@@ -224,7 +224,7 @@ Response* IncreaseMoneyHandler::callback(Request* req)
   	return res;
 }
 
-inline CommentHandler::CommentHandler(Data* _data)
+CommentHandler::CommentHandler(Data* _data)
 {
 	data = _data;
 }
@@ -240,7 +240,7 @@ Response* CommentHandler::callback(Request* req)
   	return res;
 }
 
-inline ProfileHandler::ProfileHandler(string filePath, Data* _data) : TemplateHandler(filePath), data(_data) 
+ProfileHandler::ProfileHandler(string filePath, Data* _data) : TemplateHandler(filePath), data(_data) 
 {}
 
 map<string, string> ProfileHandler::handle(Request *req) 
@@ -252,7 +252,7 @@ map<string, string> ProfileHandler::handle(Request *req)
    	return context;
 }
 
-inline RateHandler::RateHandler(Data* _data)
+RateHandler::RateHandler(Data* _data)
 {
 	data = _data;
 }
@@ -269,7 +269,7 @@ Response* RateHandler::callback(Request* req)
   	return res;
 }
 
-inline FilterFilmsHandler::FilterFilmsHandler(string filePath, Data* _data)
+FilterFilmsHandler::FilterFilmsHandler(string filePath, Data* _data)
  : TemplateHandler(filePath), data(_data) {}
 
 map<string, string> FilterFilmsHandler::handle(Request *req) 
@@ -282,8 +282,12 @@ map<string, string> FilterFilmsHandler::handle(Request *req)
    	return context;
 }
 
-inline FilmDetailsHandler::FilmDetailsHandler(string filePath, Data* _data, Recommender* _recommender)
- : TemplateHandler(filePath), data(_data), recommender(_recommender) {}
+FilmDetailsHandler::FilmDetailsHandler(string filePath, Data* _data, Recommender* _recommender)
+ : TemplateHandler(filePath)
+ {
+ 	data = _data;
+ 	recommender = _recommender;
+ }
 
 map<string, string> FilmDetailsHandler::handle(Request *req) 
 {

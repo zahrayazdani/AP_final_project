@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <h2>Profile</h2>
+
 	<form action="/home">
     	<input type="submit" value="Home" />
 	</form><br>
@@ -10,13 +10,7 @@
     	<input type="submit" value="Logout" />
 	</form><br>
 
-	<form action="/increaseMoney">
-	Charge Acount: 
-	<input type = "number" name = "amount">
-    	<input type="submit" value="Charge" />
-	</form><br>
-
-	<%
+<%
 		int num_of_films = stoi(context["size"]);
 		string film_num;
 		cout << "Name  " << "length  " << "price  " << "rate  " << "year  " << "director" << endl; 
@@ -30,21 +24,12 @@
 			cout << context["year" + film_num] << " ";
 			cout << context["director" + film_num] << " ";
 	%>
-		<form action="/rate">
+		<form action="/deleteFilm">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
-    	<input type = "number" name = "score" required>
-    	<button type="submit"> Rate </button>
+    	<button type="submit"> Delete </button>
 		</form><br>
-
-		<form action="/addComment">
-		<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
-		<input type = "text" name = "content" required>
-		<button type="submit"> Comment </button>
-		</form>
-
 	<%
 		}
 	%>
-		
-  </body>
+	 </body>
 </html>

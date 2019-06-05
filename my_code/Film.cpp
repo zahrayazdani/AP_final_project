@@ -79,6 +79,7 @@ float Film::calc_rate()
 
 void Film::delete_comments()
 {
-	for (int i = 0; i < comments.size(); i++)
+	int size = comments.size();
+	for (int i = 0; i < size; i++)
 		delete comments[i];
 }
