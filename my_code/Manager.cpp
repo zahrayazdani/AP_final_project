@@ -13,6 +13,12 @@ Manager::Manager()
     recommender = new Recommender(data);
 }
 
+Manager::~Manager()
+{
+    delete data;
+    delete recommender;
+}
+
 void Manager::run(int argc, char** argv)
 {
 	try {
@@ -33,7 +39,7 @@ void Manager::run(int argc, char** argv)
     server.get("/addFilm", new ShowPage("static/loginPassErr.html"));
     server.get("/profile", new ProfileHandler("template/profile.html", data));
     server.get("/filterFilms", new FilterFilmsHandler("template/filterFilms.html", data));
-    server.get("/showDetails", new ShowPage("static/filmDetails.html", data, recommender));
+    server.get("/showDetails", new FilmDetailsHandler("template/filmDetails.html", data, recommender));
     server.post("/increaseMoney", new IncreaseMoneyHandler(data));
     server.post("/addComment", new CommentHandler(data));
     server.post("/buy", new BuyHandler(data, recommender));

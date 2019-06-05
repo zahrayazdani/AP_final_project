@@ -277,15 +277,15 @@ map<string, string> FilterFilmsHandler::handle(Request *req)
  	string userId = req->getSessionId();
 	if ((userId == EMPTY_SESSION_ID) || (!data->find_user(stoi(userId))->is_publisher()))
  		throw Server::Exception("You have to login first!");
- 	map<string, string> context = changeVectorToMap((Publisher*)(data->find_user(stoi(userId)))->
+ 	map<string, string> context = changeVectorToMap(((Publisher*)(data->find_user(stoi(userId))))->
  		get_filtered_films(req->getBodyParam(DIRECTOR)));
    	return context;
 }
 
-inline FilterFilmsHandler::FilterFilmsHandler(string filePath, Data* _data, Recommender* _recommender)
+inline FilmDetailsHandler::FilmDetailsHandler(string filePath, Data* _data, Recommender* _recommender)
  : TemplateHandler(filePath), data(_data), recommender(_recommender) {}
 
-map<string, string> FilterFilmsHandler::handle(Request *req) 
+map<string, string> FilmDetailsHandler::handle(Request *req) 
 {
  	string userId = req->getSessionId();
  	if (userId == EMPTY_SESSION_ID)

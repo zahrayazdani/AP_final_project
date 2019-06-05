@@ -28,22 +28,12 @@ public:
 	int get_id();
 	std::string get_director();
 	int get_price();
-	// float get_rate();
-	// int get_year();
-	// std::string get_publisher_username();
-	// int get_new_comment_id();
-	// Comment* find_comment(int id);
-	// void delete_comment(int id);
-	// void reply_comment(int id, std::string content);
-	// void edit_info(std::map<std::string, std::string> info);
 	FilmInfo set_info();
-	// bool is_in_range(std::map<std::string, std::string> info);
 	bool is_deleted();
 	void add_new_rate(int score, std::string username);
 	void add_new_comment(std::string content);
 	void change_delete_stat();
-	// std::vector<CommentInfo> get_comments_info();
-	// void delete_comments();
+	void delete_comments();
 };
 
 #endif

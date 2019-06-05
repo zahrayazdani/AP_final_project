@@ -25,11 +25,6 @@ string User::get_username()
 	return username;
 }
 
-// string User::get_email()
-// {
-// 	return email;
-// }
-
 int User::get_id()
 {
 	return id;
@@ -45,14 +40,6 @@ bool User::is_publisher()
 	return publisher;
 }
 
-// Publisher* User::find_publisher(string publisher_name)
-// {
-// 	for (int i = 0; i < following.size(); i++)
-// 		if (following[i]->get_username() == publisher_name)
-// 			return following[i];
-// 	return NULL;
-// }
-
 Film* User::find_film(int id)
 {
 	int size = bought_films.size();
@@ -61,22 +48,6 @@ Film* User::find_film(int id)
 			return bought_films[i];
 	return NULL;
 }
-
-// void User::add_new_notif(string notif)
-// {
-// 	unread_notifs.push_back(notif);
-// }
-
-// bool User::follow(Publisher* publisher)
-// {
-// 	if (find_publisher(publisher->get_username()) == NULL)
-// 	{
-// 		following.push_back(publisher);
-// 		publisher->add_follower(this);
-// 		return true;
-// 	}
-// 	return false;
-// }
 
 void User::rate_film(int film_id, int score)
 {
@@ -117,30 +88,6 @@ vector<FilmInfo> User::get_bought_films()
 		films_info.push_back(bought_films[i]->set_info());
 	return films_info;
 }
-
-// vector<string> User::get_notifs()
-// {
-// 	vector<string> temp = unread_notifs;
-// 	transfer_unread_notifs_to_read();
-// 	return temp;
-// }
-
-// vector<string> User::get_read_notifs()
-// {
-// 	return read_notifs;
-// }
-
-// void User::transfer_unread_notifs_to_read()
-// {
-// 	for (int i = 0; i < unread_notifs.size(); i++)
-// 		read_notifs.push_back(unread_notifs[i]);
-// 	unread_notifs.clear();
-// }
-
-// int User::get_money()
-// {
-// 	return money;
-// }
 
 vector<Film*> User::get_films()
 {

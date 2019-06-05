@@ -11,7 +11,7 @@ private:
 	Recommender* recommender;
 public:
 	Manager();
-	// ~Manager();
+	~Manager();
 	void run(int argc, char** argv);
 };
 

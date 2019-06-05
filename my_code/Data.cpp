@@ -12,26 +12,26 @@ Data::Data()
 	film_id = FIRST_ID;
 }
 
-// Data::~Data()
-// {
-// 	delete_users();
-// 	delete_films();
-// }
+Data::~Data()
+{
+	delete_users();
+	delete_films();
+}
 
-// void Data::delete_users()
-// {
-// 	for (int i = 0; i < users.size(); i++)
-// 		delete users[i];
-// }
+void Data::delete_users()
+{
+	for (int i = 0; i < users.size(); i++)
+		delete users[i];
+}
 
-// void Data::delete_films()
-// {
-// 	for (int i = 0; i < films.size(); ++i)
-// 	{
-// 		films[i]->delete_comments();
-// 		delete films[i];
-// 	}
-// }
+void Data::delete_films()
+{
+	for (int i = 0; i < films.size(); ++i)
+	{
+		films[i]->delete_comments();
+		delete films[i];
+	}
+}
 
 User* Data::find_user(string username)
 {
@@ -60,16 +60,6 @@ Film* Data::find_film(int id)
 	return NULL;
 }
 
-// User* Data::get_active_user()
-// {
-// 	return active_user;
-// }
-
-// void Data::change_active_user(User* new_active_user)
-// {
-// 	active_user = new_active_user;
-// }
-
 void Data::add_new_user(User* new_user)
 {
 	users.push_back(new_user);
@@ -92,41 +82,7 @@ void Data::add_new_film(Film* new_film)
 	films.push_back(new_film);
 }
 
-// User* Data::increase_network_money(int film_id)
-// {
-// 	string publisher_username = find_film(film_id)->get_publisher_username();
-// 	int film_price = find_film(film_id)->get_price();
-// 	float film_rate = find_film(film_id)->get_rate();
-// 	network_money += film_price;
-// 	((Publisher*)(find_user(publisher_username)))->increase_debt(film_price, film_rate);
-// 	return find_user(publisher_username);
-// }
-
-// void Data::decrease_network_money(int money)
-// {
-// 	network_money -= money;
-// }
-
-// vector<FilmInfo> Data::search(map<string, string> info)
-// {
-// 	vector<FilmInfo> films_info;
-// 	for (int i = 0; i < films.size(); i++)
-// 		if (films[i]->is_in_range(info) && (!films[i]->is_deleted()))
-// 			films_info.push_back(films[i]->set_info());
-// 	return films_info;
-// }
-
 vector<Film*> Data::get_films()
 {
 	return films;
 }
-
-// int Data::get_network_money()
-// {
-// 	return network_money;
-// }
-
-// void Data::logout()
-// {
-// 	active_user = NULL;
-// }
