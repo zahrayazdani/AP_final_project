@@ -275,9 +275,32 @@ inline FilterFilmsHandler::FilterFilmsHandler(string filePath, Data* _data)
 map<string, string> FilterFilmsHandler::handle(Request *req) 
 {
  	string userId = req->getSessionId();
- if ((userId == EMPTY_SESSION_ID) || (!data->find_user(stoi(userId))->is_publisher()))
+	if ((userId == EMPTY_SESSION_ID) || (!data->find_user(stoi(userId))->is_publisher()))
  		throw Server::Exception("You have to login first!");
  	map<string, string> context = changeVectorToMap((Publisher*)(data->find_user(stoi(userId)))->
  		get_filtered_films(req->getBodyParam(DIRECTOR)));
+   	return context;
+}
+
+inline FilterFilmsHandler::FilterFilmsHandler(string filePath, Data* _data, Recommender* _recommender)
+ : TemplateHandler(filePath), data(_data), recommender(_recommender) {}
+
+map<string, string> FilterFilmsHandler::handle(Request *req) 
+{
+ 	string userId = req->getSessionId();
+ 	if (userId == EMPTY_SESSION_ID)
+ 		throw Server::Exception("You have to login first!");
+ 	User* user = data->find_user(stoi(userId));
+ 	Film* film = data->find_film(stoi(req->getBodyParam(FILM_ID)));
+ 	vector<FilmInfo> filmsInfo = recommender->recommend_film(user, film);
+ 	map<string, string> context = changeVectorToMap(filmsInfo);
+ 	FilmInfo details = film->set_info();
+ 	context[NAME] = details.name;
+ 	context[LENGTH] = details.length;
+ 	context[PRICE] = details.price;
+ 	context[RATE] = details.rate;
+ 	context[YEAR] = details.year;
+ 	context[DIRECTOR] = details.director;
+ 	context[SUMMARY] = details.summary;
    	return context;
 }

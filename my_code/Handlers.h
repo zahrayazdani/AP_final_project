@@ -127,4 +127,13 @@ public:
   std::map<std::string, std::string> handle(Request *req);
 };
 
+class FilmDetailsHandler : public TemplateHandler {
+private:
+	Recommender* recommender;
+	Data* data;
+public:
+  FilmDetailsHandler(std::string filePath, Data* _data, Recommender* _recommender);
+  std::map<std::string, std::string> handle(Request *req);
+};
+
 #endif

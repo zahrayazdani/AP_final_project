@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <body>
+
+	<form action="/home">
+    	<input type="submit" value="Home" />
+	</form><br>
+
+	<form action="/logout">
+    	<input type="submit" value="Logout" />
+	</form><br>
+
+	<%
+		cout << "Name : " << context["name"] << endl;
+		cout << "Length : " << context["length"] << endl;
+		cout << "Price : " << context["price"] << endl;
+		cout << "Rate : " << context["rate"] << endl;
+		cout << "Year : " << context["year"] << endl;
+		cout << "Director : " << context["director"] << endl;
+		cout << "Summary : " << context["summary"] << endl;
+	%>
+		<form action="/buy">
+    	<input type="hidden" name="film_id" value='<% cout << context["id"]; %>'/>
+    	<button type="submit"> Buy </button>
+		</form><br>
+	<%
+		int num_of_films = context["size"];
+		string film_num;
+		cout << "Recommended for you :" << endl;
+		cout << "Name  " << "length  " << "director" << endl; 
+		for (int i = 0; i < num_of_films; i++)
+		{
+			film_num = to_string(i);
+			cout << context["name" + film_num] << " ";
+			cout << context["length" + film_num] << " ";
+			cout << context["director" + film_num] << " ";
+	%>
+
+		<form action="/buy">
+    	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
+    	<button type="submit"> Buy </button>
+		</form><br>
+
+		<form action="/showDetails">
+    	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
+    	<button type="submit"> Detail </button>
+		</form><br>
+
+	<%
+		}
+	%>
+
+	 </body>
+</html>

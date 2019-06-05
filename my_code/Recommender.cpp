@@ -12,33 +12,33 @@ Recommender::Recommender(Data* _data)
 	data = _data;
 }
 
-// bool compare_by_weight(pair<int, int> pair1, pair<int, int> pair2)
-// {
-// 	if (pair1.second == pair2.second)
-// 		return pair1.first > pair2.first;
-// 	return pair1.second < pair2.second;
-// }
+bool compare_by_weight(pair<int, int> pair1, pair<int, int> pair2)
+{
+	if (pair1.second == pair2.second)
+		return pair1.first > pair2.first;
+	return pair1.second < pair2.second;
+}
 
-// vector<FilmInfo> Recommender::recommend_film(User* user, Film* film)
-// {
-// 	return find_recommendation_films(user, film);
-// }
+vector<FilmInfo> Recommender::recommend_film(User* user, Film* film)
+{
+	return find_recommendation_films(user, film);
+}
 
-// vector<FilmInfo> Recommender::find_recommendation_films(User* user, Film* film)
-// {
-// 	vector<pair<int, int>> id_and_weights = construct_vector_of_pairs(film);
-// 	vector<FilmInfo> recommendation_films;
-// 	for (int i = id_and_weights.size() - 1; i >= 0; i--)
-// 	{
-// 		if (recommendation_films.size() == NUM_OF_RECOMMENDED_FILMS)
-// 			return recommendation_films;
-// 		if ((user->find_film(id_and_weights[i].first) == NULL) &&
-// 			(data->find_film(id_and_weights[i].first) != NULL) &&
-// 			(id_and_weights[i].first != film->get_id()))
-// 			recommendation_films.push_back(data->find_film(id_and_weights[i].first)->set_info());
-// 	}
-// 	return recommendation_films;
-// }
+vector<FilmInfo> Recommender::find_recommendation_films(User* user, Film* film)
+{
+	vector<pair<int, int>> id_and_weights = construct_vector_of_pairs(film);
+	vector<FilmInfo> recommendation_films;
+	for (int i = id_and_weights.size() - 1; i >= 0; i--)
+	{
+		if (recommendation_films.size() == NUM_OF_RECOMMENDED_FILMS)
+			return recommendation_films;
+		if ((user->find_film(id_and_weights[i].first) == NULL) &&
+			(data->find_film(id_and_weights[i].first) != NULL) &&
+			(id_and_weights[i].first != film->get_id()))
+			recommendation_films.push_back(data->find_film(id_and_weights[i].first)->set_info());
+	}
+	return recommendation_films;
+}
 
 void Recommender::add_new_element_to_graph()
 {
