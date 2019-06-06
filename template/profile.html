@@ -2,15 +2,15 @@
 <html>
   <body>
     <h2>Profile</h2>
-	<form action="/home">
+	<form action="/home" method="get">
     	<input type="submit" value="Home" />
 	</form><br>
 
-	<form action="/logout">
+	<form action="/logout" method="post">
     	<input type="submit" value="Logout" />
 	</form><br>
 
-	<form action="/increaseMoney">
+	<form action="/increaseMoney" method="post">
 	Charge Acount: 
 	<input type = "number" name = "amount">
     	<input type="submit" value="Charge" />
@@ -30,13 +30,13 @@
 			cout << context["year" + film_num] << " ";
 			cout << context["director" + film_num] << " ";
 	%>
-		<form action="/rate">
+		<form action="/rate" method="post">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
     	<input type = "number" name = "score" required>
     	<button type="submit"> Rate </button>
 		</form><br>
 
-		<form action="/addComment">
+		<form action="/addComment" method="post">
 		<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
 		<input type = "text" name = "content" required>
 		<button type="submit"> Comment </button>

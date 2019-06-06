@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Handlers.h"
 #include "Data.h"
 #include "User.h"
@@ -12,9 +13,9 @@ Response* SignupHandler::callback(Request* req)
 	Response* res;
   	request = req;
   	if (checkSignupInfo() == username)
-  		res = Response::redirect("/usernameErr");
+  		throw Server::Exception("This username exists in system");
   	else if (checkSignupInfo() == pass)
-  		res = Response::redirect("/passErr");
+  		throw Server::Exception("Wrong password confirmation");
   	string sessionId = signup();
   	res = Response::redirect("/home");
   	res->setSessionId(sessionId);
@@ -41,7 +42,7 @@ string SignupHandler::signup()
 	userInfo[USER_ID] = to_string(data->get_new_user_id());
 	if (request->getBodyParam(PUBLISHER) == PUBLISHER)
 	{
-		userInfo[PUBLISHER] == _TRUE;
+		userInfo[PUBLISHER] = _TRUE;
 		new_user = new Publisher(userInfo);
 	}
 	else
@@ -67,7 +68,7 @@ Response* LoginHandler::callback(Request* req)
 {
 	Response* res;
 	if (!data->find_user(req->getBodyParam(USERNAME))->check_password(req->getBodyParam(PASSWORD)))
-		res = Response::redirect("/loginPassErr");
+		throw Server::Exception("Wrong password");
   	res = Response::redirect("/home");
   	string sessionId = to_string(data->find_user(req->getBodyParam(USERNAME))->get_id());
   	res->setSessionId(sessionId);
@@ -85,23 +86,23 @@ Response* LogoutHandler::callback(Request* req)
 
 HomeHandler::HomeHandler(string filePath, Data* _data) : TemplateHandler(filePath), data(_data) {}
 
-map<string, string> HomeHandler::handle(Request *req) 
-{
- 	int userId = stoi(req->getSessionId());
- 	if (req->getSessionId() == EMPTY_SESSION_ID)
- 		throw Server::Exception("You have to login first!");
- 	map<string, string> context;
-  	if (!data->find_user(userId)->is_publisher())
-  	{
-  		context = getHomeFilms(userId);
-  		context[PUBLISHER] = _FALSE;
-  	}
-  	else
-  	{
-  		context = getPublishedFilms(userId);
-  		context[PUBLISHER] = _TRUE;
-  	}
-  	return context;
+map<string, string> HomeHandler::handle(Request *req)  
+{ 
+	int userId = stoi(req->getSessionId());
+	if (req->getSessionId() == EMPTY_SESSION_ID) 
+		throw Server::Exception("You have to login first!");
+	 map<string, string> context;
+	if (!data->find_user(userId)->is_publisher()) 
+	{
+		context = getHomeFilms(userId);
+		context[PUBLISHER] = _FALSE;
+	} 
+	else 
+	{ 
+		context = getPublishedFilms(userId);
+		context[PUBLISHER] = _TRUE; 
+	}
+	return context;
 }
 
 map<string, string> changeVectorToMap(vector<FilmInfo> filmsInfo)
@@ -113,7 +114,7 @@ map<string, string> changeVectorToMap(vector<FilmInfo> filmsInfo)
 	{
 		string num = to_string(i);
 		info[NAME + num] = filmsInfo[i].name;
-		info[FILM_ID + num] = to_string(filmsInfo[i].id);
+		info[ID + num] = to_string(filmsInfo[i].id);
 		info[LENGTH + num] = to_string(filmsInfo[i].length);
 		info[PRICE + num] = to_string(filmsInfo[i].price);
 		info[RATE + num] = to_string(filmsInfo[i].rate);
@@ -278,7 +279,7 @@ map<string, string> FilterFilmsHandler::handle(Request *req)
 	if ((userId == EMPTY_SESSION_ID) || (!data->find_user(stoi(userId))->is_publisher()))
  		throw Server::Exception("You have to login first!");
  	map<string, string> context = changeVectorToMap(((Publisher*)(data->find_user(stoi(userId))))->
- 		get_filtered_films(req->getBodyParam(DIRECTOR)));
+ 		get_filtered_films(req->getQueryParam(DIRECTOR)));
    	return context;
 }
 
@@ -295,10 +296,11 @@ map<string, string> FilmDetailsHandler::handle(Request *req)
  	if (userId == EMPTY_SESSION_ID)
  		throw Server::Exception("You have to login first!");
  	User* user = data->find_user(stoi(userId));
- 	Film* film = data->find_film(stoi(req->getBodyParam(FILM_ID)));
+ 	Film* film = data->find_film(stoi(req->getQueryParam(FILM_ID)));
  	vector<FilmInfo> filmsInfo = recommender->recommend_film(user, film);
  	map<string, string> context = changeVectorToMap(filmsInfo);
  	FilmInfo details = film->set_info();
+ 	context[ID] = details.id;
  	context[NAME] = details.name;
  	context[LENGTH] = details.length;
  	context[PRICE] = details.price;

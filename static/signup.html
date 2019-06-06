@@ -3,12 +3,11 @@
   <body>
     <h2>Signup</h2>
 	
-	<form action="/" method="GET">
+	<form action="/" method="get">
     	<input type="submit" value="Home">
 	</form><br>
 
-	<form>
-	<!-- <a href="/">Home </a> <br> -->
+	<form action="/signup" method="post">
 	UserName:<br>
 	<input type = "text" name = "username" required><br><br>
 	Password:<br>
@@ -25,7 +24,7 @@
 	</form>
    
 	Already have an account 
-	<form action="/login">
+	<form action="/login" method="get">
     	<input type="submit" value="Login" />
 	</form><br>
    

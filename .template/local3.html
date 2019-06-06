@@ -2,11 +2,11 @@
 <html>
   <body>
 
-	<form action="/home">
+	<form action="/home" method="get">
     	<input type="submit" value="Home" />
 	</form><br>
 
-	<form action="/logout">
+	<form action="/logout" method="post">
     	<input type="submit" value="Logout" />
 	</form><br>
 
@@ -19,7 +19,7 @@
 		cout << "Director : " << context["director"] << endl;
 		cout << "Summary : " << context["summary"] << endl;
 	%>
-		<form action="/buy">
+		<form action="/buy" method="post">
     	<input type="hidden" name="film_id" value='<% cout << context["id"]; %>'/>
     	<button type="submit"> Buy </button>
 		</form><br>
@@ -36,12 +36,12 @@
 			cout << context["director" + film_num] << " ";
 	%>
 
-		<form action="/buy">
+		<form action="/buy" method="post">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
     	<button type="submit"> Buy </button>
 		</form><br>
 
-		<form action="/showDetails">
+		<form action="/showDetails" method="get">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
     	<button type="submit"> Detail </button>
 		</form><br>

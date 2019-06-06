@@ -3,26 +3,26 @@
   <body>
     <h2>Add Film</h2>
 	
-	<form action="/">
+	<form action="/home" method="get">
     	<input type="submit" value="Home">
 	</form><br>
 
-	<form action="/logout">
+	<form action="/logout" method="post">
     	<input type="submit" value="Logout" />
 	</form><br>
 
-	<form>
-	<!-- <a href="/">Home </a> <br> -->
-	UserName:<br>
+	<form action="/addFilm" method="post" >
+	Name:<br>
 	<input type = "text" name = "name" required><br><br>
-	Password:<br>
+	Length:<br>
 	<input type = "number" name = "length" required><br><br>
-	Confirm:<br>
+	Price:<br>
 	<input type = "number" name = "price" required><br><br>
-	Age:<br>
+	Year:<br>
 	<input type = "number" name = "year" required><br><br>
-	Email:<br>
+	Director:<br>
 	<input type = "text" name = "director" required><br><br>
+	Summary:<br>
 	<input type = "text" name = "summary" required><br><br>
 	<input type = "submit" value = "Add"><br><br>
 	</form>

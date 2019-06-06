@@ -2,11 +2,11 @@
 <html>
   <body>
     <h2>Home</h2>
-	<form action="/profile">
+	<form action="/profile" method="get">
     	<input type="submit" value="Profile" />
 	</form><br>
 
-	<form action="/logout">
+	<form action="/logout" method="post">
     	<input type="submit" value="Logout" />
 	</form><br>
 
@@ -15,11 +15,11 @@
 		{
 	%>
 
-	<form action="/addFilm">
+	<form action="/addFilm" method="get">
     	<input type="submit" value="addFilm" />
 	</form><br>
 
-	<form action="/filterFilms">
+	<form action="/filterFilms" method="get">
 		search by director: 
 		<input type = "text" name = "director">
     	<input type="submit" value="Filter" />
@@ -39,7 +39,7 @@
 			cout << context["year" + film_num] << " ";
 			cout << context["director" + film_num] << " ";
 	%>
-		<form action="/deleteFilm">
+		<form action="/deleteFilm" method="post">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
     	<button type="submit"> Delete </button>
 		</form><br>
@@ -61,11 +61,11 @@
 			cout << context["year" + film_num] << " ";
 			cout << context["director" + film_num] << " ";
 	%>
-		<form action="/buy">
+		<form action="/buy" method="post">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
     	<button type="submit"> Buy </button>
 		</form><br>
-		<form action="/showDetails">
+		<form action="/showDetails" method="get">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
     	<button type="submit"> Details </button>
 		</form><br>

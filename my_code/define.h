@@ -43,5 +43,6 @@ struct FilmInfo
 #define NUM_OF_RECOMMENDED_FILMS 4
 #define EMPTY_SESSION_ID ""
 #define SIZE "size"
+#define ID "id"
 
 #endif

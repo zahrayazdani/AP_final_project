@@ -2,11 +2,11 @@
 <html>
   <body>
 
-	<form action="/home">
+	<form action="/home" method="get">
     	<input type="submit" value="Home" />
 	</form><br>
 
-	<form action="/logout">
+	<form action="/logout" method="post">
     	<input type="submit" value="Logout" />
 	</form><br>
 
@@ -24,7 +24,7 @@
 			cout << context["year" + film_num] << " ";
 			cout << context["director" + film_num] << " ";
 	%>
-		<form action="/deleteFilm">
+		<form action="/deleteFilm" method="post">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
     	<button type="submit"> Delete </button>
 		</form><br>
