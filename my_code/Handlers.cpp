@@ -301,14 +301,7 @@ map<string, string> FilmDetailsHandler::handle(Request *req)
  	vector<FilmInfo> filmsInfo = recommender->recommend_film(user, film);
  	context = changeVectorToMap(filmsInfo);
  	FilmInfo details = film->set_info();
- 	context[ID] = to_string(details.id);
- 	context[NAME] = details.name;
- 	context[LENGTH] = to_string(details.length);
- 	context[PRICE] = to_string(details.price);
- 	context[RATE] = to_string(details.rate);
- 	context[YEAR] = to_string(details.year);
- 	context[DIRECTOR] = details.director;
- 	context[SUMMARY] = details.summary;
+ 	addFilmInfoToMap(details);
  	vector<Comment*> comments = film->get_comments();
  	addCommentsToMap(comments);
    	return context;
@@ -324,4 +317,16 @@ void FilmDetailsHandler::addCommentsToMap(vector<Comment*> comments)
 		num = to_string(i);
 		context[CM + num] = comments[i]->get_content();
 	}
+}
+
+void FilmDetailsHandler::addFilmInfoToMap(FilmInfo details)
+{
+	context[ID] = to_string(details.id);
+ 	context[NAME] = details.name;
+ 	context[LENGTH] = to_string(details.length);
+ 	context[PRICE] = to_string(details.price);
+ 	context[RATE] = to_string(details.rate);
+ 	context[YEAR] = to_string(details.year);
+ 	context[DIRECTOR] = details.director;
+ 	context[SUMMARY] = details.summary;
 }

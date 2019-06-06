@@ -134,6 +134,7 @@ private:
 	Data* data;
 	std::map<std::string, std::string> context;
 	void addCommentsToMap(std::vector<Comment*> comments);
+	void addFilmInfoToMap(FilmInfo details);
 public:
   FilmDetailsHandler(std::string filePath, Data* _data, Recommender* _recommender);
   std::map<std::string, std::string> handle(Request *req);
