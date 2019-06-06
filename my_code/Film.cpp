@@ -83,3 +83,8 @@ void Film::delete_comments()
 	for (int i = 0; i < size; i++)
 		delete comments[i];
 }
+
+std::vector<Comment*> Film::get_comments()
+{
+	return comments;
+}

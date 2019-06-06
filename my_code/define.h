@@ -44,5 +44,7 @@ struct FilmInfo
 #define EMPTY_SESSION_ID ""
 #define SIZE "size"
 #define ID "id"
+#define CM "cm"
+#define CM_SIZE "cm_size"
 
 #endif

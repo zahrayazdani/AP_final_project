@@ -10,6 +10,7 @@
 
 class Data;
 class Recommender;
+class Comment;
 
 class SignupHandler : public RequestHandler
 {
@@ -131,6 +132,8 @@ class FilmDetailsHandler : public TemplateHandler {
 private:
 	Recommender* recommender;
 	Data* data;
+	std::map<std::string, std::string> context;
+	void addCommentsToMap(std::vector<Comment*> comments);
 public:
   FilmDetailsHandler(std::string filePath, Data* _data, Recommender* _recommender);
   std::map<std::string, std::string> handle(Request *req);

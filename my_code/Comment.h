@@ -9,6 +9,7 @@ private:
 	std::string content;
 public:
 	Comment(std::string _content);
+	std::string get_content();
 };
 
 #endif

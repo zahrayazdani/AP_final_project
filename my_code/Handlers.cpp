@@ -5,6 +5,7 @@
 #include "Publisher.h"
 #include "Film.h"
 #include "Recommender.h"
+#include "Comment.h"
 
 using namespace std;
 
@@ -298,15 +299,29 @@ map<string, string> FilmDetailsHandler::handle(Request *req)
  	User* user = data->find_user(stoi(userId));
  	Film* film = data->find_film(stoi(req->getQueryParam(FILM_ID)));
  	vector<FilmInfo> filmsInfo = recommender->recommend_film(user, film);
- 	map<string, string> context = changeVectorToMap(filmsInfo);
+ 	context = changeVectorToMap(filmsInfo);
  	FilmInfo details = film->set_info();
- 	context[ID] = details.id;
+ 	context[ID] = to_string(details.id);
  	context[NAME] = details.name;
- 	context[LENGTH] = details.length;
- 	context[PRICE] = details.price;
- 	context[RATE] = details.rate;
- 	context[YEAR] = details.year;
+ 	context[LENGTH] = to_string(details.length);
+ 	context[PRICE] = to_string(details.price);
+ 	context[RATE] = to_string(details.rate);
+ 	context[YEAR] = to_string(details.year);
  	context[DIRECTOR] = details.director;
  	context[SUMMARY] = details.summary;
+ 	vector<Comment*> comments = film->get_comments();
+ 	addCommentsToMap(comments);
    	return context;
+}
+
+void FilmDetailsHandler::addCommentsToMap(vector<Comment*> comments)
+{
+	int size = comments.size();
+	string num;
+	context[CM_SIZE] = to_string(size);
+	for (int i = 0; i < size; i++)
+	{
+		num = to_string(i);
+		context[CM + num] = comments[i]->get_content();
+	}
 }

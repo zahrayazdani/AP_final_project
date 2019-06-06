@@ -18,6 +18,14 @@
 		cout << "Year : " << context["year"] << endl;
 		cout << "Director : " << context["director"] << endl;
 		cout << "Summary : " << context["summary"] << endl;
+		cout << "Comments:";
+		int num_of_cms = stoi(context["cm_size"]);
+		string cm_num;
+		for (int i = 0; i < num_of_cms; i++)
+		{
+			cm_num = to_string(i);
+			cout << context["cm" + cm_num] << " ";
+		}
 	%>
 		<form action="/buy" method="post">
     	<input type="hidden" name="film_id" value='<% cout << context["id"]; %>'/>

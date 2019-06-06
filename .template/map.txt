@@ -1,10 +1,9 @@
 director0=
-film_id0=1
-length0=100
+id0=1
+length0=1
 name0=f1
-price0=1000
-publisher=false
-rate0=0.000000
+price0=1
+rate0=4.000000
 size=1
 summary0=
-year0=1999
+year0=1

@@ -34,6 +34,7 @@ public:
 	void add_new_comment(std::string content);
 	void change_delete_stat();
 	void delete_comments();
+	std::vector<Comment*> get_comments();
 };
 
 #endif

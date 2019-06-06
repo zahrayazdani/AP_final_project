@@ -6,3 +6,8 @@ Comment::Comment(string _content)
 {
 	content = _content;
 }
+
+std::string Comment::get_content()
+{
+	return content;
+}
