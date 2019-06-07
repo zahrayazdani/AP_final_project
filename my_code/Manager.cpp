@@ -29,7 +29,7 @@ void Manager::run(int argc, char** argv)
     server.post("/signup", new SignupHandler(data));
     server.get("/login", new ShowPage("static/login.html"));
     server.post("/login", new LoginHandler(data));
-    server.post("/logout", new LogoutHandler());
+    server.get("/logout", new LogoutHandler());
     server.get("/home", new HomeHandler("template/home.html", data));
     server.post("/deleteFilm", new DeleteFilmHandler(data));
     server.post("/addFilm", new AddFilmHandler(data, recommender));

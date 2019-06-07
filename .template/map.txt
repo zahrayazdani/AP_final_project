@@ -1,9 +1,9 @@
-director0=
+director0=1
 id0=1
 length0=1
 name0=f1
 price0=1
-rate0=4.000000
+rate0=0.000000
 size=1
-summary0=
+summary0=1
 year0=1

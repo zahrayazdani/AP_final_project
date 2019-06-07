@@ -1,78 +1,160 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <title> Login Page </title>
+   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
   <body>
-    <h2>Home</h2>
-	<form action="/profile" method="get">
-    	<input type="submit" value="Profile" />
-	</form><br>
-
-	<form action="/logout" method="post">
-    	<input type="submit" value="Logout" />
-	</form><br>
 
 	<%
 		if (context["publisher"] == "true")
 		{
 	%>
 
-	<form action="/addFilm" method="get">
-    	<input type="submit" value="addFilm" />
-	</form><br>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">FilmsSite</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/home">Home</a></li>
+      <li><a href="/addFilm">Add Film</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+      <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
 
-	<form action="/filterFilms" method="get">
-		search by director: 
-		<input type = "text" name = "director">
-    	<input type="submit" value="Filter" />
-	</form><br>
+<div class="container">
+    <h3>Search By Director:</h3>
+<form class="form-horizontal" action="/filterFilms" method="get">
+	<div class="form-group">
+      <label class="control-label col-sm-2" for="Name">Director Name:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="Name" placeholder="Enter Director Name" name="director">
+      </div>
+    </div>
 
-	<%
+	<div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-info">Filter</button>
+      </div>
+    </div>
+	</form>
+</div>
+
+<div class="container">
+  <h2>Your Films:</h2>   
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Length</th>
+        <th>Price</th>
+        <th>Rate</th>
+        <th>Year</th>
+        <th>Director</th>
+      </tr>
+    </thead>
+    <tbody>
+    <%
 		int num_of_films = stoi(context["size"]);
-		string film_num;
-		cout << "Name  " << "length  " << "price  " << "rate  " << "year  " << "director" << endl; 
+		string film_num; 
 		for (int i = 0; i < num_of_films; i++)
 		{
 			film_num = to_string(i);
-			cout << context["name" + film_num] << " ";
-			cout << context["length" + film_num] << " ";
-			cout << context["price" + film_num] << " ";
-			cout << context["rate" + film_num] << " ";
-			cout << context["year" + film_num] << " ";
-			cout << context["director" + film_num] << " ";
 	%>
-		<form action="/deleteFilm" method="post">
+
+      <tr>
+        <td> <% cout << context["name" + film_num]; %> </td>
+        <td> <% cout << context["length" + film_num]; %> </td>
+        <td> <% cout << context["price" + film_num]; %> </td>
+        <td> <% cout << context["rate" + film_num]; %> </td>
+        <td> <% cout << context["year" + film_num]; %> </td>
+        <td> <% cout << context["director" + film_num]; %> </td>
+        <td><form action="/deleteFilm" method="post">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
-    	<button type="submit"> Delete </button>
-		</form><br>
+    	<button type="Submit" class="btn btn-warning">Delete</button>
+		</form><td>
+      </tr>
+
+
 	<%
 		}
+	%>
+	</tbody>
+</table>
+ </div>
+	<%
 	}
 	else
 	{
+	%>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">FilmsSite</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/home">Home</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+      <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <h2>Films You Can Buy:</h2>   
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Length</th>
+        <th>Price</th>
+        <th>Rate</th>
+        <th>Year</th>
+        <th>Director</th>
+      </tr>
+    </thead>
+    <tbody>
+    <%
 		int num_of_films = stoi(context["size"]);
-		string film_num;
-		cout << "Name  " << "length  " << "price  " << "rate  " << "year  " << "director" << endl; 
+		string film_num; 
 		for (int i = 0; i < num_of_films; i++)
 		{
 			film_num = to_string(i);
-			cout << context["name" + film_num] << " ";
-			cout << context["length" + film_num] << " ";
-			cout << context["price" + film_num] << " ";
-			cout << context["rate" + film_num] << " ";
-			cout << context["year" + film_num] << " ";
-			cout << context["director" + film_num] << " ";
 	%>
-		<form action="/buy" method="post">
+      <tr>
+        <td> <% cout << context["name" + film_num]; %> </td>
+        <td> <% cout << context["length" + film_num]; %> </td>
+        <td> <% cout << context["price" + film_num]; %> </td>
+        <td> <% cout << context["rate" + film_num]; %> </td>
+        <td> <% cout << context["year" + film_num]; %> </td>
+        <td> <% cout << context["director" + film_num]; %> </td>
+    	<td><form action="/buy" method="post">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
-    	<button type="submit"> Buy </button>
-		</form><br>
-		<form action="/showDetails" method="get">
+    	<button type="Submit" class="btn btn-success">Buy</button>
+		</form></td>
+		<td><form action="/showDetails" method="get">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
-    	<button type="submit"> Details </button>
-		</form><br>
+    	<button type="Submit" class="btn btn-basic">Details</button>
+		</form></td>
+    </tr>
 	<%
 		}
 	}
 	%>
-		
+		</tbody>
+  </table>
+</div>
   </body>
 </html>

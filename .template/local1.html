@@ -1,50 +1,92 @@
-<!DOCTYPE html>
-<html>
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> Login Page </title>
+   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
   <body>
-    <h2>Profile</h2>
-	<form action="/home" method="get">
-    	<input type="submit" value="Home" />
-	</form><br>
 
-	<form action="/logout" method="post">
-    	<input type="submit" value="Logout" />
-	</form><br>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">FilmsSite</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/profile">Profile</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/home"><span class="glyphicon glyphicon-user"></span> Home</a></li>
+      <li><a href="/logout" metho><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
 
-	<form action="/increaseMoney" method="post">
-	Charge Acount: 
-	<input type = "number" name = "amount" min = "1" required>
-    	<input type="submit" value="Charge" /> 
-	</form><br>
+<div class="container">
+    <h3>Charge Acount:</h3>
+	<form class="form-horizontal" action="/increaseMoney" method="post">
+	<div class="form-group">
+      <label class="control-label col-sm-2" for="Amount">Amount:</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" id="Amount" placeholder="Enter Amount" name="amount"min = "1" required>
+      </div>
+    </div>
 
-	<%
+	<div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-info">Add</button>
+      </div>
+    </div>
+	</form>
+</div>
+
+<div class="container">
+  <h2>Your Films:</h2>   
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Length</th>
+        <th>Price</th>
+        <th>Rate</th>
+        <th>Year</th>
+        <th>Director</th>
+      </tr>
+    </thead>
+    <tbody>
+    <%
 		int num_of_films = stoi(context["size"]);
-		string film_num;
-		cout << "Name  " << "length  " << "price  " << "rate  " << "year  " << "director" << endl; 
+		string film_num; 
 		for (int i = 0; i < num_of_films; i++)
 		{
 			film_num = to_string(i);
-			cout << context["name" + film_num] << " ";
-			cout << context["length" + film_num] << " ";
-			cout << context["price" + film_num] << " ";
-			cout << context["rate" + film_num] << " ";
-			cout << context["year" + film_num] << " ";
-			cout << context["director" + film_num] << " ";
 	%>
-		<form action="/rate" method="post">
+      <tr>
+        <td> <% cout << context["name" + film_num]; %> </td>
+        <td> <% cout << context["length" + film_num]; %> </td>
+        <td> <% cout << context["price" + film_num]; %> </td>
+        <td> <% cout << context["rate" + film_num]; %> </td>
+        <td> <% cout << context["year" + film_num]; %> </td>
+        <td> <% cout << context["director" + film_num]; %> </td>
+    	<td><form action="/rate" method="post">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
     	<input type = "number" name = "score" min = "1" max = "10" required>
-    	<button type="submit"> Rate </button>
-		</form><br>
-
-		<form action="/addComment" method="post">
+    	<button type="submit" class="btn btn-basic"> Rate </button>
+		</form></td>
+		<td><form action="/addComment" method="post">
 		<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
 		<input type = "text" name = "content" required>
-		<button type="submit"> Comment </button>
-		</form>
-
+		<button type="submit" class="btn btn-basic"> Comment </button>
+		</form></td>
+    </tr>
 	<%
 		}
 	%>
-		
-  </body>
+  </tbody>
+  </table>
+</div>
+	</body>
 </html>

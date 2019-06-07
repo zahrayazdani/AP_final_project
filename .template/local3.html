@@ -1,62 +1,125 @@
-<!DOCTYPE html>
-<html>
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> Login Page </title>
+   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
   <body>
 
-	<form action="/home" method="get">
-    	<input type="submit" value="Home" />
-	</form><br>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">FilmsSite</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/showDetails">Show Details</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/home"><span class="glyphicon glyphicon-user"></span> Home</a></li>
+      <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
 
-	<form action="/logout" method="post">
-    	<input type="submit" value="Logout" />
-	</form><br>
+<div class="container">
+  <h2>Details:</h2>   
+  <table class="table">
+    <thead>
+      <tr class="table-primary">
+        <th>Name</th>
+        <th>Length</th>
+        <th>Price</th>
+        <th>Rate</th>
+        <th>Year</th>
+        <th>Director</th>
+        <th>Summary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-primary">
+        <td> <% cout << context["name"]; %> </td>
+        <td> <% cout << context["length"]; %> </td>
+        <td> <% cout << context["price"]; %> </td>
+        <td> <% cout << context["rate"]; %> </td>
+        <td> <% cout << context["year"]; %> </td>
+        <td> <% cout << context["director"]; %> </td>
+        <td> <% cout << context["summary"]; %> </td>
+        <td><form action="/buy" method="post">
+        <input type="hidden" name="film_id" value='<% cout << context["id"]; %>'/>
+        <button type="submit" class="btn btn-primary"> Buy </button>
+        </form></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-	<%
-		cout << "Name : " << context["name"] << endl;
-		cout << "Length : " << context["length"] << endl;
-		cout << "Price : " << context["price"] << endl;
-		cout << "Rate : " << context["rate"] << endl;
-		cout << "Year : " << context["year"] << endl;
-		cout << "Director : " << context["director"] << endl;
-		cout << "Summary : " << context["summary"] << endl;
-		cout << "Comments:";
+<div class="container">
+  <h2>Comments:</h2>   
+  <table class="table">
+    <thead>
+      <tr class="table-primary">
+        <th>Content</th>
+      </tr>
+    </thead>
+    <tbody>
+    <%
 		int num_of_cms = stoi(context["cm_size"]);
 		string cm_num;
 		for (int i = 0; i < num_of_cms; i++)
 		{
 			cm_num = to_string(i);
-			cout << context["cm" + cm_num] << " ";
+	%>
+      <tr class="table-primary">
+        <td> <% cout << context["cm" + cm_num]; %> </td>
+	<%
 		}
 	%>
-		<form action="/buy" method="post">
-    	<input type="hidden" name="film_id" value='<% cout << context["id"]; %>'/>
-    	<button type="submit"> Buy </button>
-		</form><br>
-	<%
+
+	</tbody>
+  </table>
+</div>
+
+<div class="container">
+  <h2>Recommended For You:</h2>   
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Length</th>
+        <th>Director</th>
+      </tr>
+    </thead>
+    <tbody>
+    <%
 		int num_of_films = stoi(context["size"]);
-		string film_num;
-		cout << "Recommended for you :" << endl;
-		cout << "Name  " << "length  " << "director" << endl; 
+		string film_num; 
 		for (int i = 0; i < num_of_films; i++)
 		{
 			film_num = to_string(i);
-			cout << context["name" + film_num] << " ";
-			cout << context["length" + film_num] << " ";
-			cout << context["director" + film_num] << " ";
 	%>
-
-		<form action="/buy" method="post">
+      <tr>
+        <td> <% cout << context["name" + film_num]; %> </td>
+        <td> <% cout << context["length" + film_num]; %> </td>
+        <td> <% cout << context["director" + film_num]; %> </td>
+    	<td><form action="/buy" method="post">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
-    	<button type="submit"> Buy </button>
-		</form><br>
-
-		<form action="/showDetails" method="get">
+    	<button type="submit" class="btn btn-primary"> Buy </button>
+		</form></td>
+  	<td><form action="/showDetails" method="get">
     	<input type="hidden" name="film_id" value='<% cout << context["id" + film_num]; %>'/>
-    	<button type="submit"> Detail </button>
-		</form><br>
-
+    	<button type="submit" class="btn btn-primary"> Detail </button>
+		</form></td>
+		</tr>
 	<%
 		}
 	%>
 
+	</tbody>
+  </table>
+</div>
 	 </body>
 </html>

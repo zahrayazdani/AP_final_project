@@ -120,8 +120,8 @@ map<string, string> changeVectorToMap(vector<FilmInfo> filmsInfo)
 		info[PRICE + num] = to_string(filmsInfo[i].price);
 		info[RATE + num] = to_string(filmsInfo[i].rate);
 		info[YEAR + num] = to_string(filmsInfo[i].year);
-		info[DIRECTOR + num] = filmsInfo[i].id;
-		info[SUMMARY + num] = filmsInfo[i].id;
+		info[DIRECTOR + num] = filmsInfo[i].director;
+		info[SUMMARY + num] = filmsInfo[i].summary;
 	}
 	return info;
 }
