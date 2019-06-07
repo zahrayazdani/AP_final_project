@@ -18,7 +18,7 @@ Manager::~Manager()
     delete data;
     delete recommender;
 }
-
+//
 void Manager::run(int argc, char** argv)
 {
 	try {
